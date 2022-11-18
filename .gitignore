@@ -265,23 +265,5 @@ __pycache__/
 
 # SonarQube
 .sonarqube
-#NG generated code
-zzGeneratedSerializators.cs
-zzGeneratedTranslators.cs
-zzGeneratedManagement.cs
-zzGeneratedProxies.cs
-zzGeneratedDbVersionsList.txt
-CodeGenerator.*.error
 
-#build results
-supersolution.sln
-supersolution-x64.sln
-supersolution-x64.mergelist.txt
-supersolution.mergelist.txt
-
-BuildsOutput/*
-production/MSBuild/Logs/*
-production/MSBuild/Reports/*
-
-/ffng/RiskService/Risk2.Server.Robot/RobotPackage/Library/Keywords.*
 .vagrant
