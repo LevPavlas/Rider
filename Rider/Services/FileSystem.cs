@@ -1,0 +1,47 @@
+﻿using Rider.Contracts;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Xml;
+
+namespace Rider.Services
+{
+	internal class FileSystem : IFileSystem
+	{
+		public string GetApplicationDirectory()
+		{
+			string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+			return System.IO.Path.GetDirectoryName(path) ?? throw new RiderException($"Invalid appliation path: {path}");
+		}
+		public void CreateDirectory(string path)
+		{
+			Directory.CreateDirectory(path);
+		}
+		public bool FileExist(string path)
+		{
+			return File.Exists(path);
+		}
+		public T LoadData<T>(string path)
+		{
+			using(FileStream stream = File.OpenRead(path))
+			{
+				return JsonSerializer.Deserialize<T>(stream)?? throw new RiderException($"Cannot read file: {path}");
+			}
+		}
+		public void SaveData<T>(string path, T data)
+		{
+			using (FileStream stream = File.Create(path))
+			{
+				JsonSerializerOptions options  = new() { WriteIndented = true };
+				JsonSerializer.Serialize<T>(stream, data, options);
+			}
+
+		}
+
+
+	}
+}

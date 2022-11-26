@@ -66,6 +66,8 @@ namespace Rider
 		}
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
+			containerRegistry.RegisterManySingleton(typeof(Services.FileSystem), typeof(Contracts.IFileSystem));
+			containerRegistry.RegisterManySingleton(typeof(Services.Configuration), typeof(Contracts.IConfiguration));
 		}
 	}
 }

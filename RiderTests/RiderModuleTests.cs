@@ -4,6 +4,7 @@ using Prism.Ioc;
 using Prism.Regions;
 using Rider;
 using Rider.Constants;
+using Rider.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,9 @@ namespace Rider.Tests
 		public void RegisterTypesTest()
 		{
 			Mock<IRegionManager> manager = new Mock<IRegionManager>();
-			RiderModule target = new RiderModule(manager.Object);
+			Mock<IConfiguration> config= new Mock<IConfiguration>();
+
+			RiderModule target = new RiderModule(manager.Object, config.Object);
 
 			Mock<IContainerRegistry> container = new Mock<IContainerRegistry>();
 			target.RegisterTypes(container.Object);
@@ -34,11 +37,12 @@ namespace Rider.Tests
 		public void OnInitializedTest()
 		{
 			Mock<IRegionManager> manager = new Mock<IRegionManager>();
-			RiderModule target = new RiderModule(manager.Object);
+			Mock<IConfiguration> config = new Mock<IConfiguration>();
+			RiderModule target = new RiderModule(manager.Object,config.Object);
 			Mock<IContainerProvider> container = new Mock<IContainerProvider>();
 			target.OnInitialized(container.Object);
 			manager.Verify(m => m.RegisterViewWithRegion(Regions.Console, typeof(Views.Console)));
-
+			config.Verify(c => c.Load());
 		}
 	}
 }

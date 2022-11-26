@@ -11,7 +11,7 @@ namespace Rider.Route.ViewModels
 {
 	public class RouteViewModel : BindableBase, IActiveAware
 	{
-		public string HeaderText { get; } = "Rute";
+		public string HeaderText { get; } = "Route";
 		private IRegionManager RegionManager { get; }
 		
 		public event EventHandler? IsActiveChanged;
@@ -39,7 +39,7 @@ namespace Rider.Route.ViewModels
 		}
 		void Activate()
 		{
-			RegionManager.RequestNavigate(Constants.Regions.ToolBar, Constants.Views.RouteToolBar);
+			RegionManager.RequestNavigate(Constants.Regions.ToolBar, Constants.Views.RouteToolBar );
 		}
 	}
 }

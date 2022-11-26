@@ -30,7 +30,7 @@ namespace Rider.Route.ViewModels
 		{
 			OpenInProgress= true;
 			OpenCommand.RaiseCanExecuteChanged();
-
+			System.Console.WriteLine("************* this is fucking system console ********");
 			string? file = Dialogs.OpenFile("GPX Files|*.gpx");
 			
 			Console.WriteLine($"Open File:{file}");

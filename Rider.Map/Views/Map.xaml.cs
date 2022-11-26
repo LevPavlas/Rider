@@ -3,6 +3,7 @@ using CefSharp.DevTools;
 using CefSharp.DevTools.Browser;
 using CefSharp.Wpf;
 using Rider.Contracts;
+using Rider.Map.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,7 +76,10 @@ namespace Rider.Map.Views
 		{
 			if (Browser.IsBrowserInitialized)
 			{
-				Browser.Load("https://www.mapy.cz/");
+				Browser.Load("https://brouter.de/brouter-web");
+				//https://cycle.travel/map
+				//	Browser.Load("https://www.cyclosm.org/");
+				//Browser.Load("https://www.mapy.cz/");
 			}
 		}
 

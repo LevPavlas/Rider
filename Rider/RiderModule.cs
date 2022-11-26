@@ -3,6 +3,7 @@ using Prism.Modularity;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using Rider.Constants;
+using Rider.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,16 @@ namespace Rider
     internal class RiderModule : IModule
 	{
 		private IRegionManager RegionManager { get; }
+		private IConfiguration Configuration { get; }
 
-		public RiderModule( IRegionManager regionManger)
+		public RiderModule( IRegionManager regionManger, IConfiguration configuration)
 		{
 			RegionManager = regionManger;
+			Configuration = configuration;
 		}
 		public void OnInitialized(IContainerProvider containerProvider)
 		{
+			Configuration.Load();
 			RegionManager.RegisterViewWithRegion(Regions.Console, typeof(Views.Console));
 		}
 		public void RegisterTypes(IContainerRegistry containerRegistry)
