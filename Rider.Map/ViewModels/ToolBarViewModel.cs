@@ -9,14 +9,25 @@ using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Win32;
 using Prism;
+using Prism.Events;
+using Rider.Map.Events;
 
 namespace Rider.Map.ViewModels
 {
 	internal class ToolBarViewModel : BindableBase
 	{
+		public IConfiguration Configuration { get; }
+		private IEventAggregator EventAggregator { get; }
 
-		public ToolBarViewModel()
+		public ToolBarViewModel(IConfiguration configuration, IEventAggregator eventAggregator)
 		{
+			Configuration = configuration;
+			EventAggregator = eventAggregator;
+		}
+
+		public void OnMapChanged(string map)
+		{
+			EventAggregator.GetEvent<MapChangedEvent>().Publish(map);
 		}
 
 	}

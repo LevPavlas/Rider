@@ -12,6 +12,12 @@ namespace Rider.Services
 {
 	internal class FileSystem : IFileSystem
 	{
+		private ITime Time { get; }
+
+		public FileSystem(ITime time) 
+		{
+			Time = time;
+		}
 		public string GetApplicationDirectory()
 		{
 			string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -40,6 +46,22 @@ namespace Rider.Services
 				JsonSerializer.Serialize<T>(stream, data, options);
 			}
 
+		}
+		public string AddTimeStamp(string fullPath)
+		{
+			try
+			{
+				string? ext = Path.GetExtension(fullPath); // returns .exe
+				string? name = Path.GetFileNameWithoutExtension(fullPath); // returns File
+				string? dir = Path.GetDirectoryName(fullPath); // returns C:\Program Files\Program
+				string timeStamp = Time.TimeStamp;
+				return $"{dir}\\{name}_{timeStamp}{ext}";
+
+			}catch (Exception)
+			{
+
+			}
+			return fullPath;
 		}
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rider.Map.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace Rider.Map.Views
 	/// </summary>
 	public partial class ToolBar : UserControl
 	{
+		private ToolBarViewModel? Model => DataContext as ToolBarViewModel;
+
 		public ToolBar()
 		{
 			InitializeComponent();
@@ -28,6 +31,15 @@ namespace Rider.Map.Views
 
 		private void ToolBar_Loaded(object sender, RoutedEventArgs e)
 		{
+		}
+
+		private void OnMapChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if(e?.AddedItems?.Count == 1)
+			{
+				string map = e.AddedItems[0]?.ToString() ?? string.Empty;
+				Model?.OnMapChanged(map);
+			}
 		}
 	}
 }

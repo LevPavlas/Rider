@@ -14,6 +14,7 @@ namespace Rider.Contracts
 		bool FileExist(string path);
 		T LoadData<T>(string path);
 		void SaveData<T>(string path, T data);
+		string AddTimeStamp(string fullPath);
 
 	}
 }

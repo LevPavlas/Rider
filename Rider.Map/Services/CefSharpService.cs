@@ -14,7 +14,7 @@ namespace Rider.Map.Services
 		void Initiaize();
 	}
 
-	internal class CefSharpService : ICefSharpService
+	internal class CefSharpService : ICefSharpService,ICookieVisitor
 	{
 		private IConfiguration Configuration { get; }
 
@@ -23,7 +23,6 @@ namespace Rider.Map.Services
 			Configuration = configuration;
 		}
 
-
 		public void Initiaize()
 		{
 			if (!Cef.IsInitialized)
@@ -31,7 +30,6 @@ namespace Rider.Map.Services
 
 				CefSettings setting = new CefSettings();
 
-				//				setting.CachePath = System.IO.Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().Location, "Cache");
 				setting.CachePath = Configuration.BrowserCacheDataFolder;
 				
 				//		setting.LogFile= System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Log\\Log.log");
@@ -44,7 +42,19 @@ namespace Rider.Map.Services
 				//setting.CefCommandLineArgs.Add("enable-usermedia-screen-capture", "1");
 
 				if (!Cef.Initialize(setting)) throw new RiderMapException("Browser not initialized");
+			//	Cef.GetGlobalCookieManager().VisitAllCookies(this);
 			}
+		}
+
+		public bool Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
+		{
+	//		if(cookie.Domain ==".seznam.cz")deleteCookie=true;
+			if (cookie.Domain == ".mapy.cz") deleteCookie = true;
+			return true;
+		}
+
+		public void Dispose()
+		{
 		}
 	}
 }

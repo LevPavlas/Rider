@@ -13,7 +13,6 @@ namespace Rider.Map
 	public class MapModule : IModule
 	{
 		private IRegionManager RegionManager { get; }
-		private ICefSharpService CefSharpService { get; }
 
 		public MapModule( IRegionManager regionManager)
 		{
@@ -21,7 +20,6 @@ namespace Rider.Map
 		}
 		public void OnInitialized(IContainerProvider containerProvider)
 		{
-			containerProvider.Resolve<ICefSharpService>().Initiaize();
 			RegionManager.RegisterViewWithRegion<Views.Map>(Regions.MainRegion);
 			RegionManager.RegisterViewWithRegion<Views.ToolBar>(Regions.ToolBar);
 		}

@@ -12,6 +12,7 @@ namespace Rider.Contracts
 		ObservableCollection<string> Maps { get; }
 		public string SelectedMap { get; }
 		public string BrowserCacheDataFolder { get; }
+		public string GpxDirectory { get; }
 		void Load();
 	}
 }

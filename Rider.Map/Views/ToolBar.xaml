@@ -10,9 +10,13 @@
              mc:Ignorable="d" d:DesignHeight="60" d:DesignWidth="800">
     <Grid>
        <ToolBar ToolBarTray.IsLocked="True" OverflowMode="Never" Margin="0,0,-13,0"  >
-            <Button ToolTip="Open route" Content="{StaticResource SaveImage}"/>
-            <Button ToolTip="Open route" Margin="10,0,0,0" Command="{Binding OpenCommand}"  Content="{StaticResource OpenImage}" />
+             <!--<Button ToolTip="Open route" Content="{StaticResource SaveImage}"/>
+            <Button ToolTip="Open route" Margin="10,0,0,0" Command="{Binding OpenCommand}"  Content="{StaticResource OpenImage}" />-->
+            <Label FontSize="{StaticResource FontSizeH1}" Margin="10,0,0,0" VerticalAlignment="Center" Background="Transparent">Map:</Label>
+            <ComboBox FontSize="{StaticResource FontSizeH1}" Padding="5" VerticalAlignment="Center" 
+                      ItemsSource="{Binding Path=Configuration.Maps}"
+                      SelectedValue="{Binding Path= Configuration.SelectedMap}" SelectionChanged="OnMapChanged" />
         </ToolBar>
-
+ 
     </Grid>
 </UserControl>

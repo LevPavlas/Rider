@@ -24,6 +24,7 @@ namespace Rider.Services
 		private ConfigurationData Data { get; set; } = new ConfigurationData();
 
 		public string BrowserCacheDataFolder{ get; private set; }= string.Empty;
+		public string GpxDirectory { get; private set; } = string.Empty;
 		public ObservableCollection<string> Maps { get; set; }= new ObservableCollection<string>();
 		
 		private string _SelectedMap=string.Empty;
@@ -43,9 +44,11 @@ namespace Rider.Services
 			ConfigurationPath = $"{ApplicationDirectory}\\{DataFolder}\\Configuration.json";
 			DataDirectory = $"{ApplicationDirectory}\\{DataFolder}";
 			BrowserCacheDataFolder = $"{ApplicationDirectory}\\{DataFolder}\\BrowserCache";
+			GpxDirectory = $"{ApplicationDirectory}\\{DataFolder}\\Gpx";
 
 			FileSystem.CreateDirectory(DataDirectory) ;
-			if(FileSystem.FileExist(ConfigurationPath))
+			FileSystem.CreateDirectory(GpxDirectory);
+			if (FileSystem.FileExist(ConfigurationPath))
 			{
 				Data = FileSystem.LoadData<ConfigurationData>(ConfigurationPath) ;
 			}
@@ -79,12 +82,11 @@ namespace Rider.Services
 			{
 				Maps = new string[]
 				{
-					"https://brouter.de/brouter-web",
-					"https://www.mapy.cz/",
-					"https://www.cyclosm.org/",
-					"https://cycle.travel/map"
+					Constants.Maps.BrouterDe,
+					Constants.Maps.MapyCz,
+					Constants.Maps.CycleTravel
 				};
-				SelectedMap = "https://brouter.de/brouter-web";
+				SelectedMap = Constants.Maps.BrouterDe;
 			}
 		}
 

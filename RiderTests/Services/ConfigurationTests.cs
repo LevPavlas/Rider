@@ -36,14 +36,17 @@ namespace Rider.Services.Tests
 		
 			Configuration target = new Configuration(fileSystem.Object);
 			target.Load();
-			Assert.AreEqual(4, target.Maps.Count());
+			Assert.AreEqual(3, target.Maps.Count());
 			Assert.AreEqual("https://brouter.de/brouter-web", target.SelectedMap);
 			Assert.AreEqual("Dir\\Data\\BrowserCache", target.BrowserCacheDataFolder);
+			Assert.AreEqual("Dir\\Data\\Gpx", target.GpxDirectory);
 
 			fileSystem.Verify(f => f.GetApplicationDirectory());
 			fileSystem.Verify(f => f.CreateDirectory($"{AppDir}\\Data"));
+			fileSystem.Verify(f => f.CreateDirectory($"{AppDir}\\Data\\Gpx"));
 			fileSystem.Verify(f => f.FileExist($"{AppDir}\\Data\\Configuration.json"));
 			fileSystem.Verify(f => f.SaveData($"{AppDir}\\Data\\Configuration.json", It.IsAny<It.IsAnyType>()));
+			fileSystem.VerifyNoOtherCalls();
 		}
 
 		[TestMethod()]

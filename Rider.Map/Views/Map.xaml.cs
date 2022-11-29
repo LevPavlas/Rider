@@ -2,12 +2,16 @@
 using CefSharp.DevTools;
 using CefSharp.DevTools.Browser;
 using CefSharp.Wpf;
+using Prism.Events;
 using Rider.Contracts;
+using Rider.Map.Events;
 using Rider.Map.Services;
+using Rider.Map.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -54,35 +58,70 @@ namespace Rider.Map.Views
 	/// <summary>
 	/// Interaction logic for Map.xaml
 	/// </summary>
-	public partial class Map : UserControl
+	internal partial class Map : UserControl
 	{
-		private IConsole Console { get; }
-
-		public Map(IConsole console)
+		private MapViewModel Model { get; }
+		private string SelectedMap => Model?.Configuration.SelectedMap ?? string.Empty;
+		private IEventAggregator EventAggregator { get; }
+	
+		public Map(MapViewModel model, ICefSharpService cef, IEventAggregator eventAggregator)
 		{
+			DataContext= model;
+			Model = model;
+			EventAggregator = eventAggregator;
+			cef.Initiaize();
 			InitializeComponent();
-			Browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
-			Browser.ConsoleMessage += OnConsoleMessage;
-			EnableGeolocation();
-			Console = console;
+			//EnableGeolocation();
+			//EnableGeolocationWithPosition();
+			Browser.DownloadHandler = Model;
+			Browser.BrowserSettings.DefaultEncoding = "utf-8";
+			EventAggregator.GetEvent<MapChangedEvent>().Subscribe(OnMapChanged, ThreadOption.BackgroundThread);
+			EventAggregator.GetEvent<GpxDownloadedEvent>().Subscribe(OnGpxDownloaded, ThreadOption.BackgroundThread);
+			//BrowserSettings = new BrowserSettings
+			//{
+			//	DefaultEncoding = "utf-8"
+			//}
+
 		}
 
-		private void OnConsoleMessage(object? sender, ConsoleMessageEventArgs e)
-		{
-			Console.WriteLine(e.Message);
-		}
 
-		void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
+		void OnMapChanged(string map)
 		{
-			if (Browser.IsBrowserInitialized)
+			Browser.LoadUrlAsync(map);
+		}
+		void OnGpxDownloaded(string path)
+		{
+			if(SelectedMap == Constants.Maps.BrouterDe)
 			{
-				Browser.Load("https://brouter.de/brouter-web");
-				//https://cycle.travel/map
-				//	Browser.Load("https://www.cyclosm.org/");
-				//Browser.Load("https://www.mapy.cz/");
+				SendEscToBrowser();
 			}
 		}
+		void SendEscToBrowser()
+		{
+			KeyEvent k = new KeyEvent
+			{
+				WindowsKeyCode = 0x1B, // Esc
+				FocusOnEditableField = true,
+				IsSystemKey = false,
+				Type = KeyEventType.KeyDown
+			};
 
+			Browser.GetBrowser().GetHost().SendKeyEvent(k);
+
+			Thread.Sleep(100);
+
+			k = new KeyEvent
+			{
+				WindowsKeyCode = 0x1B, // Esc
+				FocusOnEditableField = true,
+				IsSystemKey = false,
+				Type = KeyEventType.KeyUp
+			};
+
+			Browser.GetBrowser().GetHost().SendKeyEvent(k);
+
+			Thread.Sleep(100);
+		}
 		void EnableGeolocation()
 		{
 			Browser.ExecuteScriptAsyncWhenPageLoaded(
@@ -105,8 +144,8 @@ navigator.permissions.query = options => {
 navigator.geolocation.getCurrentPosition = (success, error, options) => {
   success({
     coords: {
-      latitude: -33.854477,
-      longitude: 151.234738,
+      latitude: 0.854477,
+      longitude: 101.234738,
       accuracy: 10,
       altitude: null,
       altitudeAccuracy: null,
@@ -134,5 +173,6 @@ navigator.geolocation.watchPosition = (success, error, options) => {
 ", oneTime: false);
 
 		}
+
 	}
 }
