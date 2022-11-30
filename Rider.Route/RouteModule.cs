@@ -3,6 +3,7 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
+using Rider.Route.Services;
 
 namespace Rider.Route
 {
@@ -22,6 +23,8 @@ namespace Rider.Route
 	
 		public void RegisterTypes(IContainerRegistry containerRegistry)
 		{
+
+			containerRegistry.RegisterManySingleton(typeof(RiderGpxReader), typeof(IGpxReader));
 			containerRegistry.RegisterForNavigation<Views.ToolBar>(Constants.Views.RouteToolBar);
 			containerRegistry.RegisterForNavigation<Views.Route>(Constants.Views.Route);
 		}

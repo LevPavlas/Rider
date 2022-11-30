@@ -77,10 +77,6 @@ namespace Rider.Map.Views
 			Browser.BrowserSettings.DefaultEncoding = "utf-8";
 			EventAggregator.GetEvent<MapChangedEvent>().Subscribe(OnMapChanged, ThreadOption.BackgroundThread);
 			EventAggregator.GetEvent<GpxDownloadedEvent>().Subscribe(OnGpxDownloaded, ThreadOption.BackgroundThread);
-			//BrowserSettings = new BrowserSettings
-			//{
-			//	DefaultEncoding = "utf-8"
-			//}
 
 		}
 
@@ -93,7 +89,7 @@ namespace Rider.Map.Views
 		{
 			if(SelectedMap == Constants.Maps.BrouterDe)
 			{
-				SendEscToBrowser();
+				SendEscToBrowser();// this close Export dialog
 			}
 		}
 		void SendEscToBrowser()

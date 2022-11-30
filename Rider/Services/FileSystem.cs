@@ -45,7 +45,10 @@ namespace Rider.Services
 				JsonSerializerOptions options  = new() { WriteIndented = true };
 				JsonSerializer.Serialize<T>(stream, data, options);
 			}
-
+		}
+		public Stream OpenFile(string path)
+		{
+			return File.OpenRead(path);
 		}
 		public string AddTimeStamp(string fullPath)
 		{

@@ -74,6 +74,8 @@ namespace Rider.Map.ViewModels.Tests
 			item.SuggestedFileName = SuggestedFileName;
 			item.IsValid = true;
 			item.IsComplete = true;
+			item.FullPath = $"Gpx downloaded: {GpxDirectory}\\{SuggestedFileName}";
+
 			EventAggregator.Setup(a => a.GetEvent<GpxDownloadedEvent>()).Returns(new GpxDownloadedEvent());
 
 			target.OnDownloadUpdated(chrominium.Object, browser.Object, item, callback.Object);
@@ -113,7 +115,6 @@ namespace Rider.Map.ViewModels.Tests
 			FileSystem.Setup(f => f.AddTimeStamp($"{GpxDirectory}\\{SuggestedFileName}")).Returns($"{GpxDirectory}\\{SuggestedFileName}_{TimeStamp}");
 			target.OnBeforeDownload(chrominium.Object,browser.Object,item,callback.Object);
 			callback.Verify(c => c.Continue($"{GpxDirectory}\\{SuggestedFileName}_{TimeStamp}", false));
-
 		}
 	}
 }

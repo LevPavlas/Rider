@@ -15,6 +15,7 @@ namespace Rider.Contracts
 		T LoadData<T>(string path);
 		void SaveData<T>(string path, T data);
 		string AddTimeStamp(string fullPath);
+		Stream OpenFile(string path);
 
 	}
 }

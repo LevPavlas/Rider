@@ -8,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Win32;
+using AsyncAwaitBestPractices.MVVM;
+using System.Windows.Media.Animation;
+using System.ComponentModel;
+using Rider.Route.Data;
+using Rider.Route.Services;
 
 namespace Rider.Route.ViewModels
 {
@@ -15,43 +20,42 @@ namespace Rider.Route.ViewModels
 	{
 		private IConsole Console{get;}
 		private IWpfDialogService Dialogs { get; }
-		public DelegateCommand OpenCommand { get; private set; }
-
-		public ToolBarViewModel(IConsole console, IWpfDialogService dialogs) 
+		private IGpxReader Reader { get; }
+		public AsyncCommand OpenCommand { get; private set; }
+		public ToolBarViewModel(IConsole console, IWpfDialogService dialogs, IGpxReader reader) 
 		{
 			Console = console;
 			Dialogs = dialogs;
-			Console.WriteLine($"Thread: {Thread.CurrentThread.ManagedThreadId}");
-			OpenCommand = new DelegateCommand(async () => await Open(), CanOpenExecute);
+			Reader = reader;
+			OpenCommand = new AsyncCommand(Open,CanOpenExecute,OnOpenCommandError, true);
 		}
 
 
 		async Task Open()
 		{
-			OpenInProgress= true;
+			OpenInProgress = true;
 			OpenCommand.RaiseCanExecuteChanged();
-			System.Console.WriteLine("************* this is fucking system console ********");
 			string? file = Dialogs.OpenFile("GPX Files|*.gpx");
-			
-			Console.WriteLine($"Open File:{file}");
-			Console.WriteLine($"Open enter: {DateTime.Now}Thread: {Thread.CurrentThread.ManagedThreadId}");
-			await Task.Run(() =>
+			if(!string.IsNullOrEmpty(file))
 			{
-				Console.WriteLine($"Start {DateTime.Now}Thread: {Thread.CurrentThread.ManagedThreadId}");
-				Thread.Sleep(5000);
-				Console.WriteLine($"Stop {DateTime.Now}Thread: {Thread.CurrentThread.ManagedThreadId}");
-			});
+				Console.WriteLine($"Processing file:{file}");
+				RiderData data = await Reader.Read(file);
+				Console.WriteLine($"Track point count: {data.Track.Points.Count}");
+				Console.WriteLine($"Track distance: {data.Track.Distance/1000} [km]");
+			}
 
 			OpenInProgress = false;
-			OpenCommand.RaiseCanExecuteChanged();
-
-			Console.WriteLine($"Open exit: {DateTime.Now}Thread: {Thread.CurrentThread.ManagedThreadId}");
-
+			OpenCommand.RaiseCanExecuteChanged();	
 		}
+
 		bool OpenInProgress { get; set; }
-		bool CanOpenExecute()
+		bool CanOpenExecute(object? arg)
 		{
 			return !OpenInProgress;
+		}
+		private void OnOpenCommandError(Exception e)
+		{
+			Console.WriteLine($"Open error: {e.Message} Thread: {Thread.CurrentThread.ManagedThreadId}");
 		}
 
 	}

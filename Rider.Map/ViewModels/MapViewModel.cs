@@ -67,16 +67,6 @@ namespace Rider.Map.ViewModels
 		{
 			if (!callback.IsDisposed)
 			{
-				Encoding iso = Encoding.GetEncoding("ISO-8859-1");
-				Encoding utf8 = Encoding.UTF8;
-				//byte[] utfBytes = utf8.GetBytes(downloadItem.SuggestedFileName);
-				//byte[] isoBytes = Encoding.Convert(utf8, iso, utfBytes);
-				//string msg = iso.GetString(isoBytes);
-				byte[] isoBytes = iso.GetBytes(downloadItem.SuggestedFileName);
-				byte[] utfBytes = Encoding.Convert(iso, utf8, isoBytes); ;
-				string msg = iso.GetString(utfBytes);
-
-
 				string fullPath = FileSystem.AddTimeStamp($"{Configuration.GpxDirectory}\\{downloadItem.SuggestedFileName}");
 				callback.Continue(fullPath, false);
 			}
@@ -88,10 +78,8 @@ namespace Rider.Map.ViewModels
 			{
 				if (downloadItem.IsComplete)
 				{
-					string path = $"Gpx downloaded: {Configuration.GpxDirectory}\\{downloadItem.SuggestedFileName}";
-					Console.WriteLine(path);
-					EventAggregator.GetEvent<GpxDownloadedEvent>().Publish(path);
-					
+					Console.WriteLine(downloadItem.FullPath);
+					EventAggregator.GetEvent<GpxDownloadedEvent>().Publish(downloadItem.FullPath);					
 				}
 			}
 		}				

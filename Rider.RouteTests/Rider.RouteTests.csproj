@@ -34,4 +34,12 @@
     <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Route01.gpx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Route01.gpx" />
+  </ItemGroup>
+
 </Project>
