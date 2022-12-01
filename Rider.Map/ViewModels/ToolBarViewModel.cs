@@ -1,5 +1,4 @@
-﻿using Rider.Contracts;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -11,10 +10,11 @@ using Microsoft.Win32;
 using Prism;
 using Prism.Events;
 using Rider.Map.Events;
+using Rider.Contracts.Services;
 
 namespace Rider.Map.ViewModels
 {
-	internal class ToolBarViewModel : BindableBase
+    internal class ToolBarViewModel : BindableBase
 	{
 		public IConfiguration Configuration { get; }
 		private IEventAggregator EventAggregator { get; }

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Rider.Contracts.Services;
 
 namespace Rider.Route.Services
 {
@@ -35,7 +36,7 @@ namespace Rider.Route.Services
 					GpxAnalyser analyser = new GpxAnalyser(reader);
 					analyser.Analyse();
 
-					Track track = new Track(analyser);
+					Data.Route track = new Data.Route(analyser);
 					return new RiderData(track);
 				}
 			});

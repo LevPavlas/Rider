@@ -4,11 +4,13 @@ using CefSharp.DevTools.Browser;
 using CefSharp.Wpf;
 using Prism.Events;
 using Rider.Contracts;
+using Rider.Contracts.Events;
 using Rider.Map.Events;
 using Rider.Map.Services;
 using Rider.Map.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,40 +27,11 @@ using System.Windows.Shapes;
 
 namespace Rider.Map.Views
 {
-	public class DownloadHandler : IDownloadHandler
-	{
-		//public event EventHandler<DownloadItem> OnBeforeDownloadFired;
-
-		//public event EventHandler<DownloadItem> OnDownloadUpdatedFired;
-
-		public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
-		{
-			return true;
-		}
-
-		public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
-		{
-			//OnBeforeDownloadFired?.Invoke(this, downloadItem);
-
-			if (!callback.IsDisposed)
-			{
-				using (callback)
-				{
-					callback.Continue(downloadItem.SuggestedFileName, showDialog: true);
-				}
-			}
-		}
-
-		public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
-		{
-			//OnDownloadUpdatedFired?.Invoke(this, downloadItem);
-		}
-	}
 
 	/// <summary>
 	/// Interaction logic for Map.xaml
 	/// </summary>
-	internal partial class Map : UserControl
+	internal partial class Map : UserControl, IDownloadHandler
 	{
 		private MapViewModel Model { get; }
 		private string SelectedMap => Model?.Configuration.SelectedMap ?? string.Empty;
@@ -73,24 +46,42 @@ namespace Rider.Map.Views
 			InitializeComponent();
 			//EnableGeolocation();
 			//EnableGeolocationWithPosition();
-			Browser.DownloadHandler = Model;
-			Browser.BrowserSettings.DefaultEncoding = "utf-8";
+			Browser.DownloadHandler = this;
 			EventAggregator.GetEvent<MapChangedEvent>().Subscribe(OnMapChanged, ThreadOption.BackgroundThread);
-			EventAggregator.GetEvent<GpxDownloadedEvent>().Subscribe(OnGpxDownloaded, ThreadOption.BackgroundThread);
-
+		}
+		public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
+		{
+			return true;
 		}
 
+		public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		{
+			if (!callback.IsDisposed)
+			{
+				string fullPath = Model.GetFullPathForDownload(downloadItem.SuggestedFileName);
+				callback.Continue(fullPath, false);
+			}
+		}
+
+		public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
+		{
+			if (downloadItem.IsValid)
+			{
+				if (downloadItem.IsComplete)
+				{
+					Console.WriteLine($"Downloaded GPX: {downloadItem.FullPath}");
+					if (SelectedMap == Constants.Maps.BrouterDe)
+					{
+						SendEscToBrowser();// this close Export dialog
+					}
+					EventAggregator.GetEvent<RouteDownloadedEvent>().Publish(downloadItem.FullPath);
+				}
+			}
+		}
 
 		void OnMapChanged(string map)
 		{
 			Browser.LoadUrlAsync(map);
-		}
-		void OnGpxDownloaded(string path)
-		{
-			if(SelectedMap == Constants.Maps.BrouterDe)
-			{
-				SendEscToBrowser();// this close Export dialog
-			}
 		}
 		void SendEscToBrowser()
 		{

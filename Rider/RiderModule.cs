@@ -4,6 +4,7 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using Rider.Constants;
 using Rider.Contracts;
+using Rider.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +32,8 @@ namespace Rider
 		}
 		public void RegisterTypes(IContainerRegistry containerRegistry)
 		{
-			containerRegistry.RegisterManySingleton(typeof(Services.WpfDialogService), typeof(Contracts.IWpfDialogService));
-			containerRegistry.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console),typeof(Contracts.IConsole));
+			containerRegistry.RegisterManySingleton(typeof(Services.WpfDialogService), typeof(IWpfDialogService));
+			containerRegistry.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console),typeof(IConsole));
 			containerRegistry.Register(typeof(object), typeof(Views.Console), Constants.Views.Console);
 		}
 	}

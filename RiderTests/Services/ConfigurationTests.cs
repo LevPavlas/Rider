@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Rider.Contracts;
+using Rider.Contracts.Services;
 using Rider.Services;
 using System;
 using System.CodeDom;

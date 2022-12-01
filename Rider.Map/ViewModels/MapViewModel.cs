@@ -4,6 +4,8 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Rider.Contracts;
+using Rider.Contracts.Events;
+using Rider.Contracts.Services;
 using Rider.Map.Events;
 using Rider.Map.Views;
 using System;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Rider.Map.ViewModels
 {
-	internal class MapViewModel:BindableBase, IActiveAware, IDownloadHandler
+    internal class MapViewModel:BindableBase, IActiveAware
 	{
 		public string HeaderText { get; } = "Map";
 		public event EventHandler? IsActiveChanged;
@@ -24,7 +26,7 @@ namespace Rider.Map.ViewModels
 		private IEventAggregator EventAggregator { get; }
 		private IConsole Console { get; }
 		private IFileSystem FileSystem { get; }
-
+	
 		public MapViewModel(
 			IRegionManager regionManager,
 			IEventAggregator eventAggregator, 
@@ -58,31 +60,10 @@ namespace Rider.Map.ViewModels
 			RegionManager.RequestNavigate(Constants.Regions.ToolBar, Constants.Views.MapToolBar);
 		}
 
-		public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
+		public string GetFullPathForDownload(string fileName)
 		{
-			return true;
+			return FileSystem.AddTimeStamp($"{Configuration.GpxDirectory}\\{fileName}");
 		}
-
-		public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
-		{
-			if (!callback.IsDisposed)
-			{
-				string fullPath = FileSystem.AddTimeStamp($"{Configuration.GpxDirectory}\\{downloadItem.SuggestedFileName}");
-				callback.Continue(fullPath, false);
-			}
-		}
-
-		public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
-		{
-			if(downloadItem.IsValid)
-			{
-				if (downloadItem.IsComplete)
-				{
-					Console.WriteLine(downloadItem.FullPath);
-					EventAggregator.GetEvent<GpxDownloadedEvent>().Publish(downloadItem.FullPath);					
-				}
-			}
-		}				
 
 	}
 }

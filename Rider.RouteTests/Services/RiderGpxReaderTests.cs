@@ -3,6 +3,7 @@ using Moq;
 using Prism.Events;
 using Prism.Regions;
 using Rider.Contracts;
+using Rider.Contracts.Services;
 using Rider.Route.Data;
 using Rider.Route.Services;
 using System;
@@ -40,11 +41,11 @@ namespace Rider.Route.Services.Tests
 				RiderGpxReader target = CreateTarget();
 				RiderData data = await target.Read(FileName);
 
-				Assert.AreEqual(2584, data.Track.Points.Count);
-				Assert.AreEqual(28193186, data.Track.LatitudeMax_N);
-				Assert.AreEqual(28143041, data.Track.LatitudeMin_S);
-				Assert.AreEqual(-16427294, data.Track.LongitudeMax_E);
-				Assert.AreEqual(-16799358, data.Track.LongitudeMin_W);
+				Assert.AreEqual(2584, data.Route.Points.Count);
+				Assert.AreEqual(28193186, data.Route.LatitudeMax);
+				Assert.AreEqual(28143041, data.Route.LatitudeMin);
+				Assert.AreEqual(-16427294, data.Route.LongitudeMax);
+				Assert.AreEqual(-16799358, data.Route.LongitudeMin);
 			}
 
 		}

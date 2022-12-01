@@ -4,6 +4,8 @@ using Moq;
 using Prism.Events;
 using Prism.Regions;
 using Rider.Contracts;
+using Rider.Contracts.Events;
+using Rider.Contracts.Services;
 using Rider.Map.Events;
 using Rider.Map.ViewModels;
 using System;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Rider.Map.ViewModels.Tests
 {
-	[TestClass()]
+    [TestClass()]
 	public class MapViewModelTests
 	{
 		Mock<IRegionManager> RegionManager { get; set; }= new Mock<IRegionManager>();
@@ -32,6 +34,7 @@ namespace Rider.Map.ViewModels.Tests
 			Configuration = new Mock<IConfiguration>();
 			EventAggregator = new Mock<IEventAggregator>();
 			Console = new Mock<IConsole>();
+			FileSystem = new Mock<IFileSystem>();
 		}
 		MapViewModel CreateTarget()
 		{
@@ -62,59 +65,16 @@ namespace Rider.Map.ViewModels.Tests
 		{
 			const string GpxDirectory = "GpxDirectory";
 			const string SuggestedFileName = "SuggestedFileName";
-
+			const string FilenameWithTimeStamp = "FilenameWithTimeStamp";
 			MapViewModel target = CreateTarget();
-
-			DownloadItem item = new DownloadItem();
-			var chrominium = new Mock<IWebBrowser>();
-			var browser = new Mock<IBrowser>();
-			var callback = new Mock<IDownloadItemCallback>();
-
+			
 			Configuration.Setup(c => c.GpxDirectory).Returns(GpxDirectory);
-			item.SuggestedFileName = SuggestedFileName;
-			item.IsValid = true;
-			item.IsComplete = true;
-			item.FullPath = $"Gpx downloaded: {GpxDirectory}\\{SuggestedFileName}";
 
-			EventAggregator.Setup(a => a.GetEvent<GpxDownloadedEvent>()).Returns(new GpxDownloadedEvent());
-
-			target.OnDownloadUpdated(chrominium.Object, browser.Object, item, callback.Object);
-			Console.Verify(c => c.WriteLine($"Gpx downloaded: {GpxDirectory}\\{SuggestedFileName}"));
-			EventAggregator.Verify(a => a.GetEvent<GpxDownloadedEvent>());
+			FileSystem.Setup(f => f.AddTimeStamp($"{GpxDirectory}\\{SuggestedFileName}")).Returns(FilenameWithTimeStamp);
+			string result =target.GetFullPathForDownload(SuggestedFileName);
+			Assert.AreEqual(FilenameWithTimeStamp, result);
 
 		}
 
-		[TestMethod()]
-		public void CanDownloadTest()
-		{
-			MapViewModel target = CreateTarget();
-
-			var chrominium = new Mock<IWebBrowser>();
-			var browser = new Mock<IBrowser>();
-						
-			Assert.IsTrue(target.CanDownload(chrominium.Object, browser.Object, "", ""));
-		}
-
-		[TestMethod()]
-		public void OnBeforeDownloadTest()
-		{
-			const string GpxDirectory = "GpxDirectory";
-			const string SuggestedFileName = "SuggestedFileName";
-			const string TimeStamp = "TimeStamp";
-
-			MapViewModel target = CreateTarget();
-
-			DownloadItem item = new DownloadItem();
-			var chrominium = new Mock<IWebBrowser>();
-			var browser = new Mock<IBrowser>();
-			var callback = new Mock<IBeforeDownloadCallback>();
-
-			Configuration.Setup(c => c.GpxDirectory).Returns(GpxDirectory);
-			item.SuggestedFileName = SuggestedFileName;
-			callback.Setup(c => c.Continue($"{GpxDirectory}\\{SuggestedFileName}", false));
-			FileSystem.Setup(f => f.AddTimeStamp($"{GpxDirectory}\\{SuggestedFileName}")).Returns($"{GpxDirectory}\\{SuggestedFileName}_{TimeStamp}");
-			target.OnBeforeDownload(chrominium.Object,browser.Object,item,callback.Object);
-			callback.Verify(c => c.Continue($"{GpxDirectory}\\{SuggestedFileName}_{TimeStamp}", false));
-		}
 	}
 }

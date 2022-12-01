@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rider.Contracts.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,19 @@ using System.Threading.Tasks;
 
 namespace Rider.Route.Data
 {
-	internal class RiderData
+    internal class RiderData: IRiderData
 	{
-		public Track Track { get; }
+		public static IRiderData Empty=new RiderData();
+		
+		public IRoute Route { get; } = Data.Route.Empty;
+		public bool IsEmpty => this == Empty;
 
-		public RiderData(Track track)
+		public RiderData(Route route)
 		{
-			Track = track;
+			Route = route;
+		}
+		private RiderData()
+		{ 
 		}
 	}
 

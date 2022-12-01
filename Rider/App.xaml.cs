@@ -47,28 +47,27 @@ namespace Rider
 				ModuleName = main.Name,
 				ModuleType = main.AssemblyQualifiedName,
 			});
-
+			
 			Type map = typeof(Map.MapModule);
 			moduleCatalog.AddModule(new ModuleInfo()
 			{
 				ModuleName = map.Name,
 				ModuleType = map.AssemblyQualifiedName,
 			});
-		
+
 			Type route = typeof(Route.RouteModule);
 			moduleCatalog.AddModule(new ModuleInfo()
 			{
 				ModuleName = route.Name,
 				ModuleType = route.AssemblyQualifiedName,
-			});
-
+			});	
 
 		}
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
-			containerRegistry.RegisterManySingleton(typeof(Services.Time), typeof(Contracts.ITime));
-			containerRegistry.RegisterManySingleton(typeof(Services.FileSystem), typeof(Contracts.IFileSystem));
-			containerRegistry.RegisterManySingleton(typeof(Services.Configuration), typeof(Contracts.IConfiguration));
+			containerRegistry.RegisterManySingleton(typeof(Services.Time), typeof(Contracts.Services.ITime));
+			containerRegistry.RegisterManySingleton(typeof(Services.FileSystem), typeof(Contracts.Services.IFileSystem));
+			containerRegistry.RegisterManySingleton(typeof(Services.Configuration), typeof(Contracts.Services.IConfiguration));
 		}
 	}
 }

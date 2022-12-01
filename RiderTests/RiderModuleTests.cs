@@ -5,6 +5,7 @@ using Prism.Regions;
 using Rider;
 using Rider.Constants;
 using Rider.Contracts;
+using Rider.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Rider.Tests
 {
-	[TestClass()]
+    [TestClass()]
 	public class RiderModuleTests
 	{
 
@@ -28,8 +29,8 @@ namespace Rider.Tests
 			Mock<IContainerRegistry> container = new Mock<IContainerRegistry>();
 			target.RegisterTypes(container.Object);
 
-			container.Verify(c => c.RegisterManySingleton(typeof(Services.WpfDialogService), typeof(Contracts.IWpfDialogService)));
-			container.Verify(c => c.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console), typeof(Contracts.IConsole)));
+			container.Verify(c => c.RegisterManySingleton(typeof(Services.WpfDialogService), typeof(IWpfDialogService)));
+			container.Verify(c => c.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console), typeof(IConsole)));
 			container.Verify(c => c.Register(typeof(object), typeof(Views.Console), Constants.Views.Console));
 		}
 

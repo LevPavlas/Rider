@@ -1,4 +1,4 @@
-﻿using Rider.Contracts;
+﻿using Rider.Contracts.Services;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Rider.Views
 {
-	public partial class Console : UserControl, IConsole
+    public partial class Console : UserControl, IConsole
 	{
 		ConsoleTextWriter SystemConsoleOutput { get; }
 		public Console()
@@ -22,6 +22,14 @@ namespace Rider.Views
 		public void WriteLine(string msg)
 		{
 			WriteLine(msg, Brushes.Black);
+		}
+		public void WriteError(string msg)
+		{
+			WriteLine(msg, Brushes.Red);
+		}
+		public void WriteWarning(string msg)
+		{
+			WriteLine(msg, Brushes.Blue);
 		}
 
 		private void WriteLine(string msg, Brush brush)

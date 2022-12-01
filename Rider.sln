@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rider.RouteTests", "Rider.R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rider.MapTests", "Rider.MapTests\Rider.MapTests.csproj", "{C85DE7F8-A61F-4449-A4D9-19A149E1E29E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiderTests", "RiderTests\RiderTests.csproj", "{EA236602-7ACA-4CFB-B8B9-3D2296B1F41E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiderTests", "RiderTests\RiderTests.csproj", "{EA236602-7ACA-4CFB-B8B9-3D2296B1F41E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{782827DA-CC31-4590-AA52-3DC46EF35F14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9B919C55-A57A-4C98-A614-1FF401ABD805} = {782827DA-CC31-4590-AA52-3DC46EF35F14}
+		{C85DE7F8-A61F-4449-A4D9-19A149E1E29E} = {782827DA-CC31-4590-AA52-3DC46EF35F14}
+		{EA236602-7ACA-4CFB-B8B9-3D2296B1F41E} = {782827DA-CC31-4590-AA52-3DC46EF35F14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C71F1D3C-41B1-4AFA-A810-E15A5A324505}

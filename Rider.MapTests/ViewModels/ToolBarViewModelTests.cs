@@ -3,6 +3,7 @@ using Moq;
 using Prism.Events;
 using Prism.Regions;
 using Rider.Contracts;
+using Rider.Contracts.Services;
 using Rider.Map.Events;
 using Rider.Map.ViewModels;
 using System;

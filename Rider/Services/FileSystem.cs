@@ -1,4 +1,5 @@
 ﻿using Rider.Contracts;
+using Rider.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;

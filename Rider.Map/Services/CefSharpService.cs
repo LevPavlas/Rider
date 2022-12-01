@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Rider.Contracts;
+using Rider.Contracts.Services;
 
 namespace Rider.Map.Services
 {
-	internal interface ICefSharpService
+    internal interface ICefSharpService
 	{
 		void Initiaize();
 	}

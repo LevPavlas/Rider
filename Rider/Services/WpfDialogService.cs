@@ -1,5 +1,5 @@
 ﻿using Microsoft.Win32;
-using Rider.Contracts;
+using Rider.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rider.Services
 {
-	internal class WpfDialogService : IWpfDialogService
+    internal class WpfDialogService : IWpfDialogService
 	{
 		public string? OpenFile(string filter)
 		{

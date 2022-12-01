@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rider.Map.Events
+namespace Rider.Contracts.Events
 {
-	internal class GpxDownloadedEvent: PubSubEvent<string>
+	public class RouteDownloadedEvent: PubSubEvent<string>
 	{
 	}
 }

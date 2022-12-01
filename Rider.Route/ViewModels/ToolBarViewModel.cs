@@ -1,5 +1,4 @@
-﻿using Rider.Contracts;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -13,49 +12,53 @@ using System.Windows.Media.Animation;
 using System.ComponentModel;
 using Rider.Route.Data;
 using Rider.Route.Services;
+using Rider.Contracts.Services;
+using Prism.Events;
+using Rider.Contracts.Events;
 
 namespace Rider.Route.ViewModels
 {
-	internal class ToolBarViewModel : BindableBase
+    internal class ToolBarViewModel : BindableBase
 	{
 		private IConsole Console{get;}
 		private IWpfDialogService Dialogs { get; }
-		private IGpxReader Reader { get; }
-		public AsyncCommand OpenCommand { get; private set; }
-		public ToolBarViewModel(IConsole console, IWpfDialogService dialogs, IGpxReader reader) 
+		private IRouteCalculator Calculator { get; }
+		private IEventAggregator EventAggregator { get; }
+		public DelegateCommand OpenCommand { get; private set; }
+		public ToolBarViewModel(
+			IConsole console, 
+			IWpfDialogService dialogs,
+			IRouteCalculator calculator,
+			IEventAggregator eventAggregator) 
 		{
 			Console = console;
 			Dialogs = dialogs;
-			Reader = reader;
-			OpenCommand = new AsyncCommand(Open,CanOpenExecute,OnOpenCommandError, true);
+			Calculator = calculator;
+			EventAggregator = eventAggregator;
+			EventAggregator.GetEvent<RouteDownloadedEvent>().Subscribe(OnRouteDownloaded, ThreadOption.BackgroundThread);
+			OpenCommand = new DelegateCommand(Open,CanOpenExecute);
 		}
 
 
-		async Task Open()
+		void Open()
 		{
-			OpenInProgress = true;
-			OpenCommand.RaiseCanExecuteChanged();
+	//		OpenInProgress = true;
+	//		OpenCommand.RaiseCanExecuteChanged();
+			
 			string? file = Dialogs.OpenFile("GPX Files|*.gpx");
-			if(!string.IsNullOrEmpty(file))
-			{
-				Console.WriteLine($"Processing file:{file}");
-				RiderData data = await Reader.Read(file);
-				Console.WriteLine($"Track point count: {data.Track.Points.Count}");
-				Console.WriteLine($"Track distance: {data.Track.Distance/1000} [km]");
-			}
+			if(file!= null) Calculator.StartProcessing(file);
 
-			OpenInProgress = false;
-			OpenCommand.RaiseCanExecuteChanged();	
+	//		OpenInProgress = false;
+	//		OpenCommand.RaiseCanExecuteChanged();	
 		}
-
+		void OnRouteDownloaded(string path)
+		{
+			Calculator.StartProcessing(path);
+		}
 		bool OpenInProgress { get; set; }
-		bool CanOpenExecute(object? arg)
+		bool CanOpenExecute()
 		{
 			return !OpenInProgress;
-		}
-		private void OnOpenCommandError(Exception e)
-		{
-			Console.WriteLine($"Open error: {e.Message} Thread: {Thread.CurrentThread.ManagedThreadId}");
 		}
 
 	}
