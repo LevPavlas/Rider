@@ -5,10 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Rider.Route.Views"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
+            prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label>-This is route</Label>    
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <map:Map x:Name="map"
+                 MinZoomLevel="2" MaxZoomLevel="21" ZoomLevel="11"
+                 Center="53.5,8.2" ManipulationMode="All"
+                 MouseLeftButtonDown="MapMouseLeftButtonDown"
+                 MouseMove="MapMouseMove" MouseLeave="MapMouseLeave"
+                 ManipulationInertiaStarting="MapManipulationInertiaStarting">
+
+             </map:Map>
+
+            <GridSplitter Grid.Row="1"  HorizontalAlignment="Stretch" />
+        </Grid>
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeDirection="Columns"
+              ResizeBehavior="PreviousAndNext" />
     </Grid>
 </UserControl>

@@ -17,14 +17,15 @@ using Rider.Contracts.Events;
 
 namespace Rider.Route.ViewModels
 {
-    internal class RiderToolBarViewModel : BindableBase
+    internal class RouteToolBarViewModel : BindableBase
 	{
 		private IConsole Console{get;}
 		private IWpfDialogService Dialogs { get; }
 		private IRiderCalculator Calculator { get; }
 		private IEventAggregator EventAggregator { get; }
 		public DelegateCommand OpenCommand { get; private set; }
-		public RiderToolBarViewModel(
+
+		public RouteToolBarViewModel(
 			IConsole console, 
 			IWpfDialogService dialogs,
 			IRiderCalculator calculator,

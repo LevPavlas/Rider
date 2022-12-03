@@ -11,8 +11,8 @@ namespace Rider.Route.Data
 {
 	internal class ClimbChallengeCalculator
 	{
-		private const decimal ClimbRatioLimit = 0.03m;
-		private const decimal LowHeightRatio = 0.1m;
+		private const double ClimbRatioLimit = 0.03;
+		private const double LowHeightRatio = 0.1;
 
 		private IReadOnlyList<RoutePoint> Points { get; }
 		private IReadOnlyList<ClimbChallenge> Challenges { get; set; }= new List<ClimbChallenge>();
@@ -20,7 +20,7 @@ namespace Rider.Route.Data
 		{
 			Points = points;
 		}
-		public ObservableCollection<ClimbChallenge> Calculate()
+		public IReadOnlyList<ClimbChallenge> Calculate()
 		{
 			CreateChallenges();
 			while (ConnectChallenges())
@@ -31,7 +31,7 @@ namespace Rider.Route.Data
 			DeleteSmallChalenges();
 			RemoveFlatFoothill();
 
-			return new ObservableCollection<ClimbChallenge>(Challenges);
+			return Challenges;
 		}
 		void RemoveFlatFoothill()
 		{
@@ -44,7 +44,7 @@ namespace Rider.Route.Data
 		}
 		public void RemoveFlatFoothill(ClimbChallenge chalenge, List<ClimbChallenge> result)
 		{
-			decimal lowHeight = chalenge.EndPoint.Elevation * LowHeightRatio + chalenge.StartPoint.Elevation;
+			double lowHeight = chalenge.EndPoint.Elevation * LowHeightRatio + chalenge.StartPoint.Elevation;
 			for (ushort i = chalenge.Start; i <= chalenge.End; i++)
 			{
 				if (Points[i].Elevation > lowHeight)
@@ -70,16 +70,16 @@ namespace Rider.Route.Data
 		}
 		public bool IsSmall(ClimbChallenge challenge)
 		{
-			decimal Lenght = challenge.EndPoint.Distance - challenge.StartPoint.Distance;
-			decimal Height = challenge.EndPoint.Elevation - challenge.StartPoint.Elevation;
-			decimal Grade = Height / (1000 * Lenght);
+			double Lenght = challenge.EndPoint.Distance - challenge.StartPoint.Distance;
+			double Height = challenge.EndPoint.Elevation - challenge.StartPoint.Elevation;
+			double Grade = Height / (1000 * Lenght);
 
-			if (Lenght > 2 && Height > 60m) return false;
-			if (Lenght > 1 && Grade > .045m) return false;
-			if (Lenght > 0.5m && Grade > .07m) return false;
-			if (Lenght > 0.2m && Grade > .09m) return false;
-			if (Lenght > 0.1m && Grade > .11m) return false;
-			if (Lenght > 0.02m && Grade > .15m) return false;
+			if (Lenght > 2 && Height > 60) return false;
+			if (Lenght > 1 && Grade > .045) return false;
+			if (Lenght > 0.5 && Grade > .07) return false;
+			if (Lenght > 0.2 && Grade > .09) return false;
+			if (Lenght > 0.1 && Grade > .11) return false;
+			if (Lenght > 0.02 && Grade > .15) return false;
 			return true;
 		}
 
@@ -94,9 +94,9 @@ namespace Rider.Route.Data
 				RoutePoint p0 = Points[i - 1];
 				RoutePoint p1 = Points[i];
 
-				decimal dist = p1.Distance - p0.Distance;
-				decimal elevation = p1.Elevation - p0.Elevation;
-				decimal ratio = elevation / dist;
+				double dist = p1.Distance - p0.Distance;
+				double elevation = p1.Elevation - p0.Elevation;
+				double ratio = elevation / dist;
 
 				if (start < 0)
 				{
@@ -164,7 +164,7 @@ namespace Rider.Route.Data
 
 		public bool IsNearby(ClimbChallenge actual, ClimbChallenge next)
 		{
-			const decimal NearbyDistance = 2000; //m
+			const double NearbyDistance = 2000; //m
 
 			return (next.StartPoint.Distance - actual.EndPoint.Distance) < NearbyDistance;
 		}

@@ -27,7 +27,7 @@ namespace Rider.Route.Tests
 
 			target.OnInitialized(containerProvider.Object);
 
-			manager.Verify(m => m.RegisterViewWithRegion(Regions.ToolBar, typeof(Views.RiderToolBar)));
+			manager.Verify(m => m.RegisterViewWithRegion(Regions.ToolBar, typeof(Views.RouteToolBar)));
 			manager.Verify(m => m.RegisterViewWithRegion(Regions.MainRegion, typeof(Views.Route)));
 
 		}
@@ -40,7 +40,7 @@ namespace Rider.Route.Tests
 			var registry = new Mock<IContainerRegistry>();
 			target.RegisterTypes(registry.Object);
 
-			registry.Verify(r => r.Register(typeof(object), typeof(Views.RiderToolBar), Constants.Views.RouteToolBar));
+			registry.Verify(r => r.Register(typeof(object), typeof(Views.RouteToolBar), Constants.Views.RouteToolBar));
 			registry.Verify(r => r.Register(typeof(object), typeof(Views.Route), Constants.Views.Route));
 		}
 	}

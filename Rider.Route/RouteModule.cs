@@ -18,7 +18,7 @@ namespace Rider.Route
 		}
 		public void OnInitialized(IContainerProvider containerProvider)
 		{
-			RegionManager.RegisterViewWithRegion(Regions.ToolBar,typeof(Views.RiderToolBar));
+			RegionManager.RegisterViewWithRegion(Regions.ToolBar,typeof(Views.RouteToolBar));
 			RegionManager.RegisterViewWithRegion(Regions.MainRegion, typeof(Views.Route));
 		}
 	
@@ -27,7 +27,7 @@ namespace Rider.Route
 
 			containerRegistry.RegisterManySingleton(typeof(RiderGpxReader), typeof(IGpxReader));
 			containerRegistry.RegisterManySingleton(typeof(RiderCalculator), typeof(IRiderCalculator));
-			containerRegistry.RegisterForNavigation<Views.RiderToolBar>(Constants.Views.RouteToolBar);
+			containerRegistry.RegisterForNavigation<Views.RouteToolBar>(Constants.Views.RouteToolBar);
 			containerRegistry.RegisterForNavigation<Views.Route>(Constants.Views.Route);
 		}
 	}

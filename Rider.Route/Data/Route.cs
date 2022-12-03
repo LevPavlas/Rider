@@ -13,19 +13,19 @@ namespace Rider.Route.Data
 
     internal class Route
 	{
-		public decimal LatitudeMin { get; }  = decimal.MaxValue;
-		public decimal LatitudeMax { get; } = decimal.MinValue;
-		public decimal LongitudeMin { get; } = decimal.MaxValue;
-		public decimal LongitudeMax { get; } = decimal.MinValue;
-
-		public decimal Distance { get; } = 0;
+		public double LatitudeMinSouth { get; } = double.MaxValue;
+		public double LatitudeMaxNorth { get; } = double.MinValue;
+		public double LongitudeMinWest { get; } = double.MaxValue;
+		public double LongitudeMaxEast { get; } = double.MinValue;
+			   
+		public double Distance { get; } = 0;
 		public IReadOnlyList<RoutePoint> Points { get; private set; } = new List<RoutePoint>();
 
 	
 		public Route(GpxAnalyser analyser)
 		{
 			List<RoutePoint> points = new List<RoutePoint>();
-			decimal lastDistance = -1;
+			double lastDistance = -1;
 			foreach (GpxPoint p in analyser.Points)
 			{
 
@@ -34,11 +34,11 @@ namespace Rider.Route.Data
 				
 				lastDistance = point.Distance;
 
-				LatitudeMax = Math.Max(LatitudeMax, point.Latitude);
-				LatitudeMin = Math.Min(LatitudeMin, point.Latitude);
+				LatitudeMaxNorth = Math.Max(LatitudeMaxNorth, point.Latitude);
+				LatitudeMinSouth = Math.Min(LatitudeMinSouth, point.Latitude);
 
-				LongitudeMax = Math.Max(LongitudeMax, point.Longitude);
-				LongitudeMin = Math.Min(LongitudeMin, point.Longitude);
+				LongitudeMaxEast = Math.Max(LongitudeMaxEast, point.Longitude);
+				LongitudeMinWest = Math.Min(LongitudeMinWest, point.Longitude);
 
 				points.Add(point);
 			}

@@ -42,11 +42,11 @@ namespace Rider.Route.Services.Tests
 				Data.Route data = await target.Read(FileName);
 
 				Assert.AreEqual(2582, data.Points.Count);
-				Assert.AreEqual(28.193186m, data.LatitudeMax);
-				Assert.AreEqual(28.143041m, data.LatitudeMin);
-				Assert.AreEqual(-16.427294m, data.LongitudeMax);
-				Assert.AreEqual(-16.799358m, data.LongitudeMin);
-				Assert.AreEqual(66228.275423276m, data.Distance);
+				Assert.AreEqual(28.193186, data.LatitudeMaxNorth);
+				Assert.AreEqual(28.143041, data.LatitudeMinSouth);
+				Assert.AreEqual(-16.427294, data.LongitudeMaxEast);
+				Assert.AreEqual(-16.799358, data.LongitudeMinWest);
+				Assert.AreEqual(66228.27542327595, data.Distance);
 			}
 		}
 		Stream GetEmbededResourceStream(string resource)
