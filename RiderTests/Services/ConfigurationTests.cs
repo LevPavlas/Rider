@@ -37,7 +37,7 @@ namespace Rider.Services.Tests
 		
 			Configuration target = new Configuration(fileSystem.Object);
 			target.Load();
-			Assert.AreEqual(3, target.Maps.Count());
+			Assert.AreEqual(4, target.Maps.Count());
 			Assert.AreEqual("https://brouter.de/brouter-web", target.SelectedMap);
 			Assert.AreEqual("Dir\\Data\\BrowserCache", target.BrowserCacheDataFolder);
 			Assert.AreEqual("Dir\\Data\\Gpx", target.GpxDirectory);

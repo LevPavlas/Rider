@@ -13,24 +13,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Shell;
+using System.Xml.Linq;
 
 namespace Rider.Map.Views
 {
 	/// <summary>
 	/// Interaction logic for ToolBar.xaml
 	/// </summary>
-	public partial class ToolBar : UserControl
+	public partial class MapToolBar : UserControl
 	{
-		private ToolBarViewModel? Model => DataContext as ToolBarViewModel;
+		private MapToolBarViewModel? Model => DataContext as MapToolBarViewModel;
 
-		public ToolBar()
+		public MapToolBar()
 		{
 			InitializeComponent();
-			Loaded += ToolBar_Loaded;
-		}
-
-		private void ToolBar_Loaded(object sender, RoutedEventArgs e)
-		{
 		}
 
 		private void OnMapChanged(object sender, SelectionChangedEventArgs e)

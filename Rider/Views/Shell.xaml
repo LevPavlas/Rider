@@ -7,8 +7,16 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:const="clr-namespace:Rider.Constants;assembly=Rider.Constants"
         xmlns:local="clr-namespace:Rider"
-        mc:Ignorable="d"
-         Title="Rider" Height="800" Width="1000">
+        mc:Ignorable="d" 
+         Title="Rider" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
+    <!--<WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
+                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
+                      UseAeroCaptionButtons="False">
+        </WindowChrome>
+
+    </WindowChrome.WindowChrome>-->
+
     <Window.Resources>
         <Style TargetType="{x:Type TabItem}" x:Key="TabItemRegionStyle">
             <Setter Property="Header" 
@@ -37,7 +45,7 @@
                 <RowDefinition Height="46"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="5"/>
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="120"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <ContentControl Grid.Row="0" VerticalContentAlignment="Stretch" prism:RegionManager.RegionName="{x:Static const:Regions.ToolBar}"  />

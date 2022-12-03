@@ -39,15 +39,15 @@ namespace Rider.Route.Services.Tests
 				FileSystem.Setup(f=>f.OpenFile(FileName)).Returns(inputStream);
 
 				RiderGpxReader target = CreateTarget();
-				RiderData data = await target.Read(FileName);
+				Data.Route data = await target.Read(FileName);
 
-				Assert.AreEqual(2584, data.Route.Points.Count);
-				Assert.AreEqual(28193186, data.Route.LatitudeMax);
-				Assert.AreEqual(28143041, data.Route.LatitudeMin);
-				Assert.AreEqual(-16427294, data.Route.LongitudeMax);
-				Assert.AreEqual(-16799358, data.Route.LongitudeMin);
+				Assert.AreEqual(2582, data.Points.Count);
+				Assert.AreEqual(28.193186m, data.LatitudeMax);
+				Assert.AreEqual(28.143041m, data.LatitudeMin);
+				Assert.AreEqual(-16.427294m, data.LongitudeMax);
+				Assert.AreEqual(-16.799358m, data.LongitudeMin);
+				Assert.AreEqual(66228.275423276m, data.Distance);
 			}
-
 		}
 		Stream GetEmbededResourceStream(string resource)
 		{

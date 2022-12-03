@@ -85,6 +85,7 @@ namespace Rider.Services
 				{
 					Constants.Maps.BrouterDe,
 					Constants.Maps.MapyCz,
+					Constants.Maps.Graphhoper,
 					Constants.Maps.CycleTravel
 				};
 				SelectedMap = Constants.Maps.BrouterDe;

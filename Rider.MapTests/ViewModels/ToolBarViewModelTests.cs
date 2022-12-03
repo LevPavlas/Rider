@@ -29,7 +29,7 @@ namespace Rider.Map.ViewModels.Tests
 			var config = new Mock<IConfiguration>();
 			var eventAgregator = new Mock<IEventAggregator>();
 			eventAgregator.Setup(e => e.GetEvent<MapChangedEvent>()).Returns(mapChangeEvent);
-			ToolBarViewModel target = new ToolBarViewModel(config.Object,eventAgregator.Object );
+			MapToolBarViewModel target = new MapToolBarViewModel(config.Object,eventAgregator.Object );
 			target.OnMapChanged(MapName);
 			Assert.AreEqual(MapName, selectedMap);
 		}

@@ -18,9 +18,9 @@ namespace Rider.Route.Views
     /// <summary>
     /// Interaction logic for ToolBar.xaml
     /// </summary>
-    public partial class ToolBar : UserControl
+    public partial class RiderToolBar : UserControl
     {
-        public ToolBar()
+        public RiderToolBar()
         {
             InitializeComponent();
         }

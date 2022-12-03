@@ -14,12 +14,13 @@ using Rider.Contracts.Services;
 
 namespace Rider.Map.ViewModels
 {
-    internal class ToolBarViewModel : BindableBase
+    internal class MapToolBarViewModel : BindableBase
 	{
 		public IConfiguration Configuration { get; }
 		private IEventAggregator EventAggregator { get; }
 
-		public ToolBarViewModel(IConfiguration configuration, IEventAggregator eventAggregator)
+	
+		public MapToolBarViewModel(IConfiguration configuration, IEventAggregator eventAggregator)
 		{
 			Configuration = configuration;
 			EventAggregator = eventAggregator;

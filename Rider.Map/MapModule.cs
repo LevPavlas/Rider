@@ -21,14 +21,14 @@ namespace Rider.Map
 		public void OnInitialized(IContainerProvider containerProvider)
 		{
 			RegionManager.RegisterViewWithRegion<Views.Map>(Regions.MainRegion);
-			RegionManager.RegisterViewWithRegion<Views.ToolBar>(Regions.ToolBar);
+			RegionManager.RegisterViewWithRegion<Views.MapToolBar>(Regions.ToolBar);
 		}
 
 		public void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterManySingleton(typeof(CefSharpService), typeof(ICefSharpService));
 			containerRegistry.RegisterForNavigation<Views.Map>(Constants.Views.Map);
-			containerRegistry.RegisterForNavigation<Views.ToolBar>(Constants.Views.MapToolBar);
+			containerRegistry.RegisterForNavigation<Views.MapToolBar>(Constants.Views.MapToolBar);
 		}
 
 	}

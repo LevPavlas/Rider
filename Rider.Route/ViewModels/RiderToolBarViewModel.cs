@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Win32;
-using AsyncAwaitBestPractices.MVVM;
 using System.Windows.Media.Animation;
 using System.ComponentModel;
 using Rider.Route.Data;
@@ -18,17 +17,17 @@ using Rider.Contracts.Events;
 
 namespace Rider.Route.ViewModels
 {
-    internal class ToolBarViewModel : BindableBase
+    internal class RiderToolBarViewModel : BindableBase
 	{
 		private IConsole Console{get;}
 		private IWpfDialogService Dialogs { get; }
-		private IRouteCalculator Calculator { get; }
+		private IRiderCalculator Calculator { get; }
 		private IEventAggregator EventAggregator { get; }
 		public DelegateCommand OpenCommand { get; private set; }
-		public ToolBarViewModel(
+		public RiderToolBarViewModel(
 			IConsole console, 
 			IWpfDialogService dialogs,
-			IRouteCalculator calculator,
+			IRiderCalculator calculator,
 			IEventAggregator eventAggregator) 
 		{
 			Console = console;

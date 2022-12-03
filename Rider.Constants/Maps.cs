@@ -10,6 +10,7 @@ namespace Rider.Constants
 	{
 		public const string BrouterDe = "https://brouter.de/brouter-web";
 		public const string MapyCz = "https://www.mapy.cz/";
+		public const string Graphhoper = "https://graphhopper.com/maps/";
 		public const string CycleTravel = "https://cycle.travel/map";
 	}
 }

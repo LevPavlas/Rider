@@ -25,7 +25,7 @@ namespace Rider.Map.Tests
 			target.RegisterTypes(registry.Object);
 			registry.Verify(r => r.RegisterManySingleton(typeof(CefSharpService), typeof(ICefSharpService)));
 			registry.Verify(r => r.Register(typeof(object), typeof(Views.Map), Constants.Views.Map));
-			registry.Verify(r => r.Register(typeof(object), typeof(Views.ToolBar), Constants.Views.MapToolBar));
+			registry.Verify(r => r.Register(typeof(object), typeof(Views.MapToolBar), Constants.Views.MapToolBar));
 			registry.VerifyNoOtherCalls();
 			regionManager.VerifyNoOtherCalls();
 		}
@@ -38,7 +38,7 @@ namespace Rider.Map.Tests
 			var container = new Mock<IContainerProvider>();
 			target.OnInitialized(container.Object);
 			regionManager.Verify(r => r.RegisterViewWithRegion(Constants.Regions.MainRegion, typeof(Views.Map)));
-			regionManager.Verify(r => r.RegisterViewWithRegion(Constants.Regions.ToolBar, typeof(Views.ToolBar)));
+			regionManager.Verify(r => r.RegisterViewWithRegion(Constants.Regions.ToolBar, typeof(Views.MapToolBar)));
 			regionManager.VerifyNoOtherCalls();
 		}
 	}

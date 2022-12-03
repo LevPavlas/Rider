@@ -14,7 +14,7 @@ namespace Rider.Route.Services
 {
 	internal interface IGpxReader
 	{
-		Task<RiderData> Read(string path);
+		Task<Data.Route> Read(string path);
 	}
 
 	internal class RiderGpxReader : IGpxReader
@@ -25,8 +25,7 @@ namespace Rider.Route.Services
 			FileSystem = fileSystem;	
 		}
 
-
-		public async Task<RiderData> Read(string path)
+		public async Task<Data.Route> Read(string path)
 		{
 			return await Task<RiderData>.Run(() =>
 			{
@@ -36,11 +35,9 @@ namespace Rider.Route.Services
 					GpxAnalyser analyser = new GpxAnalyser(reader);
 					analyser.Analyse();
 
-					Data.Route track = new Data.Route(analyser);
-					return new RiderData(track);
+					return new Data.Route(analyser);
 				}
 			});
 		}
-
 	}
 }
