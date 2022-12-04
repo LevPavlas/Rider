@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 
 namespace Rider.Services
@@ -61,6 +62,10 @@ namespace Rider.Services
 			SelectedMap= Data.SelectedMap;
 
 			Maps.CollectionChanged += OnMapsChanged;
+			double height = SystemParameters.FullPrimaryScreenHeight;
+			double width = SystemParameters.FullPrimaryScreenWidth;
+			double height2 = SystemParameters.VirtualScreenHeight;
+			double width2 = SystemParameters.VirtualScreenWidth;
 		}
 
 		private void OnMapsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
