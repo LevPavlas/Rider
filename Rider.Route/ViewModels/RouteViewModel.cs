@@ -51,7 +51,7 @@ namespace Rider.Route.ViewModels
 		{
 
 			MapPolyline polygon = new MapPolyline();
-			polygon.Stroke = new SolidColorBrush(Colors.Red);
+			polygon.Stroke = new SolidColorBrush(Colors.Blue);
 			polygon.StrokeThickness = 3;
 			polygon.Opacity = 0.7;
 			LocationCollection locations = new LocationCollection();
@@ -60,7 +60,12 @@ namespace Rider.Route.ViewModels
 				locations.Add(new Location(p.Latitude, p.Longitude));
 			}
 			polygon.Locations = locations;
+			polygon.MouseMove += Polygon_MouseMove;
 			return polygon;
+		}
+
+		private void Polygon_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+		{
 		}
 
 		bool isActive = false;

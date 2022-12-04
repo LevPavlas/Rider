@@ -22,11 +22,11 @@ namespace Rider.Route.Data
 		public IReadOnlyList<RoutePoint> Points { get; private set; } = new List<RoutePoint>();
 
 	
-		public Route(GpxAnalyser analyser)
+		public Route(IList<GpxPoint> data)
 		{
 			List<RoutePoint> points = new List<RoutePoint>();
 			double lastDistance = -1;
-			foreach (GpxPoint p in analyser.Points)
+			foreach (GpxPoint p in data)
 			{
 
 				RoutePoint point = new RoutePoint(p);

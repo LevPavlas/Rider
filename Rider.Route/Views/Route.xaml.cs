@@ -79,7 +79,6 @@ namespace Rider.Route.Views
 		private void MapMouseMove(object sender, MouseEventArgs e)
 		{
 			var location = map.ViewToLocation(e.GetPosition(map));
-
 			if (location != null)
 			{
 				var latitude = (int)Math.Round(location.Latitude * 60000d);

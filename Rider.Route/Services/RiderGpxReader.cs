@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rider.Contracts.Services;
+using System.Reflection.PortableExecutable;
 
 namespace Rider.Route.Services
 {
@@ -32,10 +33,26 @@ namespace Rider.Route.Services
 				using(Stream stream = FileSystem.OpenFile(path))
 				using (GpxReader reader = new GpxReader(stream))
 				{
-					GpxAnalyser analyser = new GpxAnalyser(reader);
-					analyser.Analyse();
+					while(reader.Read())
+					{
 
-					return new Data.Route(analyser);
+					}
+					GpxPointCollection<GpxPoint>? points = reader.Track.ToGpxPoints();
+					if(points == null)
+					{
+						points = reader.Route.ToGpxPoints();
+					}
+					if(points != null)
+					{
+						points.CalculateDistanceFromStart();
+						return new Data.Route(points);
+					}
+					//provisoire need to be move in GpxTrack / GpxSegment
+
+					//GpxAnalyser analyser = new GpxAnalyser(reader);
+					//analyser.Analyse();
+
+					return new Data.Route(new List<GpxPoint>());
 				}
 			});
 		}

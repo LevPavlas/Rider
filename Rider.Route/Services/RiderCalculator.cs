@@ -72,19 +72,15 @@ namespace Rider.Route.Services
 		{
 			try
 			{
-				Console.WriteLine($"Parse file:{path}");
-				await Task.Delay(500);
+				Console.WriteLine($"Processing file:{path}");
 				Data.Route route = await Reader.Read(path);
 				Console.WriteLine($"Number of points: {route.Points.Count}");
 				Console.WriteLine($"Route distance: {route.Distance/1000} km");
-
-				Console.WriteLine($"Calculate Climb Challenges");
 				ClimbChallengeCalculator climbCalculator = new ClimbChallengeCalculator(route.Points);
 				IReadOnlyList<ClimbChallenge> chalenges = climbCalculator.Calculate();
-				Console.WriteLine($"Chalenges found: {chalenges.Count}");
+				Console.WriteLine($"Climb Chalenges found: {chalenges.Count}");
 				BoundingBox box = new BoundingBox(route.LatitudeMinSouth,route.LongitudeMinWest,route.LatitudeMaxNorth,route.LongitudeMaxEast);
 				RiderData data = new RiderData(route, chalenges);
-				Console.WriteLine($"File processing finished");
 				EventAggregator.GetEvent<RiderDataCalculatedEvent>().Publish(data);
 			}
 			catch (Exception e)
