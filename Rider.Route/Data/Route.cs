@@ -1,6 +1,7 @@
 ﻿using DryIoc.Messages;
 using GpxTools;
 using GpxTools.Gpx;
+using Rider.Route.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace Rider.Route.Data
 		public double LatitudeMaxNorth { get; } = double.MinValue;
 		public double LongitudeMinWest { get; } = double.MaxValue;
 		public double LongitudeMaxEast { get; } = double.MinValue;
-			   
+		public double ElevationMax { get; } = double.MinValue;
+		public double ElevationMin { get; }= double.MaxValue;
 		public double Distance { get; } = 0;
 		public IReadOnlyList<RoutePoint> Points { get; private set; } = new List<RoutePoint>();
 
@@ -39,6 +41,9 @@ namespace Rider.Route.Data
 
 				LongitudeMaxEast = Math.Max(LongitudeMaxEast, point.Longitude);
 				LongitudeMinWest = Math.Min(LongitudeMinWest, point.Longitude);
+
+				ElevationMax= Math.Max(ElevationMax, point.Elevation);
+				ElevationMin= Math.Min(ElevationMin, point.Elevation);
 
 				points.Add(point);
 			}

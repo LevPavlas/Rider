@@ -23,6 +23,34 @@ namespace Rider.Route.UserControls
 		public ElevationControl()
 		{
 			InitializeComponent();
+			Loaded += OnLoaded;
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			Test();
+		}
+
+		void Test()
+		{
+			double widht = canvas.Width;
+			double height = canvas.Height;
+
+			Rectangle rect = new Rectangle
+			{
+
+				Width= widht,
+				Height= height,
+				Fill = Brushes.Turquoise,
+			};
+			canvas.Children.Add(rect);
+			
+			//Canvas.SetLeft(rect, 100);
+			//Canvas.SetTop(rect, 0);
+		}
+		void LenhgtScale(decimal lenght)
+		{
+			//canvas.
 		}
 	}
 }
