@@ -22,4 +22,16 @@
     <ProjectReference Include="..\Rider.Route\Rider.Route.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="chromiumembeddedframework.runtime.win-arm64" Version="107.1.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="chromiumembeddedframework.runtime.win-x64" Version="107.1.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="chromiumembeddedframework.runtime.win-x86" Version="107.1.12" />
+  </ItemGroup>
+
 </Project>
