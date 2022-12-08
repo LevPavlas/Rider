@@ -20,15 +20,17 @@ namespace Rider.Route.Services.Tests
 	public class RiderGpxReaderTests
 	{
 		Mock<IFileSystem> FileSystem { get; set; } = new Mock<IFileSystem>();
+		Mock<IConsole> Console { get; set; } = new Mock<IConsole>();
 
 		[TestInitialize()]
 		public void Setup()
 		{
 			FileSystem = new Mock<IFileSystem>();
+			Console = new Mock<IConsole>();
 		}
 		RiderGpxReader CreateTarget()
 		{
-			return new RiderGpxReader(FileSystem.Object);
+			return new RiderGpxReader(FileSystem.Object, Console.Object);
 		}
 		[TestMethod()]
 		public async Task ReadTest()

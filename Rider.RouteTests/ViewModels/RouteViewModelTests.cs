@@ -3,6 +3,7 @@ using Moq;
 using Prism.Events;
 using Prism.Regions;
 using Rider.Contracts.Events;
+using Rider.Contracts.Services;
 using Rider.Route.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,14 @@ namespace Rider.Route.ViewModels.Tests
 	{
 		private Mock<IRegionManager> RegionManager { get; set; } = new Mock<IRegionManager>();
 		private Mock<IEventAggregator> EventAggregator { get; set; } = new Mock<IEventAggregator>();
+		private Mock<IConsole> Console { get; set; } = new Mock<IConsole>();
 
 		[TestInitialize()]
 		public void Setup()
 		{
 			RegionManager = new Mock<IRegionManager>();
 			EventAggregator = new Mock<IEventAggregator>();
+			Console = new Mock<IConsole>();
 		}
 		private RouteViewModel CreateTarget()
 		{
@@ -34,7 +37,7 @@ namespace Rider.Route.ViewModels.Tests
 			//	}
 			//	);
 			EventAggregator.Setup(e => e.GetEvent<RiderDataCalculatedEvent>()).Returns(calculateEvent.Object);
-			return new RouteViewModel(RegionManager.Object, EventAggregator.Object);
+			return new RouteViewModel(RegionManager.Object, EventAggregator.Object,Console.Object);
 		}
 		[TestMethod()]
 		public void HeaderTextTest()
