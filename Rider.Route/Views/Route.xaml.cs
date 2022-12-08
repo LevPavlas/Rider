@@ -46,16 +46,19 @@ namespace Rider.Route.Views
 			Model = e.NewValue as RouteViewModel;
 			if(Model != null)
 			{
-				Model.BoundingBoxChanged += OnBoundingBoxChanged;
+				Model.RouteChanged += OnBoundingBoxChanged;
 			}
 		}
-		MapPolyline LastPolyline { get; set; }
+		MapPolyline? LastPolyline { get; set; }
 		private void OnBoundingBoxChanged(BoundingBox box, MapPolyline polygon)
 		{
-			map.ZoomToBounds( box);	
-			map.Children.Remove( LastPolyline);
-			map.Children.Add( polygon );
-			LastPolyline= polygon;
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				map.ZoomToBounds(box);
+			}));
+			//map.Children.Remove(LastPolyline);
+			//map.Children.Add(polygon);
+			//LastPolyline = polygon;
 		}
 	
 

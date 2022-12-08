@@ -21,15 +21,19 @@ namespace Rider.Route.Services
 	internal class RiderGpxReader : IGpxReader
 	{
 		private IFileSystem FileSystem { get; }
-		public RiderGpxReader(IFileSystem fileSystem)
+		public IConsole Console { get; }
+
+		public RiderGpxReader(IFileSystem fileSystem, IConsole console)
 		{
-			FileSystem = fileSystem;	
+			FileSystem = fileSystem;
+			Console = console;
 		}
 
 		public async Task<Data.Route> Read(string path)
 		{
 			return await Task<RiderData>.Run(() =>
 			{
+				Console.WriteLine($"Start reading gpx{DateTime.Now}");
 				using(Stream stream = FileSystem.OpenFile(path))
 				using (GpxReader reader = new GpxReader(stream))
 				{
@@ -38,13 +42,16 @@ namespace Rider.Route.Services
 
 					}
 					GpxPointCollection<GpxPoint>? points = reader.Track.ToGpxPoints();
-					if(points == null)
+					Console.WriteLine($"Stop reading gpx{DateTime.Now}");
+					if (points == null)
 					{
 						points = reader.Route.ToGpxPoints();
 					}
 					if(points != null && points.Count >1)
 					{
+	
 						points.CalculateDistanceFromStart();
+						Console.WriteLine($"Calculated distance gpx{DateTime.Now}");
 						return new Data.Route(points);
 					}
 

@@ -4,13 +4,19 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Rider.Contracts.Events;
+using Rider.Contracts.Services;
 using Rider.Route.Data;
 using Rider.Route.Views;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -19,23 +25,48 @@ namespace Rider.Route.ViewModels
 	public class RouteViewModel : BindableBase, IActiveAware
 	{
 		public string HeaderText { get; } = "Route";
-		public event Action<BoundingBox,MapPolyline>? BoundingBoxChanged;
-		
-		private IRegionManager RegionManager { get; }
-		private IEventAggregator EventAggregator { get; }
+		public event Action<BoundingBox,MapPolyline>? RouteChanged;
+
+		public ObservableCollection<Location> RoutePath { get; } = new ObservableCollection<Location>();
 
 		public event EventHandler? IsActiveChanged;
-		public RouteViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+
+		private IRegionManager RegionManager { get; }
+		private IEventAggregator EventAggregator { get; }
+		public IConsole Console { get; }
+
+		public RouteViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IConsole console)
 		{
 			RegionManager = regionManager;
 			EventAggregator = eventAggregator;
-			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated,ThreadOption.UIThread);
+			Console = console;
+			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated,ThreadOption.BackgroundThread);
+			
+		//	BindingOperations.EnableCollectionSynchronization(RoutePath, _lock);
+		//	Application.Current.Dispatcher.Invoke(() => BindingOperations.EnableCollectionSynchronization(_RoutePath, _lock,OnCollectionSynchronizationCallback ));
 		}
-
 		private void OnDatatCalculated(RiderData data)
 		{
-			RegionManager.RequestNavigate(Constants.Regions.MainRegion,Constants.Views.Route);
-			BoundingBoxChanged?.Invoke(CreateBoundingBox(data.Route), CreateRoutePolyline(data.Route));
+			Console.WriteLine($"Start Paintin gpx{DateTime.Now}");
+
+			//var locations = data.Route.Points.Select(p => new Location(p.Latitude, p.Longitude)).ToArray();
+			Application.Current.Dispatcher.BeginInvoke(() =>
+			{
+				Console.WriteLine($"Invoke gpx{DateTime.Now}");
+				RouteChanged?.Invoke(CreateBoundingBox(data.Route), null);
+				Console.WriteLine($"Route path gpx{DateTime.Now}");
+				RoutePath.Clear();
+				foreach(RoutePoint p in data.Route.Points)
+				{
+					RoutePath.Add(new Location(p.Latitude, p.Longitude));
+				}
+
+				Console.WriteLine($"Route path gpx{DateTime.Now}");
+			});
+
+			Console.WriteLine($"Stop Paintin gpx{DateTime.Now}");
+
+			RegionManager.RequestNavigate(Constants.Regions.MainRegion, Constants.Views.Route);
 		}
 		BoundingBox CreateBoundingBox(Data.Route route)
 		{

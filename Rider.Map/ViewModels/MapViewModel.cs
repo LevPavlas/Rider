@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using DryIoc;
 using Prism;
 using Prism.Events;
 using Prism.Mvvm;
@@ -10,9 +11,12 @@ using Rider.Map.Events;
 using Rider.Map.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Shapes;
 
 namespace Rider.Map.ViewModels
 {
@@ -26,7 +30,8 @@ namespace Rider.Map.ViewModels
 		private IEventAggregator EventAggregator { get; }
 		private IConsole Console { get; }
 		private IFileSystem FileSystem { get; }
-	
+
+
 		public MapViewModel(
 			IRegionManager regionManager,
 			IEventAggregator eventAggregator, 
@@ -57,7 +62,7 @@ namespace Rider.Map.ViewModels
 		}
 		void Activate()
 		{
-			RegionManager.RequestNavigate(Constants.Regions.ToolBar, Constants.Views.MapToolBar);
+			RegionManager.RequestNavigate(Constants.Regions.ToolBar, Constants.Views.MapToolBar);	
 		}
 
 		public string GetFullPathForDownload(string fileName)

@@ -74,7 +74,7 @@ namespace Rider.Route.Services
 		{
 			try
 			{
-				Console.WriteLine($"Processing file:{path}");
+				Console.WriteLine($"Processing file:{path} time: {DateTime.Now}");
 				Data.Route route = await Reader.Read(path);
 				Console.WriteLine($"Number of points: {route.Points.Count}");
 				Console.WriteLine($"Route distance: {route.Distance/1000} km");
@@ -92,39 +92,7 @@ namespace Rider.Route.Services
 			}
 
 			IsProcessing = false;
-		}
-		int[] CreateReasterizedRouteProfile(Data.Route route)
-		{
-			int[] rasterized = new int [Configuration.ScreenWidth];
-			if (route.Points.Count < 1) return rasterized;
-
-			double rasterSize = route.Distance / Configuration.ScreenWidth;
-			RoutePoint p0= route.Points[0];
-			int lastRasterIndex = 0;
-
-			for(int i = 0; i< route.Points.Count; i++)
-			{
-				RoutePoint p1= route.Points[i];
-				int rasterIndex = (int)(p1.Distance / rasterSize);
-
-				if (rasterIndex <= lastRasterIndex) 
-				{
-					rasterized[rasterIndex] = p0.Distance < p1.Distance ? i : i - 1;
-				}
-				else
-				{
-					for (int j = lastRasterIndex + 1; j <= rasterIndex;j++ )
-					{
-						rasterized[j] = i;
-					}
-				}
-		
-
-				p0= p1;
-			}
-			return rasterized;
-		}
-		
+		}		
 
 	}
 }

@@ -61,7 +61,7 @@ namespace Rider.Map.ViewModels.Tests
 		}
 
 		[TestMethod()]
-		public void OnDownloadUpdatedTest()
+		public void GetFullPathForDownloadTest()
 		{
 			const string GpxDirectory = "GpxDirectory";
 			const string SuggestedFileName = "SuggestedFileName";

@@ -28,8 +28,8 @@
                  MouseLeftButtonDown="MapMouseLeftButtonDown"
                  MouseMove="MapMouseMove" MouseLeave="MapMouseLeave"
                  ManipulationInertiaStarting="MapManipulationInertiaStarting">
-
-             </map:Map>
+                <map:MapPolyline Stroke="Magenta" StrokeThickness="3" Opacity="0.7" Locations="{Binding RoutePath}" />
+            </map:Map>
             <ctrl:ElevationControl Grid.Row="2">
                 
             </ctrl:ElevationControl>
