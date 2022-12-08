@@ -27,7 +27,7 @@ namespace Rider.Route.ViewModels
 		public string HeaderText { get; } = "Route";
 		public event Action<BoundingBox,MapPolyline>? RouteChanged;
 
-		public ObservableCollection<Location> RoutePath { get; } = new ObservableCollection<Location>();
+		public MintPlayer.ObservableCollection.ObservableCollection<Location> RoutePath { get; } = new MintPlayer.ObservableCollection.ObservableCollection<Location>();
 
 		public event EventHandler? IsActiveChanged;
 
@@ -40,7 +40,7 @@ namespace Rider.Route.ViewModels
 			RegionManager = regionManager;
 			EventAggregator = eventAggregator;
 			Console = console;
-			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated,ThreadOption.BackgroundThread);
+			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated,ThreadOption.PublisherThread);
 			
 		//	BindingOperations.EnableCollectionSynchronization(RoutePath, _lock);
 		//	Application.Current.Dispatcher.Invoke(() => BindingOperations.EnableCollectionSynchronization(_RoutePath, _lock,OnCollectionSynchronizationCallback ));
@@ -49,24 +49,27 @@ namespace Rider.Route.ViewModels
 		{
 			Console.WriteLine($"Start Paintin gpx{DateTime.Now}");
 
-			//var locations = data.Route.Points.Select(p => new Location(p.Latitude, p.Longitude)).ToArray();
-			Application.Current.Dispatcher.BeginInvoke(() =>
-			{
+			var locations = data.Route.Points.Select(p => new Location(p.Latitude, p.Longitude)).ToArray();
+//			Application.Current.Dispatcher.BeginInvoke(() =>
+//			{
 				Console.WriteLine($"Invoke gpx{DateTime.Now}");
 				RouteChanged?.Invoke(CreateBoundingBox(data.Route), null);
 				Console.WriteLine($"Route path gpx{DateTime.Now}");
 				RoutePath.Clear();
-				foreach(RoutePoint p in data.Route.Points)
+//				foreach(RoutePoint p in data.Route.Points)
 				{
-					RoutePath.Add(new Location(p.Latitude, p.Longitude));
+					RoutePath.AddRange(locations);
 				}
 
 				Console.WriteLine($"Route path gpx{DateTime.Now}");
-			});
+//			});
 
 			Console.WriteLine($"Stop Paintin gpx{DateTime.Now}");
 
+					Application.Current.Dispatcher.BeginInvoke(() =>
+						{
 			RegionManager.RequestNavigate(Constants.Regions.MainRegion, Constants.Views.Route);
+						});
 		}
 		BoundingBox CreateBoundingBox(Data.Route route)
 		{

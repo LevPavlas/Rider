@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="5.3.1" />
     <PackageReference Include="GpxTools.macharius40" Version="1.1.2" />
+    <PackageReference Include="MintPlayer.ObservableCollection" Version="7.0.1" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />

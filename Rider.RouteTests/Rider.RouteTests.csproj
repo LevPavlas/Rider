@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -9,14 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="FakesAssemblies\**" />
-    <EmbeddedResource Remove="FakesAssemblies\**" />
-    <None Remove="FakesAssemblies\**" />
+    <None Remove="Resources\Route01.gpx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Route01.gpx" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
-    <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="16.11.230815" />
     <PackageReference Include="Moq" Version="4.18.3" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.0.0" />
     <PackageReference Include="MSTest.TestFramework" Version="3.0.0" />
@@ -28,18 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rider.Route\Rider.Route.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\Route01.gpx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Route01.gpx" />
   </ItemGroup>
 
 </Project>
