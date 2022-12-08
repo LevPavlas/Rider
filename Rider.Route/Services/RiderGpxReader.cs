@@ -42,15 +42,11 @@ namespace Rider.Route.Services
 					{
 						points = reader.Route.ToGpxPoints();
 					}
-					if(points != null)
+					if(points != null && points.Count >1)
 					{
 						points.CalculateDistanceFromStart();
 						return new Data.Route(points);
 					}
-					//provisoire need to be move in GpxTrack / GpxSegment
-
-					//GpxAnalyser analyser = new GpxAnalyser(reader);
-					//analyser.Analyse();
 
 					return new Data.Route(new List<GpxPoint>());
 				}

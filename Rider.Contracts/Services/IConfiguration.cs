@@ -9,6 +9,9 @@ namespace Rider.Contracts.Services
 {
 	public interface IConfiguration
 	{
+		int ScreenHeight { get; } 
+		int ScreenWidth { get; }
+
 		ObservableCollection<string> Maps { get; }
 		public string SelectedMap { get; }
 		public string BrowserCacheDataFolder { get; }

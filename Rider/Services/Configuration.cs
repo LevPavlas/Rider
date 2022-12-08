@@ -30,6 +30,8 @@ namespace Rider.Services
 		public ObservableCollection<string> Maps { get; set; }= new ObservableCollection<string>();
 		
 		private string _SelectedMap=string.Empty;
+		public int ScreenHeight { get;} = (int)SystemParameters.VirtualScreenHeight;
+		public int ScreenWidth { get; } = (int)SystemParameters.VirtualScreenWidth;
 		public string SelectedMap
 		{ 
 			get => _SelectedMap;
@@ -62,10 +64,6 @@ namespace Rider.Services
 			SelectedMap= Data.SelectedMap;
 
 			Maps.CollectionChanged += OnMapsChanged;
-			double height = SystemParameters.FullPrimaryScreenHeight;
-			double width = SystemParameters.FullPrimaryScreenWidth;
-			double height2 = SystemParameters.VirtualScreenHeight;
-			double width2 = SystemParameters.VirtualScreenWidth;
 		}
 
 		private void OnMapsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

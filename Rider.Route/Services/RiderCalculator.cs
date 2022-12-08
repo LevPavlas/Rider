@@ -28,14 +28,16 @@ namespace Rider.Route.Services
 		private IGpxReader Reader { get; }
 		private IConsole Console { get; }
 		private IEventAggregator EventAggregator { get; }
+		private IConfiguration Configuration { get; }
 
 		private object _lock = new object();
 		private bool IsProcessing { get; set; }
-		public RiderCalculator(IGpxReader reader, IConsole console, IEventAggregator eventAgregator)
+		public RiderCalculator(IGpxReader reader, IConsole console, IEventAggregator eventAgregator, IConfiguration configuration)
 		{
 			Reader = reader;
 			Console = console;
 			EventAggregator = eventAgregator;
+			Configuration = configuration;
 		}
 
 		public void StartProcessing(string path)
@@ -90,6 +92,37 @@ namespace Rider.Route.Services
 			}
 
 			IsProcessing = false;
+		}
+		int[] CreateReasterizedRouteProfile(Data.Route route)
+		{
+			int[] rasterized = new int [Configuration.ScreenWidth];
+			if (route.Points.Count < 1) return rasterized;
+
+			double rasterSize = route.Distance / Configuration.ScreenWidth;
+			RoutePoint p0= route.Points[0];
+			int lastRasterIndex = 0;
+
+			for(int i = 0; i< route.Points.Count; i++)
+			{
+				RoutePoint p1= route.Points[i];
+				int rasterIndex = (int)(p1.Distance / rasterSize);
+
+				if (rasterIndex <= lastRasterIndex) 
+				{
+					rasterized[rasterIndex] = p0.Distance < p1.Distance ? i : i - 1;
+				}
+				else
+				{
+					for (int j = lastRasterIndex + 1; j <= rasterIndex;j++ )
+					{
+						rasterized[j] = i;
+					}
+				}
+		
+
+				p0= p1;
+			}
+			return rasterized;
 		}
 		
 
