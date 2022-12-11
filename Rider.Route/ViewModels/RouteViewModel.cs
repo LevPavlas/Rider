@@ -22,18 +22,33 @@ using System.Windows.Shapes;
 
 namespace Rider.Route.ViewModels
 {
-	public class RouteViewModel : BindableBase, IActiveAware
+	internal class RouteViewModel : BindableBase, IActiveAware
 	{
 		public string HeaderText { get; } = "Route";
-		public event Action<BoundingBox,MapPolyline>? RouteChanged;
-
 		public MintPlayer.ObservableCollection.ObservableCollection<Location> RoutePath { get; } = new MintPlayer.ObservableCollection.ObservableCollection<Location>();
-
+		
 		public event EventHandler? IsActiveChanged;
 
 		private IRegionManager RegionManager { get; }
 		private IEventAggregator EventAggregator { get; }
 		public IConsole Console { get; }
+
+		BoundingBox? _BoundingBox = null;
+		public BoundingBox? BoundingBox 
+		{
+			get => _BoundingBox;
+			set
+			{
+				SetProperty(ref _BoundingBox, value);
+			}
+		}
+
+		RiderData? _RiderData;
+		public RiderData? RiderData
+		{
+			get => _RiderData;
+			set=> SetProperty(ref _RiderData, value);
+		}
 
 		public RouteViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IConsole console)
 		{
@@ -42,35 +57,25 @@ namespace Rider.Route.ViewModels
 			Console = console;
 			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated,ThreadOption.PublisherThread);
 			
-		//	BindingOperations.EnableCollectionSynchronization(RoutePath, _lock);
-		//	Application.Current.Dispatcher.Invoke(() => BindingOperations.EnableCollectionSynchronization(_RoutePath, _lock,OnCollectionSynchronizationCallback ));
 		}
 		private void OnDatatCalculated(RiderData data)
 		{
-			Console.WriteLine($"Start Paintin gpx{DateTime.Now}");
+			RiderData= data;
+			BoundingBox = CreateBoundingBox(data.Route);
+			UpdateRoutePath(data.Route.Points);
 
-			var locations = data.Route.Points.Select(p => new Location(p.Latitude, p.Longitude)).ToArray();
-//			Application.Current.Dispatcher.BeginInvoke(() =>
-//			{
-				Console.WriteLine($"Invoke gpx{DateTime.Now}");
-				RouteChanged?.Invoke(CreateBoundingBox(data.Route), null);
-				Console.WriteLine($"Route path gpx{DateTime.Now}");
-				RoutePath.Clear();
-//				foreach(RoutePoint p in data.Route.Points)
+			Application.Current.Dispatcher.BeginInvoke(() =>
 				{
-					RoutePath.AddRange(locations);
-				}
-
-				Console.WriteLine($"Route path gpx{DateTime.Now}");
-//			});
-
-			Console.WriteLine($"Stop Paintin gpx{DateTime.Now}");
-
-					Application.Current.Dispatcher.BeginInvoke(() =>
-						{
-			RegionManager.RequestNavigate(Constants.Regions.MainRegion, Constants.Views.Route);
-						});
+					RegionManager.RequestNavigate(Constants.Regions.MainRegion, Constants.Views.Route);
+				});
 		}
+		void UpdateRoutePath(IReadOnlyList<RoutePoint> points)
+		{
+			var locations = points.Select(p => new Location(p.Latitude, p.Longitude));
+			RoutePath.Clear();
+			RoutePath.AddRange(locations);
+		}
+
 		BoundingBox CreateBoundingBox(Data.Route route)
 		{
 			double border = 2 * route.Distance /10000000;
@@ -80,22 +85,6 @@ namespace Rider.Route.ViewModels
 				route.LatitudeMaxNorth + border,
 				route.LongitudeMaxEast + border);
 
-		}
-		MapPolyline CreateRoutePolyline(Data.Route route)
-		{
-
-			MapPolyline polygon = new MapPolyline();
-			polygon.Stroke = new SolidColorBrush(Colors.Blue);
-			polygon.StrokeThickness = 3;
-			polygon.Opacity = 0.7;
-			LocationCollection locations = new LocationCollection();
-			foreach (RoutePoint p in route.Points)
-			{
-				locations.Add(new Location(p.Latitude, p.Longitude));
-			}
-			polygon.Locations = locations;
-			polygon.MouseMove += Polygon_MouseMove;
-			return polygon;
 		}
 
 		private void Polygon_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)

@@ -4,6 +4,7 @@ using Prism.Events;
 using Prism.Regions;
 using Rider.Contracts.Events;
 using Rider.Contracts.Services;
+using Rider.Route.UserControls;
 using Rider.Route.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,9 @@ namespace Rider.Route.ViewModels.Tests
 		[TestMethod()]
 		public void OnCalculatedTest()
 		{
+
+
+
 			RouteViewModel target = CreateTarget();
 
 

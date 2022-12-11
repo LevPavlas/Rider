@@ -48,6 +48,8 @@ namespace Rider.Views
 
 		private class ConsoleTextWriter : TextWriter
 		{
+			const string ErrorTag = "{Error}";
+
 			public override Encoding Encoding => Encoding.Default;
 
 			StringBuilder Line { get; } = new StringBuilder();
@@ -65,12 +67,26 @@ namespace Rider.Views
 				{
 					if(value == '\n')
 					{
-						Console.WriteLine(Line.ToString());
 						Line.Clear();
 						return;
 					}
 					if (value == '\r') return;
 					Line.Append(value);
+				}
+			}
+			public override void WriteLine(string? value)
+			{
+				if(value!= null)
+				{
+					if(value.Contains(ErrorTag))
+					{
+						Console.WriteError(value.Replace(ErrorTag,""));
+					}
+					else
+					{
+						Console.WriteLine(value);
+					}
+
 				}
 			}
 		}

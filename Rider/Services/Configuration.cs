@@ -1,4 +1,6 @@
-﻿using Prism.Mvvm;
+﻿using MapControl.Caching;
+using MapControl;
+using Prism.Mvvm;
 using Rider.Contracts;
 using Rider.Contracts.Services;
 using System;
@@ -26,6 +28,7 @@ namespace Rider.Services
 		private ConfigurationData Data { get; set; } = new ConfigurationData();
 
 		public string BrowserCacheDataFolder{ get; private set; }= string.Empty;
+		public string MapControlCacheDataFolder { get; private set; } = string.Empty;
 		public string GpxDirectory { get; private set; } = string.Empty;
 		public ObservableCollection<string> Maps { get; set; }= new ObservableCollection<string>();
 		
@@ -49,6 +52,7 @@ namespace Rider.Services
 			DataDirectory = $"{ApplicationDirectory}\\{DataFolder}";
 			BrowserCacheDataFolder = $"{ApplicationDirectory}\\{DataFolder}\\BrowserCache";
 			GpxDirectory = $"{ApplicationDirectory}\\{DataFolder}\\Gpx";
+			MapControlCacheDataFolder = $"{ApplicationDirectory}\\{DataFolder}\\MapControl";
 
 			FileSystem.CreateDirectory(DataDirectory) ;
 			FileSystem.CreateDirectory(GpxDirectory);
@@ -64,6 +68,10 @@ namespace Rider.Services
 			SelectedMap= Data.SelectedMap;
 
 			Maps.CollectionChanged += OnMapsChanged;
+
+			ImageLoader.HttpClient.DefaultRequestHeaders.Add("User-Agent", "XAML Map Control Test Application");
+			TileImageLoader.Cache = new ImageFileCache(MapControlCacheDataFolder);
+
 		}
 
 		private void OnMapsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

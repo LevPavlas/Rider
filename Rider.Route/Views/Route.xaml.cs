@@ -1,4 +1,5 @@
-﻿using MapControl;
+﻿using DryIoc;
+using MapControl;
 using MapControl.Caching;
 using Rider.Route.Data;
 using Rider.Route.ViewModels;
@@ -25,20 +26,25 @@ namespace Rider.Route.Views
 	/// </summary>
 	public partial class Route : UserControl
 	{
+	
 		private RouteViewModel? Model { get; set; }
 
 		public Route()
 		{
+
 			DataContextChanged += OnDataContextChanged;
+			Loaded += OnLoaded;
 
-			ImageLoader.HttpClient.DefaultRequestHeaders.Add("User-Agent", "XAML Map Control Test Application");
+			InitializeComponent();						
+		}
 
-			TileImageLoader.Cache = new ImageFileCache(TileImageLoader.DefaultCacheFolder);
-			InitializeComponent();
-				
-			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
-			map.TargetCenter = new Location(120, 30);
-	
+		private bool FirstLoad { get; set; } = true;
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			if(FirstLoad)
+			{
+				FirstLoad = false;
+			}
 		}
 
 		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -46,89 +52,8 @@ namespace Rider.Route.Views
 			Model = e.NewValue as RouteViewModel;
 			if(Model != null)
 			{
-				Model.RouteChanged += OnBoundingBoxChanged;
 			}
 		}
-		MapPolyline? LastPolyline { get; set; }
-		private void OnBoundingBoxChanged(BoundingBox box, MapPolyline polygon)
-		{
-			Dispatcher.BeginInvoke(new Action(() =>
-			{
-				map.ZoomToBounds(box);
-			}));
-			//map.Children.Remove(LastPolyline);
-			//map.Children.Add(polygon);
-			//LastPolyline = polygon;
-		}
-	
-
-		private void MapMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (e.ClickCount == 2)
-			{
-				//BoundingBox box = new BoundingBox(,,);
-				
-				map.TargetCenter = new Location(49.358945, 17.361125);
-				//map.ClipToBounds= true;
-			//	map.ZoomToBounds
-			//	map.
-
-				//			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
-
-			//	map.TargetCenter = map.ViewToLocation(e.GetPosition(map));
-			}
-		}
-
-		private void MapMouseMove(object sender, MouseEventArgs e)
-		{
-			var location = map.ViewToLocation(e.GetPosition(map));
-			if (location != null)
-			{
-				var latitude = (int)Math.Round(location.Latitude * 60000d);
-				var longitude = (int)Math.Round(Location.NormalizeLongitude(location.Longitude) * 60000d);
-				var latHemisphere = 'N';
-				var lonHemisphere = 'E';
-
-				if (latitude < 0)
-				{
-					latitude = -latitude;
-					latHemisphere = 'S';
-				}
-
-				if (longitude < 0)
-				{
-					longitude = -longitude;
-					lonHemisphere = 'W';
-				}
-
-				//mouseLocation.Text = string.Format(CultureInfo.InvariantCulture,
-				//	"{0}  {1:00} {2:00.000}\n{3} {4:000} {5:00.000}",
-				//	latHemisphere, latitude / 60000, (latitude % 60000) / 1000d,
-				//	lonHemisphere, longitude / 60000, (longitude % 60000) / 1000d);
-			}
-			else
-			{
-		//		mouseLocation.Text = string.Empty;
-			}
-		}
-
-		private void MapMouseLeave(object sender, MouseEventArgs e)
-		{
-		//	mouseLocation.Text = string.Empty;
-		}
-
-		private void MapManipulationInertiaStarting(object sender, ManipulationInertiaStartingEventArgs e)
-		{
-			e.TranslationBehavior.DesiredDeceleration = 0.001;
-		}
-
-		private void MapItemTouchDown(object sender, TouchEventArgs e)
-		{
-			var mapItem = (MapItem)sender;
-			mapItem.IsSelected = !mapItem.IsSelected;
-			e.Handled = true;
-		}
-
 
 	}
 }

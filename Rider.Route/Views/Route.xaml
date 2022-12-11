@@ -5,35 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Rider.Route.Views"
              xmlns:ctrl="clr-namespace:Rider.Route.UserControls"
-           xmlns:prism="http://prismlibrary.com/"
+             xmlns:prism="http://prismlibrary.com/"
              xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
-            prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             prism:ViewModelLocator.AutoWireViewModel="True"             
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="100"/>
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="400*" MinHeight="100"/>
                 <RowDefinition Height="5"/>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height="200*" MinHeight="100"/>
             </Grid.RowDefinitions>
-            <map:Map x:Name="map"
-                 MinZoomLevel="2" MaxZoomLevel="21" ZoomLevel="11"
-                 Center="53.5,8.2" ManipulationMode="All"
-                 MouseLeftButtonDown="MapMouseLeftButtonDown"
-                 MouseMove="MapMouseMove" MouseLeave="MapMouseLeave"
-                 ManipulationInertiaStarting="MapManipulationInertiaStarting">
-                <map:MapPolyline Stroke="Magenta" StrokeThickness="3" Opacity="0.7" Locations="{Binding RoutePath}" />
-            </map:Map>
-            <ctrl:ElevationControl Grid.Row="2">
-                
-            </ctrl:ElevationControl>
-            <GridSplitter Grid.Row="1"  HorizontalAlignment="Stretch" />
+            <ctrl:RouteMapControl BoundingBox="{Binding Path=BoundingBox }" RoutePath="{Binding Path=RoutePath}" Grid.Row="0"/>
+            <GridSplitter Grid.Row="1"  HorizontalAlignment="Stretch" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment"/>
+            <ctrl:ElevationControl Grid.Row="2" RiderData="{Binding Path=RiderData}"/>
         </Grid>
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeDirection="Columns"
               ResizeBehavior="PreviousAndNext" />
