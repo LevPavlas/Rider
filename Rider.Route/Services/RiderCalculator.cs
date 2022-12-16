@@ -55,7 +55,6 @@ namespace Rider.Route.Services
 
 			try
 			{
-				Console.WriteLine($"Sart processing, Thread:{Thread.CurrentThread.ManagedThreadId}");
 				Task.Run(async () => await Process(path));
 			}
 			catch (Exception e)
@@ -74,7 +73,7 @@ namespace Rider.Route.Services
 		{
 			try
 			{
-				Console.WriteLine($"Processing file:{path} time: {DateTime.Now}");
+				Console.WriteLine($"Processing file:{path}");
 				Data.Route route = await Reader.Read(path);
 				Console.WriteLine($"Number of points: {route.Points.Count}");
 				Console.WriteLine($"Route distance: {route.Distance/1000} km");

@@ -33,7 +33,6 @@ namespace Rider.Route.Services
 		{
 			return await Task<RiderData>.Run(() =>
 			{
-				Console.WriteLine($"Start reading gpx{DateTime.Now}");
 				using(Stream stream = FileSystem.OpenFile(path))
 				using (GpxReader reader = new GpxReader(stream))
 				{
@@ -42,7 +41,6 @@ namespace Rider.Route.Services
 
 					}
 					GpxPointCollection<GpxPoint>? points = reader.Track.ToGpxPoints();
-					Console.WriteLine($"Stop reading gpx{DateTime.Now}");
 					if (points == null)
 					{
 						points = reader.Route.ToGpxPoints();
@@ -51,7 +49,6 @@ namespace Rider.Route.Services
 					{
 	
 						points.CalculateDistanceFromStart();
-						Console.WriteLine($"Calculated distance gpx{DateTime.Now}");
 						return new Data.Route(points);
 					}
 

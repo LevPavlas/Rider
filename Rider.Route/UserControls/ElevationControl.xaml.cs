@@ -42,9 +42,10 @@ namespace Rider.Route.UserControls
 			ctrl?.SetData(e.NewValue as RiderData);
 		}
 		private Brush ElevationBrush { get; } = new SolidColorBrush(Colors.Black);
-
 		private Axes Axes { get; }
-		private ElevationDrawingData? DrawingData { get; set; }
+		private ElevationDrawingContext? Context { get; set; }
+		private List<ChallengeController> Challenges { get; }= new List<ChallengeController>();
+
 		public ElevationControl()
 		{
 			InitializeComponent();
@@ -61,7 +62,7 @@ namespace Rider.Route.UserControls
 		{
 			if (RiderData != null)
 			{
-				DrawingData = new ElevationDrawingData(canvas, RiderData);
+				Context = new ElevationDrawingContext(canvas, RiderData);
 				Draw();
 			}
 		}
@@ -71,7 +72,7 @@ namespace Rider.Route.UserControls
 			{
 				if (RiderData != null)
 				{
-					DrawingData = new ElevationDrawingData(canvas, RiderData);
+					Context = new ElevationDrawingContext(canvas, RiderData);
 					Draw();
 				}
 
@@ -86,11 +87,12 @@ namespace Rider.Route.UserControls
 		{
 			try
 			{
-				canvas.Children.Clear();
-				if (DrawingData != null)
+				Clear();
+				if (Context != null)
 				{
-					Axes.Draw(DrawingData);
+					Axes.Draw(Context);
 					DrawElevation();
+					DrawChallenges();
 				}
 			}
 			catch (Exception ex)
@@ -98,49 +100,108 @@ namespace Rider.Route.UserControls
 				Console.WriteLine(ex.Message);
 			}
 		}
+		void Clear()
+		{
+			foreach(ChallengeController challenge in Challenges)
+			{
+				challenge.Close();
+			}
+			Challenges.Clear();
+			canvas.Children.Clear();
+		}
+		private void DrawChallenges()
+		{
+			if (RiderData == null || Context == null ) return;
+
+			for ( int i =0; i<RiderData.Challenges.Count; i++)
+			{
+				ChallengeController controler = new ChallengeController(Context, i);
+				Challenges.Add(controler);
+				controler.Draw();
+			}
+		}
+
+		private void OnPolygonMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+
+		}
+
+		private void OnPolygonMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			Point p = e.GetPosition(canvas);
+			if (Context != null)
+			{
+				double dist = Context.ToModelDistance(p.X);
+				int index = RiderData.Route.GetPointIndex(dist);
+
+				//	Console.WriteLine($"Index: {index}, distance:{dist}");
+			}
+		}
+
+		private void OnPolygonMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+		{
+		}
+
+		private void OnPolygonMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		{
+		}
+
+		private void OnPolygonMouseEnter(object sender, MouseEventArgs e)
+		{
+		}
+
+		private void OnPolygonMouseLeave(object sender, MouseEventArgs e)
+		{
+		}
+
+		private void OnPolygonMouseMove(object sender, MouseEventArgs e)
+		{
+		}
+
 		private void DrawElevation()
 		{
 
-			if (RiderData== null || DrawingData == null) return;
+			if (RiderData== null || Context == null) return;
 	
 			PointCollection points = new PointCollection();
 
-			points.Add(DrawingData.ToCanvasPoint(0, DrawingData.ModelNiceYmin));
+			points.Add(Context.ToCanvasPoint(0, Context.ModelNiceYmin));
 			foreach (RoutePoint p in RiderData.Route.Points)
 			{
-				points.Add(DrawingData.ToCanvasPoint(p.Distance, p.Elevation));
+				points.Add(Context.ToCanvasPoint(p.Distance, p.Elevation));
 			}
-			points.Add(DrawingData.ToCanvasPoint(RiderData.Route.Distance, DrawingData.ModelNiceYmin));
+			points.Add(Context.ToCanvasPoint(RiderData.Route.Distance, Context.ModelNiceYmin));
 
 			GradientStopCollection gradientColection = new GradientStopCollection();
-			gradientColection.Add(new GradientStop(Colors.LightYellow, 0));
-			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0x00, 0x80, 0x00), 0.6));
-			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0x00, 0x60, 0x00), 0.8));
-			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0x00, 0x20, 0x00), 1));
+
+			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xE0), 0));
+			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0x00, 0xB0, 0x00), 0.6));
+			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0x00, 0x90, 0x00), 0.80));
+			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0x00, 0x50, 0x00), 1));
 
 			LinearGradientBrush fill = new LinearGradientBrush(gradientColection, 90);
 
-			Polygon line = new Polygon
+			Polygon polygon = new Polygon
 			{
 				Stroke = ElevationBrush,
-				StrokeThickness = 0.5,
+				StrokeThickness = 1,
 				Fill = fill,
 				Points = points
 			};
-			canvas.Children.Add(line);
+			canvas.Children.Add(polygon);
 
 		}
 
 		private void OnMouseMove(object sender, MouseEventArgs e)
 		{
-			Point p = e.GetPosition(canvas);
-			if(DrawingData != null)
-			{
-				double dist = DrawingData.ToModelDistance(p.X);
-				int index = RiderData.Route.GetPointIndex(dist);
+			//Point p = e.GetPosition(canvas);
+			//if(Context != null)
+			//{
+			//	double dist = Context.ToModelDistance(p.X);
+			//	int index = RiderData.Route.GetPointIndex(dist);
 
-			//	Console.WriteLine($"Index: {index}, distance:{dist}");
-			}
+			////	Console.WriteLine($"Index: {index}, distance:{dist}");
+			//}
 		}
 	}
 }

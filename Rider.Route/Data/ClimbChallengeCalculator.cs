@@ -12,7 +12,8 @@ namespace Rider.Route.Data
 	internal class ClimbChallengeCalculator
 	{
 		private const double ClimbRatioLimit = 0.03;
-		private const double LowHeightRatio = 0.1;
+		private const double LowHeightRatio = 0.03;
+		private const double NearbyDistance = 3000; //m
 
 		private IReadOnlyList<RoutePoint> Points { get; }
 		private IReadOnlyList<ClimbChallenge> Challenges { get; set; }= new List<ClimbChallenge>();
@@ -75,11 +76,11 @@ namespace Rider.Route.Data
 			double Grade = Height / (1000 * Lenght);
 
 			if (Lenght > 2 && Height > 60) return false;
-			if (Lenght > 1 && Grade > .045) return false;
-			if (Lenght > 0.5 && Grade > .07) return false;
-			if (Lenght > 0.2 && Grade > .09) return false;
-			if (Lenght > 0.1 && Grade > .11) return false;
-			if (Lenght > 0.02 && Grade > .15) return false;
+			//if (Lenght > 1 && Grade > .045) return false;
+			//if (Lenght > 0.5 && Grade > .07) return false;
+			//if (Lenght > 0.2 && Grade > .09) return false;
+			//if (Lenght > 0.1 && Grade > .11) return false;
+			//if (Lenght > 0.02 && Grade > .15) return false;
 			return true;
 		}
 
@@ -164,13 +165,12 @@ namespace Rider.Route.Data
 
 		public bool IsNearby(ClimbChallenge actual, ClimbChallenge next)
 		{
-			const double NearbyDistance = 2000; //m
 
 			return (next.StartPoint.Distance - actual.EndPoint.Distance) < NearbyDistance;
 		}
 		public bool IsAscending(ClimbChallenge actual, ClimbChallenge next)
 		{
-			return (next.EndPoint.Elevation - actual.EndPoint.Elevation) > 0;
+			return (next.EndPoint.Elevation - actual.EndPoint.Elevation) > 0 && (next.StartPoint.Elevation - actual.StartPoint.Elevation) > 0;
 		}
 
 

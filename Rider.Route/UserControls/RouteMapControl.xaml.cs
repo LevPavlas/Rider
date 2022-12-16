@@ -71,6 +71,7 @@ namespace Rider.Route.UserControls
 		public RouteMapControl()
 		{
 				InitializeComponent();
+//			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
 			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
 			map.TargetCenter = new Location(120, 30);
 
@@ -85,7 +86,6 @@ namespace Rider.Route.UserControls
 				FirstLoad = false;
 				if (BoundingBox!= null)
 				{
-					BoundingBox box = BoundingBox;
 					map.ZoomToBounds(BoundingBox);
 				}
 				else
@@ -166,5 +166,12 @@ namespace Rider.Route.UserControls
 			e.Handled = true;
 		}
 
+		private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (BoundingBox != null)
+			{
+				map.ZoomToBounds(BoundingBox);
+			}
+		}
 	}
 }

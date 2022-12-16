@@ -27,12 +27,12 @@ namespace Rider.Route.UserControls
 			Canvas = canvas;
 		}
 
-		public void Draw(ElevationDrawingData info)
+		public void Draw(ElevationDrawingContext info)
 		{
 			DrawXAxis(info);
 			DrawYAxis(info);
 		}
-		private void DrawYAxis(ElevationDrawingData info) 
+		private void DrawYAxis(ElevationDrawingContext info) 
 		{
 			Line yAxis = new Line
 			{
@@ -87,7 +87,7 @@ namespace Rider.Route.UserControls
 
 		}
 
-		private void DrawXAxis(ElevationDrawingData info)
+		private void DrawXAxis(ElevationDrawingContext info)
 		{
 			Line xAxis = new Line
 			{

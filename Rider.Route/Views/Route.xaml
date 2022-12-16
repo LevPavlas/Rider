@@ -10,22 +10,21 @@
              prism:ViewModelLocator.AutoWireViewModel="True"             
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="100"/>
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="400*" MinHeight="100"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="200*" MinHeight="100"/>
+        </Grid.RowDefinitions>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="400*" MinHeight="100"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="200*" MinHeight="100"/>
-            </Grid.RowDefinitions>
-            <ctrl:RouteMapControl BoundingBox="{Binding Path=BoundingBox }" RoutePath="{Binding Path=RoutePath}" Grid.Row="0"/>
-            <GridSplitter Grid.Row="1"  HorizontalAlignment="Stretch" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment"/>
-            <ctrl:ElevationControl Grid.Row="2" RiderData="{Binding Path=RiderData}"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="600" MinWidth="100"/>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ctrl:RouteMapControl x:Name="map" BoundingBox="{Binding Path=BoundingBox }" RoutePath="{Binding Path=RoutePath}" Grid.Row="0"/>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />
         </Grid>
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeDirection="Columns"
-              ResizeBehavior="PreviousAndNext" />
+        <GridSplitter Grid.Row="1"  HorizontalAlignment="Stretch" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment"/>
+        <ctrl:ElevationControl Grid.Row="2" RiderData="{Binding Path=RiderData}"/>
     </Grid>
 </UserControl>

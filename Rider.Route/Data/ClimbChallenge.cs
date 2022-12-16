@@ -12,8 +12,8 @@ namespace Rider.Route.Data
 {
 	internal class ClimbChallenge : BindableBase
 	{
-
-		private IReadOnlyList<RoutePoint> Points { get; }
+		
+		public IReadOnlyList<RoutePoint> Points { get; }
 		private ushort MaxEnd { get; }
 
 		ushort _Start;

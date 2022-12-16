@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
              xmlns:local="clr-namespace:Rider.Route.UserControls"
-             Loaded="OnLoaded"
+             Loaded="OnLoaded" SizeChanged="UserControl_SizeChanged"
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <map:Map x:Name="map"                 

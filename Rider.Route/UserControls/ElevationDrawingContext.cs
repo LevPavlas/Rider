@@ -6,10 +6,11 @@ using System.Windows.Controls;
 
 namespace Rider.Route.UserControls
 {
-	internal class ElevationDrawingData
+	internal class ElevationDrawingContext
 	{
 		const double Border = 40;
 		const double MinCanvasSpacing = 40;
+		public RiderData Data { get; }
 
 		public double ModelXmin { get; }
 		public double ModelNiceXmin { get; private set; }
@@ -29,6 +30,7 @@ namespace Rider.Route.UserControls
 		public double ModelSpacingY { get; private set; }
 
 
+		public Canvas Canvas { get; }
 		public double CanvasXmin { get; }
 		public double CanvasXmax { get; }
 		public double CanvasWidth { get; }
@@ -41,7 +43,7 @@ namespace Rider.Route.UserControls
 		public double RatioX { get; }
 		public double RatioY { get; }
 
-		public ElevationDrawingData(Canvas canvas, RiderData data)
+		public ElevationDrawingContext(Canvas canvas, RiderData data)
 		{
 			Data.Route route= data.Route;
 			CanvasXmin = Border;
@@ -63,6 +65,8 @@ namespace Rider.Route.UserControls
 			
 			RatioX = CanvasWidth / ModelNiceWidth;
 			RatioY = CanvasHeight / ModelNiceHeight;
+			Canvas = canvas;
+			Data = data;
 		}
 
 		public Point ToCanvasPoint(double distance, double elevation)
