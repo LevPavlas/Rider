@@ -28,11 +28,22 @@ namespace Rider.Route.Data
 			{
 
 			}
-
 			DeleteSmallChalenges();
+			
+			MoveStartToMinElevation();
 			RemoveFlatFoothill();
+			MoveStartToMinElevation();
 
 			return Challenges;
+		}
+
+		void MoveStartToMinElevation()
+		{
+			for (int i = 0; i < Challenges.Count; i++)
+			{
+				Challenges[i].MoveStartToMinElevation();
+			}
+
 		}
 		void RemoveFlatFoothill()
 		{
@@ -45,7 +56,9 @@ namespace Rider.Route.Data
 		}
 		public void RemoveFlatFoothill(ClimbChallenge chalenge, List<ClimbChallenge> result)
 		{
-			double lowHeight = chalenge.EndPoint.Elevation * LowHeightRatio + chalenge.StartPoint.Elevation;
+		//	double lowHeight = chalenge.EndPoint.Elevation * LowHeightRatio + chalenge.StartPoint.Elevation;
+		//	double lowHeight = 20 + chalenge.StartPoint.Elevation;
+			double lowHeight = LowHeightRatio * (chalenge.EndPoint.Elevation - chalenge.StartPoint.Elevation) + chalenge.StartPoint.Elevation;
 			for (ushort i = chalenge.Start; i <= chalenge.End; i++)
 			{
 				if (Points[i].Elevation > lowHeight)
@@ -73,10 +86,11 @@ namespace Rider.Route.Data
 		{
 			double Lenght = challenge.EndPoint.Distance - challenge.StartPoint.Distance;
 			double Height = challenge.EndPoint.Elevation - challenge.StartPoint.Elevation;
-			double Grade = Height / (1000 * Lenght);
+			double Grade = Height / Lenght;
 
-			if (Lenght > 2 && Height > 60) return false;
-			//if (Lenght > 1 && Grade > .045) return false;
+			if (Lenght > 2000 && Height > 100) return false;
+			if (Lenght > 1000 && Grade > 0.04) return false;
+			if (Lenght > 500 && Grade > .06) return false;
 			//if (Lenght > 0.5 && Grade > .07) return false;
 			//if (Lenght > 0.2 && Grade > .09) return false;
 			//if (Lenght > 0.1 && Grade > .11) return false;

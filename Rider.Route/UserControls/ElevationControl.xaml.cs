@@ -23,6 +23,7 @@ namespace Rider.Route.UserControls
 	/// </summary>
 	public partial class ElevationControl : UserControl
 	{
+
 		public static readonly DependencyProperty RiderDataProperty = DependencyProperty.Register(
 					"RiderData",
 					typeof(Data.RiderData),
@@ -75,13 +76,11 @@ namespace Rider.Route.UserControls
 					Context = new ElevationDrawingContext(canvas, RiderData);
 					Draw();
 				}
-
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
-			}
-	
+			}	
 		}
 		private void Draw()
 		{
@@ -132,7 +131,7 @@ namespace Rider.Route.UserControls
 			if (Context != null)
 			{
 				double dist = Context.ToModelDistance(p.X);
-				int index = RiderData.Route.GetPointIndex(dist);
+				//int index = RiderData.Route.GetPointIndex(dist);
 
 				//	Console.WriteLine($"Index: {index}, distance:{dist}");
 			}

@@ -54,6 +54,7 @@ namespace Rider.Route.Data
 		}
 		public RoutePoint StartPoint => Points[Start];
 		public RoutePoint EndPoint => Points[End];
+		public double Size => EndPoint.Distance - StartPoint.Distance;
 
 		public ClimbChallenge(IReadOnlyList<RoutePoint> points, ushort start, ushort end)
 		{
@@ -65,6 +66,18 @@ namespace Rider.Route.Data
 			MaxEnd = (ushort)(points.Count - 1);
 			_Start= start;
 			_End= end;
+		}
+		public void MoveStartToMinElevation()
+		{
+			double minElevation = Points[Start].Elevation;
+			for(ushort i = (ushort)(Start+1); i <= End; i++) 
+			{
+				if(minElevation > Points[i].Elevation)
+				{
+					minElevation = Points[i].Elevation;
+					Start = i;
+				}
+			}
 		}
 		public ClimbChallenge CreateUnion(ClimbChallenge next)
 		{

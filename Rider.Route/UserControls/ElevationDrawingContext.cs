@@ -18,6 +18,7 @@ namespace Rider.Route.UserControls
 		public double ModelNiceXmax { get; private set; }
 		public double ModelWidth { get; }
 		public double ModelNiceWidth { get; private set; }
+		public double ModelResizeBorder { get; }
 
 		public double ModelYmin { get; }
 		public double ModelNiceYmin { get; private set; }
@@ -61,6 +62,7 @@ namespace Rider.Route.UserControls
 			ModelYmax = route.ElevationMax;
 			ModelWidth = ModelXmax- ModelXmin;
 			ModelHeight= ModelYmax- ModelYmin;
+			ModelResizeBorder = ModelWidth / 200;
 			CalculateSpacing();
 			
 			RatioX = CanvasWidth / ModelNiceWidth;
