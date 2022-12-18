@@ -8,7 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Rider.Route.UserControls
 {
@@ -26,22 +28,49 @@ namespace Rider.Route.UserControls
 		ResizeLeft,
 		ResizeRight
 	}
-	internal readonly record struct MousePosition(double Distance, double Offset, PolygonArea Area); 
+	internal readonly record struct MousePosition(double Distance, double Offset, PolygonArea Area);
 
 	internal class ChallengeController
 	{
-	
+		private static Brush Stroke = new SolidColorBrush(Color.FromArgb(0xff, 0xFF, 0x00, 0x00));
+		private static Brush SelectedStroke = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xE0));
+		private static Brush Fill = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0x00, 0x00));
+		private static Brush SelectedFill = new SolidColorBrush(Color.FromArgb(0x60, 0xFF, 0x00, 0x00));
+
 		private ElevationDrawingContext Context { get; }
 		private Polygon Polygon { get; }
 		private ClimbChallenge Challenge { get; }
 
 		private Mode Mode { get; set; } = Mode.None;
-
-		public ChallengeController(ElevationDrawingContext context, int challenge) 
-		{			
+		DispatcherTimer AnimationTimer { get; }
+		public ChallengeController(ElevationDrawingContext context, int challenge)
+		{
 			Context = context;
 			Challenge = context.Data.Challenges[challenge];
 			Polygon = CreatePolygon();
+			AnimationTimer = new DispatcherTimer();
+			AnimationTimer.Interval = TimeSpan.FromMilliseconds(50);
+			AnimationTimer.Tick += OnAnimationTimer; ;
+		}
+
+		private int DashAnimationPhase { get; set; } = 0;
+		private DoubleCollection[] DashPhases { get; } = new[]
+		{
+			new DoubleCollection() { 0, 1, 3, 2 },
+			new DoubleCollection() { 0, 2, 3, 1 },
+			new DoubleCollection() { 0, 3, 3, 0},
+			new DoubleCollection() { 1, 3, 2, 0},
+			new DoubleCollection() { 2, 3, 1, 0},
+			new DoubleCollection() { 3, 3},
+		};
+		private void OnAnimationTimer(object? sender, EventArgs e)
+		{
+			Polygon.StrokeDashArray = DashPhases[DashAnimationPhase];
+			DashAnimationPhase++;
+			if(DashAnimationPhase >= DashPhases.Count())
+			{
+				DashAnimationPhase = 0;
+			}
 		}
 
 		private double ActionStartMouseLeftOffset { get; set; } = 0;
@@ -93,21 +122,11 @@ namespace Rider.Route.UserControls
 		Polygon CreatePolygon()
 		{
 
-			GradientStopCollection gradientColection = new GradientStopCollection();
-
-			gradientColection.Add(new GradientStop(Color.FromArgb(0x70, 0xA0, 0x00, 0x00), 0));
-			//			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0x00, 0xB0, 0x00), 0.6));
-			//			gradientColection.Add(new GradientStop(Color.FromArgb(0xFF, 0x00, 0x90, 0x00), 0.80));
-			gradientColection.Add(new GradientStop(Color.FromArgb(0x00, 0x80, 0x00, 0x00), 1));
-
-			LinearGradientBrush fill = new LinearGradientBrush(gradientColection, 90);
-
-
 			Polygon polygon = new Polygon
 			{
-				Stroke = new SolidColorBrush(Color.FromArgb(0xA0, 0xFF, 0x00, 0x00)),
+				Stroke = Stroke,
 				StrokeThickness = 1,
-				Fill = new SolidColorBrush(Color.FromArgb(0x50, 0xFF, 0x00, 0x00)),
+				Fill = Fill
 			};
 
 			polygon.MouseMove += OnPolygonMouseMove;
@@ -117,7 +136,6 @@ namespace Rider.Route.UserControls
 			polygon.MouseRightButtonUp += OnPolygonMouseRightButtonUp;
 			polygon.MouseLeftButtonDown += OnPolygonMouseLeftButtonDown;
 			polygon.MouseLeftButtonUp += OnPolygonMouseLeftButtonUp;
-			
 			Context.Canvas.Children.Add(polygon);
 			return polygon;
 		}
@@ -133,6 +151,7 @@ namespace Rider.Route.UserControls
 			{
 				points.Add(Context.ToCanvasPoint(Challenge.Points[i].Distance, Challenge.Points[i].Elevation));
 			}
+
 			points.Add(Context.ToCanvasPoint(Challenge.EndPoint.Distance, Context.ModelNiceYmin));
 
 			Polygon.Points = points;
@@ -208,11 +227,19 @@ namespace Rider.Route.UserControls
 		{
 			MouseEnterCursor = Context.Canvas.Cursor;
 			RefreshMousePosition(e);
+			Polygon.Stroke = SelectedStroke;
+			Polygon.Fill = SelectedFill;
+			AnimationTimer.Start();
 		}
 
 		private void OnPolygonMouseLeave(object sender, MouseEventArgs e)
 		{
+			AnimationTimer.Stop();
+
 			RefreshMousePosition(e);
+			Polygon.Stroke = Stroke;
+			Polygon.StrokeDashArray = null;
+			Polygon.Fill = Fill;
 			Context.Canvas.Cursor = MouseEnterCursor;
 		}
 
