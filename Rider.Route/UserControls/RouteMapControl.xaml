@@ -10,7 +10,8 @@
     <Grid>
         <map:Map x:Name="map"                 
                  ManipulationMode="All">
-            <map:MapPolyline x:Name="routePath" Stroke="Magenta" StrokeThickness="3" Opacity="0.7" Locations="{Binding RoutePath}" />
+            <map:MapPolyline x:Name="routePath" Stroke="Magenta" StrokeThickness="2" Opacity="0.7" Locations="{Binding RoutePath}" />
+            <map:MapPolyline x:Name="selectedRoutePath" Stroke="White" StrokeThickness="2"  Locations="{Binding SelectedChallengePath}" StrokeDashArray="{Binding SelectedChallengeDash}" />
         </map:Map>
 
     </Grid>

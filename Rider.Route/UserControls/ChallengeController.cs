@@ -1,4 +1,6 @@
-﻿using Rider.Route.Data;
+﻿using MapControl;
+using Rider.Route.Data;
+using Rider.Route.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace Rider.Route.UserControls
 {
@@ -33,7 +37,7 @@ namespace Rider.Route.UserControls
 	internal class ChallengeController
 	{
 		private static Brush Stroke = new SolidColorBrush(Color.FromArgb(0xff, 0xFF, 0x00, 0x00));
-		private static Brush SelectedStroke = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xE0));
+		private static Brush SelectedStroke = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
 		private static Brush Fill = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0x00, 0x00));
 		private static Brush SelectedFill = new SolidColorBrush(Color.FromArgb(0x60, 0xFF, 0x00, 0x00));
 
@@ -42,36 +46,13 @@ namespace Rider.Route.UserControls
 		private ClimbChallenge Challenge { get; }
 
 		private Mode Mode { get; set; } = Mode.None;
-		DispatcherTimer AnimationTimer { get; }
-		public ChallengeController(ElevationDrawingContext context, int challenge)
+		public ChallengeController(ElevationDrawingContext context, ClimbChallenge challenge)
 		{
 			Context = context;
-			Challenge = context.Data.Challenges[challenge];
+			Challenge = challenge;
 			Polygon = CreatePolygon();
-			AnimationTimer = new DispatcherTimer();
-			AnimationTimer.Interval = TimeSpan.FromMilliseconds(50);
-			AnimationTimer.Tick += OnAnimationTimer; ;
 		}
 
-		private int DashAnimationPhase { get; set; } = 0;
-		private DoubleCollection[] DashPhases { get; } = new[]
-		{
-			new DoubleCollection() { 0, 1, 3, 2 },
-			new DoubleCollection() { 0, 2, 3, 1 },
-			new DoubleCollection() { 0, 3, 3, 0},
-			new DoubleCollection() { 1, 3, 2, 0},
-			new DoubleCollection() { 2, 3, 1, 0},
-			new DoubleCollection() { 3, 3},
-		};
-		private void OnAnimationTimer(object? sender, EventArgs e)
-		{
-			Polygon.StrokeDashArray = DashPhases[DashAnimationPhase];
-			DashAnimationPhase++;
-			if(DashAnimationPhase >= DashPhases.Count())
-			{
-				DashAnimationPhase = 0;
-			}
-		}
 
 		private double ActionStartMouseLeftOffset { get; set; } = 0;
 		private double ActionStartMouseRightOffset { get; set; } = 0;
@@ -168,7 +149,7 @@ namespace Rider.Route.UserControls
 			Polygon.MouseRightButtonUp -= OnPolygonMouseRightButtonUp;
 			Polygon.MouseLeftButtonDown -= OnPolygonMouseLeftButtonDown;
 			Polygon.MouseLeftButtonUp -= OnPolygonMouseLeftButtonUp;
-
+			BindingOperations.ClearBinding(Polygon, Polygon.StrokeDashArrayProperty);
 			Context.Canvas.Children.Remove(Polygon);
 		}
 
@@ -227,19 +208,42 @@ namespace Rider.Route.UserControls
 		{
 			MouseEnterCursor = Context.Canvas.Cursor;
 			RefreshMousePosition(e);
+
 			Polygon.Stroke = SelectedStroke;
+			Binding binding = new Binding("SelectedChallengeDash");
+			binding.Source = Polygon.DataContext;
+			Polygon.SetBinding(Polygon.StrokeDashArrayProperty, binding);
 			Polygon.Fill = SelectedFill;
-			AnimationTimer.Start();
+
+			RouteViewModel? model = Polygon.DataContext as RouteViewModel;
+			if(model != null)
+			{
+				List<Location> locations = new List<Location>();
+				for (int i = Challenge.Start; i <= Challenge.End; i++)
+				{
+					locations.Add(new Location(Challenge.Points[i].Latitude, Challenge.Points[i].Longitude));
+				}
+
+
+				model.SelectedChallengePath.Clear();
+				model.SelectedChallengePath.AddRange(locations);
+			}
+
 		}
 
 		private void OnPolygonMouseLeave(object sender, MouseEventArgs e)
 		{
-			AnimationTimer.Stop();
-
+	
 			RefreshMousePosition(e);
 			Polygon.Stroke = Stroke;
+			BindingOperations.ClearBinding(Polygon, Polygon.StrokeDashArrayProperty);
 			Polygon.StrokeDashArray = null;
 			Polygon.Fill = Fill;
+			RouteViewModel? model = Polygon.DataContext as RouteViewModel;
+			if (model != null)
+			{
+				model.SelectedChallengePath.Clear();
+			}
 			Context.Canvas.Cursor = MouseEnterCursor;
 		}
 
@@ -273,8 +277,8 @@ namespace Rider.Route.UserControls
 				endDistance = Context.ModelXmin;
 			}
 			if (endDistance  <= Challenge.StartPoint.Distance) return;
-	
-			Challenge.End = (ushort)Context.Data.Route.GetPointIndex(endDistance);
+
+			ChangeChallengeSize(null, endDistance);
 			Draw();
 
 		}
@@ -288,7 +292,7 @@ namespace Rider.Route.UserControls
 			}
 			if (startDistance >= Challenge.EndPoint.Distance) return;
 
-			Challenge.Start = (ushort)Context.Data.Route.GetPointIndex(startDistance);
+			ChangeChallengeSize(startDistance,null);
 			Draw();
 
 		}
@@ -308,12 +312,40 @@ namespace Rider.Route.UserControls
 				endDistance = Context.ModelXmax;
 
 			}
+			
+			ChangeChallengeSize(startDistance, endDistance);
 
-			Challenge.Start = (ushort)Context.Data.Route.GetPointIndex(startDistance);
-			Challenge.End = (ushort)Context.Data.Route.GetPointIndex(endDistance);
 			Draw();
 		}
+		void ChangeChallengeSize(double? startDistance, double? endDistance)
+		{
+			ushort oldStart = Challenge.Start;
+			ushort oldEnd = Challenge.End;
+			ushort start = startDistance==null? oldStart: (ushort)Context.Data.Route.GetPointIndex(startDistance.Value);
+			ushort end = endDistance==null? oldEnd: (ushort)Context.Data.Route.GetPointIndex(endDistance.Value);
 
+			if(oldStart!= start || oldEnd != end) 
+			{
+				Challenge.Start = start;
+				Challenge.End = end;
+
+				RouteViewModel? model = Polygon.DataContext as RouteViewModel;
+				if (model != null)
+				{
+					List<Location> locations = new List<Location>();
+					for (int i = Challenge.Start; i <= Challenge.End; i++)
+					{
+						locations.Add(new Location(Challenge.Points[i].Latitude, Challenge.Points[i].Longitude));
+					}
+
+					model.SelectedChallengePath.Clear();
+					model.SelectedChallengePath.AddRange(locations);
+				}
+
+			}
+
+
+		}
 		void RefreshMousePosition(MouseEventArgs e)
 		{
 			Point canvasPosition = e.GetPosition(Context.Canvas);

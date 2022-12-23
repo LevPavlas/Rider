@@ -114,49 +114,13 @@ namespace Rider.Route.UserControls
 
 			for ( int i =0; i<RiderData.Challenges.Count; i++)
 			{
-				ChallengeController controler = new ChallengeController(Context, i);
+				ChallengeController controler = new ChallengeController(Context, RiderData.Challenges[i]);
 				Challenges.Add(controler);
 				controler.Draw();
 			}
 		}
 
-		private void OnPolygonMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-
-		}
-
-		private void OnPolygonMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			Point p = e.GetPosition(canvas);
-			if (Context != null)
-			{
-				double dist = Context.ToModelDistance(p.X);
-				//int index = RiderData.Route.GetPointIndex(dist);
-
-				//	Console.WriteLine($"Index: {index}, distance:{dist}");
-			}
-		}
-
-		private void OnPolygonMouseRightButtonUp(object sender, MouseButtonEventArgs e)
-		{
-		}
-
-		private void OnPolygonMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-		{
-		}
-
-		private void OnPolygonMouseEnter(object sender, MouseEventArgs e)
-		{
-		}
-
-		private void OnPolygonMouseLeave(object sender, MouseEventArgs e)
-		{
-		}
-
-		private void OnPolygonMouseMove(object sender, MouseEventArgs e)
-		{
-		}
-
+	
 		private void DrawElevation()
 		{
 
@@ -189,18 +153,6 @@ namespace Rider.Route.UserControls
 			};
 			canvas.Children.Add(polygon);
 
-		}
-
-		private void OnMouseMove(object sender, MouseEventArgs e)
-		{
-			//Point p = e.GetPosition(canvas);
-			//if(Context != null)
-			//{
-			//	double dist = Context.ToModelDistance(p.X);
-			//	int index = RiderData.Route.GetPointIndex(dist);
-
-			////	Console.WriteLine($"Index: {index}, distance:{dist}");
-			//}
 		}
 	}
 }

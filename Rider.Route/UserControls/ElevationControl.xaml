@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" SizeChanged="OnControlSizeChanged">
     <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
-    <Canvas x:Name="canvas"   ClipToBounds="True" MouseMove="OnMouseMove">
+    <Canvas x:Name="canvas"   ClipToBounds="True" >
         <Canvas.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                 <GradientStop Color="Azure" Offset="0.0" />

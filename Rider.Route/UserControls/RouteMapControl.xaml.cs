@@ -70,8 +70,7 @@ namespace Rider.Route.UserControls
 	
 		public RouteMapControl()
 		{
-				InitializeComponent();
-//			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
+			InitializeComponent();
 			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
 			map.TargetCenter = new Location(120, 30);
 
