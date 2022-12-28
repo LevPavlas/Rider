@@ -78,7 +78,7 @@ namespace Rider.Route.Services
 				Console.WriteLine($"Number of points: {route.Points.Count}");
 				Console.WriteLine($"Route distance: {route.Distance/1000} km");
 				ClimbChallengeCalculator climbCalculator = new ClimbChallengeCalculator(route.Points);
-				IReadOnlyList<ClimbChallenge> chalenges = climbCalculator.Calculate();
+				IList<ClimbChallenge> chalenges = climbCalculator.Calculate();
 				Console.WriteLine($"Climb Chalenges found: {chalenges.Count}");
 				BoundingBox box = new BoundingBox(route.LatitudeMinSouth,route.LongitudeMinWest,route.LatitudeMaxNorth,route.LongitudeMaxEast);
 				RiderData data = new RiderData(route, chalenges);

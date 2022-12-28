@@ -54,7 +54,9 @@ namespace Rider.Route.UserControls
 		private Polygon? Polygon { get; set; }
 		private ElevationDrawingContext? Context { get; set; }
 		private List<ChallengeController> Challenges { get; }= new List<ChallengeController>();
-		
+
+		private int StartOfNewChallenge { get; set; } = -1;
+
 		public ElevationControl()
 		{
 			InitializeComponent();
@@ -128,12 +130,23 @@ namespace Rider.Route.UserControls
 			for ( int i =0; i<RiderData.Challenges.Count; i++)
 			{
 				ChallengeController controler = new ChallengeController(Context, RiderData.Challenges[i]);
-				Challenges.Add(controler);
+				AddChallengeController(controler);
 				controler.Draw();
 			}
 		}
+		void AddChallengeController(ChallengeController controller)
+		{
+			controller.Deleted += OnControllerDeleted;
+			Challenges.Add(controller);
+		}
 
-	
+		private void OnControllerDeleted(ChallengeController controller)
+		{
+			controller.Deleted -= OnControllerDeleted;
+			controller.Close();
+			Challenges.Remove(controller);
+		}
+
 		private void DrawElevation()
 		{
 
@@ -165,19 +178,48 @@ namespace Rider.Route.UserControls
 				Points = points,
 			};
 			Polygon.MouseLeftButtonDown += OnPolygonMouseLeftButtonDown;
+			Polygon.MouseMove += OnPolygonMouseMove;
+			Polygon.MouseLeftButtonUp += OnPolygonMouseLeftButtonUp;
 			canvas.Children.Add(Polygon);
 
 		}
 
-		private void OnPolygonMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private void OnPolygonMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			//DropShadowEffect effect= new DropShadowEffect();
-			if(Context != null && RiderData != null)
+			StartOfNewChallenge = -1;
+		}
+
+		private void OnPolygonMouseMove(object sender, MouseEventArgs e)
+		{
+			if(StartOfNewChallenge >=0 && Context != null && RiderData != null)
 			{
-				
 				Point canvasPosition = e.GetPosition(Context.Canvas);
 				double mouseDistance = Context.ToModelDistance(canvasPosition.X);
-				RiderData.Route.GetPointIndex(mouseDistance);
+				int endMouseIndex = RiderData.Route.GetPointIndex(mouseDistance);
+
+				if(endMouseIndex != StartOfNewChallenge)
+				{
+					int endIndex = endMouseIndex +1;
+					int startIndex = endMouseIndex-1;
+
+					ClimbChallenge challenge = new ClimbChallenge(RiderData.Route.Points, startIndex, endIndex);
+					
+					RiderData.Challenges.Add(challenge);
+					ChallengeController controler = new ChallengeController(Context, challenge,e);
+					AddChallengeController(controler);
+					StartOfNewChallenge = -1;
+				}
+			}
+		}
+
+		private void OnPolygonMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if(Context != null && RiderData != null)
+			{				
+				Point canvasPosition = e.GetPosition(Context.Canvas);
+				double mouseDistance = Context.ToModelDistance(canvasPosition.X);
+				StartOfNewChallenge =RiderData.Route.GetPointIndex(mouseDistance);
+				Console.WriteLine("Mouse down.");
 			}
 
 		}

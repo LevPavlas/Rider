@@ -11,8 +11,8 @@ namespace Rider.Route.Data
 	{
 			
 		public Route Route { get; }
-		public IReadOnlyList<ClimbChallenge> Challenges { get; }
-		public RiderData(Route route, IReadOnlyList<ClimbChallenge> challenges)
+		public IList<ClimbChallenge> Challenges { get; }
+		public RiderData(Route route, IList<ClimbChallenge> challenges)
 		{
 			Route = route;
 			Challenges = challenges;

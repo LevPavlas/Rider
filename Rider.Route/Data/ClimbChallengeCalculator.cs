@@ -16,12 +16,12 @@ namespace Rider.Route.Data
 		private const double NearbyDistance = 3000; //m
 
 		private IReadOnlyList<RoutePoint> Points { get; }
-		private IReadOnlyList<ClimbChallenge> Challenges { get; set; }= new List<ClimbChallenge>();
+		private IList<ClimbChallenge> Challenges { get; set; }= new List<ClimbChallenge>();
 		public ClimbChallengeCalculator(IReadOnlyList<RoutePoint> points) 
 		{
 			Points = points;
 		}
-		public IReadOnlyList<ClimbChallenge> Calculate()
+		public IList<ClimbChallenge> Calculate()
 		{
 			CreateChallenges();
 			while (ConnectChallenges())

@@ -50,6 +50,13 @@ namespace Rider.Route.UserControls
 		private ClimbChallenge Challenge { get; }
 
 		private Mode Mode { get; set; } = Mode.None;
+
+		public event Action<ChallengeController>? Deleted;
+		public ChallengeController(ElevationDrawingContext context, ClimbChallenge challenge, MouseEventArgs e):this(context,challenge)
+		{
+			RefreshMousePosition(e);
+			StartAction();
+		}
 		public ChallengeController(ElevationDrawingContext context, ClimbChallenge challenge)
 		{
 			Context = context;
@@ -58,6 +65,7 @@ namespace Rider.Route.UserControls
 			StartLabel = new ElevationLabel(context);
 			EndLabel = new ElevationLabel(context);
 		}
+
 
 
 		private double ActionStartMouseLeftOffset { get; set; } = 0;
@@ -213,6 +221,13 @@ namespace Rider.Route.UserControls
 
 		private void OnPolygonMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 		{
+			RouteViewModel? model = Polygon.DataContext as RouteViewModel;
+			if (model != null)
+			{
+				model.TargetCenter = null;
+				model.SelectedChallengePath.Clear();
+			}
+			Deleted?.Invoke(this);
 		}
 
 		private void OnPolygonMouseEnter(object sender, MouseEventArgs e)
@@ -417,12 +432,15 @@ namespace Rider.Route.UserControls
 
 			if(mouseDistance >= Challenge.StartPoint.Distance && mouseDistance<= Challenge.EndPoint.Distance)
 			{
-				area = PolygonArea.Over;
-				if(mouseDistance - Challenge.StartPoint.Distance < Context.ModelResizeBorder) 
+				if(mouseDistance >= Challenge.StartPoint.Distance + Context.ModelResizeBorder && mouseDistance <= Challenge.EndPoint.Distance - Context.ModelResizeBorder)
+				{
+					area = PolygonArea.Over;
+				}
+				else if (mouseDistance - Challenge.StartPoint.Distance < Challenge.EndPoint.Distance - mouseDistance) 
 				{
 					area = PolygonArea.LeftBorder;
 				}
-				else if(Challenge.EndPoint.Distance -mouseDistance < Context.ModelResizeBorder)
+				else
 				{
 					area = PolygonArea.RightBorder;
 				}
