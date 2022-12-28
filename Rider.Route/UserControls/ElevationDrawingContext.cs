@@ -1,14 +1,16 @@
 ﻿using MapControl;
 using Rider.Route.Data;
 using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Rider.Route.UserControls
 {
 	internal class ElevationDrawingContext
 	{
-		const double Border = 40;
+		const double Border = 50;
 		const double MinCanvasSpacing = 40;
 		public RiderData Data { get; }
 
@@ -147,6 +149,20 @@ namespace Rider.Route.UserControls
 			}
 
 			return niceFraction * pow;
+		}
+		public  Size MeasureString(TextBlock textBlock, string text)
+		{
+			var formattedText = new FormattedText(
+				text,
+				CultureInfo.CurrentCulture,
+				FlowDirection.LeftToRight,
+				new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch),
+				textBlock.FontSize,
+				Brushes.Black,
+				new NumberSubstitution(),
+				1);
+
+			return new Size(formattedText.Width, formattedText.Height);
 		}
 
 

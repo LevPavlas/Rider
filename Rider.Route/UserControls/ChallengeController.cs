@@ -55,8 +55,8 @@ namespace Rider.Route.UserControls
 			Context = context;
 			Challenge = challenge;
 			Polygon = CreatePolygon();
-			EndLabel = new ElevationLabel(context);
 			StartLabel = new ElevationLabel(context);
+			EndLabel = new ElevationLabel(context);
 		}
 
 
@@ -310,16 +310,27 @@ namespace Rider.Route.UserControls
 
 			}
 		}
+
 		private void OnResizeRight(double mouseDistance)
 		{
 			double endDistance = mouseDistance + ActionStartMouseRightOffset;
-			if (endDistance < Context.ModelXmin)
-			{
-				endDistance = Context.ModelXmin;
-			}
-			if (endDistance  <= Challenge.StartPoint.Distance) return;
+			double startDistance = Challenge.StartPoint.Distance;
 
-			ChangeChallengeSize(null, endDistance);
+			if (endDistance > Context.ModelXmax)
+			{
+				endDistance = Context.ModelXmax;
+			}
+			if (endDistance  <= startDistance) // switch to resize left
+			{
+				ushort start = Challenge.Start;
+				Challenge.Start -= 1;
+				Challenge.End = start;
+				Mode = Mode.ResizeLeft;
+				ActionStartMouseLeftOffset = 0;
+				return;
+			}
+
+			ChangeChallengeSize(startDistance, endDistance);
 			SetEndPointZoom();
 			Draw();
 
@@ -327,14 +338,24 @@ namespace Rider.Route.UserControls
 
 		private void OnResizeLeft(double mouseDistance)
 		{
+			double endDistance = Challenge.EndPoint.Distance;
 			double startDistance = mouseDistance - ActionStartMouseLeftOffset;
+
 			if (startDistance < Context.ModelXmin)
 			{
 				startDistance = Context.ModelXmin;
 			}
-			if (startDistance >= Challenge.EndPoint.Distance) return;
+			if (startDistance >= endDistance) // switch to resize right
+			{
+				ushort end = Challenge.End;
+				Challenge.End += 1;
+				Challenge.Start = end;
+				Mode = Mode.ResizeRight;
+				ActionStartMouseRightOffset = 0;
+				return;
+			}
 
-			ChangeChallengeSize(startDistance,null);
+			ChangeChallengeSize(startDistance, endDistance);
 			SetEndPointZoom();
 			Draw();
 
@@ -357,15 +378,14 @@ namespace Rider.Route.UserControls
 			}
 			
 			ChangeChallengeSize(startDistance, endDistance);
-
 			Draw();
 		}
-		void ChangeChallengeSize(double? startDistance, double? endDistance)
+		void ChangeChallengeSize(double startDistance, double endDistance)
 		{
 			ushort oldStart = Challenge.Start;
 			ushort oldEnd = Challenge.End;
-			ushort start = startDistance==null? oldStart: (ushort)Context.Data.Route.GetPointIndex(startDistance.Value);
-			ushort end = endDistance==null? oldEnd: (ushort)Context.Data.Route.GetPointIndex(endDistance.Value);
+			ushort start = (ushort)Context.Data.Route.GetPointIndex(startDistance);
+			ushort end =  (ushort)Context.Data.Route.GetPointIndex(endDistance);
 
 			if(oldStart!= start || oldEnd != end) 
 			{
