@@ -160,8 +160,6 @@ namespace Rider.Route.UserControls
 			Context.Canvas.Children.Remove(Polygon);
 			EndLabel.Close();
 			StartLabel.Close();
-
-
 		}
 
 		private void OnPolygonMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -322,7 +320,7 @@ namespace Rider.Route.UserControls
 			}
 			if (endDistance  <= startDistance) // switch to resize left
 			{
-				ushort start = Challenge.Start;
+				int start = Challenge.Start;
 				Challenge.Start -= 1;
 				Challenge.End = start;
 				Mode = Mode.ResizeLeft;
@@ -347,7 +345,7 @@ namespace Rider.Route.UserControls
 			}
 			if (startDistance >= endDistance) // switch to resize right
 			{
-				ushort end = Challenge.End;
+				int end = Challenge.End;
 				Challenge.End += 1;
 				Challenge.Start = end;
 				Mode = Mode.ResizeRight;
@@ -382,10 +380,10 @@ namespace Rider.Route.UserControls
 		}
 		void ChangeChallengeSize(double startDistance, double endDistance)
 		{
-			ushort oldStart = Challenge.Start;
-			ushort oldEnd = Challenge.End;
-			ushort start = (ushort)Context.Data.Route.GetPointIndex(startDistance);
-			ushort end =  (ushort)Context.Data.Route.GetPointIndex(endDistance);
+			int oldStart = Challenge.Start;
+			int oldEnd = Challenge.End;
+			int start = Context.Data.Route.GetPointIndex(startDistance);
+			int end =  Context.Data.Route.GetPointIndex(endDistance);
 
 			if(oldStart!= start || oldEnd != end) 
 			{

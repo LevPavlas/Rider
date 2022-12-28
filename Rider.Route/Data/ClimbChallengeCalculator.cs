@@ -59,7 +59,7 @@ namespace Rider.Route.Data
 		//	double lowHeight = chalenge.EndPoint.Elevation * LowHeightRatio + chalenge.StartPoint.Elevation;
 		//	double lowHeight = 20 + chalenge.StartPoint.Elevation;
 			double lowHeight = LowHeightRatio * (chalenge.EndPoint.Elevation - chalenge.StartPoint.Elevation) + chalenge.StartPoint.Elevation;
-			for (ushort i = chalenge.Start; i <= chalenge.End; i++)
+			for (int i = chalenge.Start; i <= chalenge.End; i++)
 			{
 				if (Points[i].Elevation > lowHeight)
 				{

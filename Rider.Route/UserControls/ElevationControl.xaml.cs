@@ -54,7 +54,7 @@ namespace Rider.Route.UserControls
 		private Polygon? Polygon { get; set; }
 		private ElevationDrawingContext? Context { get; set; }
 		private List<ChallengeController> Challenges { get; }= new List<ChallengeController>();
-
+		
 		public ElevationControl()
 		{
 			InitializeComponent();
@@ -172,6 +172,14 @@ namespace Rider.Route.UserControls
 		private void OnPolygonMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			//DropShadowEffect effect= new DropShadowEffect();
+			if(Context != null && RiderData != null)
+			{
+				
+				Point canvasPosition = e.GetPosition(Context.Canvas);
+				double mouseDistance = Context.ToModelDistance(canvasPosition.X);
+				RiderData.Route.GetPointIndex(mouseDistance);
+			}
+
 		}
 	}
 }

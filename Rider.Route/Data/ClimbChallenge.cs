@@ -14,17 +14,21 @@ namespace Rider.Route.Data
 	{
 		
 		public IReadOnlyList<RoutePoint> Points { get; }
-		private ushort MaxEnd { get; }
+		private int MaxEnd { get; }
 
-		ushort _Start;
-		public ushort Start
+		int _Start;
+		public int Start
 		{
 			get => _Start;
 			set
 			{
-				if (value >= _End)
+				if(value < 0)
 				{
-					SetProperty(ref _Start, (ushort)(_End - 1));
+					SetProperty(ref _Start, 0);
+				}
+				else if (value >= _End)
+				{
+					SetProperty(ref _Start, _End - 1);
 				}
 				else
 				{
@@ -32,8 +36,8 @@ namespace Rider.Route.Data
 				}
 			}				
 		}
-		ushort _End;
-		public ushort End
+		int _End;
+		public int End
 		{
 			get => _End;
 			set
@@ -56,14 +60,14 @@ namespace Rider.Route.Data
 		public RoutePoint EndPoint => Points[End];
 		public double Size => EndPoint.Distance - StartPoint.Distance;
 
-		public ClimbChallenge(IReadOnlyList<RoutePoint> points, ushort start, ushort end)
+		public ClimbChallenge(IReadOnlyList<RoutePoint> points, int start, int end)
 		{
 			if (points==null || points.Count < 2) throw new ArgumentNullException(nameof(points));
 			if (start >= points.Count || start >= end) throw new ArgumentNullException(nameof(start));
 			if (end >= points.Count) throw new ArgumentNullException(nameof(end));
 
 			Points = points;
-			MaxEnd = (ushort)(points.Count - 1);
+			MaxEnd = points.Count - 1;
 			_Start= start;
 			_End= end;
 		}
