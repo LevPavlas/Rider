@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -23,6 +24,12 @@ namespace Rider.Route.UserControls
 	/// </summary>
 	public partial class ElevationControl : UserControl
 	{
+		private enum Mode
+		{
+			None,
+			StartCreate,
+
+		}
 
 		public static readonly DependencyProperty RiderDataProperty = DependencyProperty.Register(
 					"RiderData",
@@ -44,6 +51,7 @@ namespace Rider.Route.UserControls
 		}
 		private Brush ElevationBrush { get; } = new SolidColorBrush(Colors.Black);
 		private Axes Axes { get; }
+		private Polygon? Polygon { get; set; }
 		private ElevationDrawingContext? Context { get; set; }
 		private List<ChallengeController> Challenges { get; }= new List<ChallengeController>();
 
@@ -105,6 +113,11 @@ namespace Rider.Route.UserControls
 			{
 				challenge.Close();
 			}
+			if(Polygon != null)
+			{
+				Polygon.MouseLeftButtonDown -= OnPolygonMouseLeftButtonDown;
+			}
+
 			Challenges.Clear();
 			canvas.Children.Clear();
 		}
@@ -144,15 +157,21 @@ namespace Rider.Route.UserControls
 
 			LinearGradientBrush fill = new LinearGradientBrush(gradientColection, 90);
 
-			Polygon polygon = new Polygon
+			Polygon = new Polygon
 			{
 				Stroke = ElevationBrush,
 				StrokeThickness = 1,
 				Fill = fill,
-				Points = points
+				Points = points,
 			};
-			canvas.Children.Add(polygon);
+			Polygon.MouseLeftButtonDown += OnPolygonMouseLeftButtonDown;
+			canvas.Children.Add(Polygon);
 
+		}
+
+		private void OnPolygonMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			//DropShadowEffect effect= new DropShadowEffect();
 		}
 	}
 }

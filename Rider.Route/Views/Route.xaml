@@ -21,7 +21,10 @@
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <ctrl:RouteMapControl x:Name="map" BoundingBox="{Binding Path=BoundingBox }" RoutePath="{Binding Path=RoutePath}" Grid.Row="0"/>
+            <ctrl:RouteMapControl x:Name="map"  Grid.Row="0"
+                                  BoundingBox="{Binding Path=BoundingBox }" 
+                                  RoutePath="{Binding Path=RoutePath}"
+                                  TargetCenter="{Binding Path=TargetCenter}"/>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />
         </Grid>
         <GridSplitter Grid.Row="1"  HorizontalAlignment="Stretch" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment"/>

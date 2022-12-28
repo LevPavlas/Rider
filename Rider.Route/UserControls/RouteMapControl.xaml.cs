@@ -39,10 +39,22 @@ namespace Rider.Route.UserControls
 			RouteMapControl? route = d as RouteMapControl;
 			route?.OnRoutePathChanged(e);
 		}
-		private void OnRoutePathChanged(DependencyPropertyChangedEventArgs e)
+
+		public static readonly DependencyProperty TargetCenterProperty = DependencyProperty.Register(
+		"TargetCenter",
+		typeof(Location),
+		typeof(RouteMapControl),
+		new PropertyMetadata(null, new PropertyChangedCallback(OnTargetCenterChanged)));
+
+		private static void OnTargetCenterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			MintPlayer.ObservableCollection.ObservableCollection<Location>? path = e.NewValue as MintPlayer.ObservableCollection.ObservableCollection<Location>;
-			routePath.Locations = path;
+			RouteMapControl? route = d as RouteMapControl;
+			route?.OnTargetCenterChanged(e);
+		}
+		public Location? TargetCenter
+		{
+			get { return GetValue(TargetCenterProperty) as Location; }
+			set { SetValue(TargetCenterProperty, value); }
 		}
 
 		public static readonly DependencyProperty BoundingBoxProperty = DependencyProperty.Register(
@@ -62,19 +74,21 @@ namespace Rider.Route.UserControls
 			route?.OnBoundingBoxChanged(e);
 		}
 
-		private void OnBoundingBoxChanged(DependencyPropertyChangedEventArgs e)
-		{
-			BoundingBox? box = e.NewValue as BoundingBox;
-			if(box!= null) map.ZoomToBounds(box);
-		}
 	
 		public RouteMapControl()
 		{
 			InitializeComponent();
 			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
+//			map.MapLayer = OpenTopoMapTileLayer;
 			map.TargetCenter = new Location(120, 30);
-
 		}
+		public static MapTileLayer OpenTopoMapTileLayer => new MapTileLayer
+		{
+			TileSource = new TileSource { UriTemplate = "https://tile.opentopomap.org/{z}/{x}/{y}.png" },
+			SourceName = "OpenTopoMap",
+			Description = "© [OpenTopoMap](https://opentopomap.org/) © [OpenStreetMap contributors](http://www.openstreetmap.org/copyright)"
+		};
+
 
 		private bool FirstLoad { get; set; } = true;
 		private void OnLoaded(object sender, RoutedEventArgs e)
@@ -95,7 +109,34 @@ namespace Rider.Route.UserControls
 				}
 			}
 		}
+		private void OnTargetCenterChanged(DependencyPropertyChangedEventArgs e)
+		{
+			Location? location = e.NewValue as Location;
+			if (location != null)
+			{
+				map.Center = location;
+				map.ZoomLevel = 15;
+				map.Heading = 0;
+			}
+			else if(BoundingBox != null)
+			{
+				map.ZoomToBounds(BoundingBox);
+			}
+		}
+		private void OnBoundingBoxChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if(TargetCenter == null)
+			{
+				BoundingBox? box = e.NewValue as BoundingBox;
+				if (box != null) map.ZoomToBounds(box);
+			}
+		}
 
+		private void OnRoutePathChanged(DependencyPropertyChangedEventArgs e)
+		{
+			MintPlayer.ObservableCollection.ObservableCollection<Location>? path = e.NewValue as MintPlayer.ObservableCollection.ObservableCollection<Location>;
+			routePath.Locations = path;
+		}
 
 
 		private void MapMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

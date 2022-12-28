@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
@@ -36,13 +37,16 @@ namespace Rider.Route.UserControls
 
 	internal class ChallengeController
 	{
-		private static Brush Stroke = new SolidColorBrush(Color.FromArgb(0xff, 0xFF, 0x00, 0x00));
+		private static Brush Stroke = new SolidColorBrush(Color.FromArgb(0x90, 0xFF, 0x00, 0x00));
 		private static Brush SelectedStroke = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
-		private static Brush Fill = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0x00, 0x00));
-		private static Brush SelectedFill = new SolidColorBrush(Color.FromArgb(0x60, 0xFF, 0x00, 0x00));
+		private static Brush Fill = new SolidColorBrush(Color.FromArgb(0x30, 0xFF, 0x00, 0x00));
+		private static Brush SelectedFill = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
 
 		private ElevationDrawingContext Context { get; }
 		private Polygon Polygon { get; }
+		private ElevationLabel EndLabel { get; }
+		private ElevationLabel StartLabel { get; }
+
 		private ClimbChallenge Challenge { get; }
 
 		private Mode Mode { get; set; } = Mode.None;
@@ -51,6 +55,8 @@ namespace Rider.Route.UserControls
 			Context = context;
 			Challenge = challenge;
 			Polygon = CreatePolygon();
+			EndLabel = new ElevationLabel(context);
+			StartLabel = new ElevationLabel(context);
 		}
 
 
@@ -107,7 +113,8 @@ namespace Rider.Route.UserControls
 			{
 				Stroke = Stroke,
 				StrokeThickness = 1,
-				Fill = Fill
+				Fill = Fill,
+//				Effect = new DropShadowEffect(),
 			};
 
 			polygon.MouseMove += OnPolygonMouseMove;
@@ -118,9 +125,9 @@ namespace Rider.Route.UserControls
 			polygon.MouseLeftButtonDown += OnPolygonMouseLeftButtonDown;
 			polygon.MouseLeftButtonUp += OnPolygonMouseLeftButtonUp;
 			Context.Canvas.Children.Add(polygon);
+
 			return polygon;
 		}
-
 		private void SetPolygonPath()
 		{
 			PointCollection points = new PointCollection
@@ -140,8 +147,8 @@ namespace Rider.Route.UserControls
 
 		public void Close()
 		{
-			if(Polygon == null) return;
-			
+			if (Polygon == null) return;
+
 			Polygon.MouseMove -= OnPolygonMouseMove;
 			Polygon.MouseLeave -= OnPolygonMouseLeave;
 			Polygon.MouseEnter -= OnPolygonMouseEnter;
@@ -151,6 +158,10 @@ namespace Rider.Route.UserControls
 			Polygon.MouseLeftButtonUp -= OnPolygonMouseLeftButtonUp;
 			BindingOperations.ClearBinding(Polygon, Polygon.StrokeDashArrayProperty);
 			Context.Canvas.Children.Remove(Polygon);
+			EndLabel.Close();
+			StartLabel.Close();
+
+
 		}
 
 		private void OnPolygonMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -164,6 +175,7 @@ namespace Rider.Route.UserControls
 			{
 				Polygon.ReleaseMouseCapture();
 				Mode = Mode.None;
+				SetEndPointZoom();
 			}
 		}
 
@@ -194,6 +206,7 @@ namespace Rider.Route.UserControls
 			ActionStartSize = Challenge.Size;
 			Polygon.Cursor = Cursors.None;
 			Polygon.CaptureMouse();
+			SetEndPointZoom();
 		}
 
 		private void OnPolygonMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -206,6 +219,9 @@ namespace Rider.Route.UserControls
 
 		private void OnPolygonMouseEnter(object sender, MouseEventArgs e)
 		{
+			EndLabel.Draw(Challenge.EndPoint);
+			StartLabel.Draw(Challenge.StartPoint);
+
 			MouseEnterCursor = Context.Canvas.Cursor;
 			RefreshMousePosition(e);
 
@@ -230,10 +246,11 @@ namespace Rider.Route.UserControls
 			}
 
 		}
-
 		private void OnPolygonMouseLeave(object sender, MouseEventArgs e)
 		{
-	
+			EndLabel.Hide();
+			StartLabel.Hide();
+
 			RefreshMousePosition(e);
 			Polygon.Stroke = Stroke;
 			BindingOperations.ClearBinding(Polygon, Polygon.StrokeDashArrayProperty);
@@ -269,6 +286,30 @@ namespace Rider.Route.UserControls
 			}
 
 		}
+		void SetEndPointZoom()
+		{
+			RouteViewModel? model = Polygon.DataContext as RouteViewModel;
+			if (model != null)
+			{
+				Location? oldCenter = model.TargetCenter;
+				Location? center = null;
+
+				switch (Mode)
+				{
+					case Mode.ResizeLeft:
+						center = new Location(Challenge.StartPoint.Latitude, Challenge.StartPoint.Longitude);
+						break;
+					case Mode.ResizeRight:
+						center = new Location(Challenge.EndPoint.Latitude, Challenge.EndPoint.Longitude);
+						break;
+				}
+				if(oldCenter != center)
+				{
+					model.TargetCenter = center;
+				}
+
+			}
+		}
 		private void OnResizeRight(double mouseDistance)
 		{
 			double endDistance = mouseDistance + ActionStartMouseRightOffset;
@@ -279,6 +320,7 @@ namespace Rider.Route.UserControls
 			if (endDistance  <= Challenge.StartPoint.Distance) return;
 
 			ChangeChallengeSize(null, endDistance);
+			SetEndPointZoom();
 			Draw();
 
 		}
@@ -293,6 +335,7 @@ namespace Rider.Route.UserControls
 			if (startDistance >= Challenge.EndPoint.Distance) return;
 
 			ChangeChallengeSize(startDistance,null);
+			SetEndPointZoom();
 			Draw();
 
 		}
@@ -341,6 +384,8 @@ namespace Rider.Route.UserControls
 					model.SelectedChallengePath.Clear();
 					model.SelectedChallengePath.AddRange(locations);
 				}
+				EndLabel.Draw(Challenge.EndPoint);
+				StartLabel.Draw(Challenge.StartPoint);
 
 			}
 

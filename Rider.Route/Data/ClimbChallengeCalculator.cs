@@ -12,7 +12,7 @@ namespace Rider.Route.Data
 	internal class ClimbChallengeCalculator
 	{
 		private const double ClimbRatioLimit = 0.03;
-		private const double LowHeightRatio = 0.03;
+		private const double LowHeightRatio = 0.09;
 		private const double NearbyDistance = 3000; //m
 
 		private IReadOnlyList<RoutePoint> Points { get; }

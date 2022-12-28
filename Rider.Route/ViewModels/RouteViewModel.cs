@@ -35,14 +35,18 @@ namespace Rider.Route.ViewModels
 		private IEventAggregator EventAggregator { get; }
 		public IConsole Console { get; }
 
+		Location? _TargetCenter = null;
+		public Location? TargetCenter
+		{
+			get=> _TargetCenter;
+			set => SetProperty(ref _TargetCenter, value);
+		}
+
 		BoundingBox? _BoundingBox = null;
 		public BoundingBox? BoundingBox
 		{
 			get => _BoundingBox;
-			set
-			{
-				SetProperty(ref _BoundingBox, value);
-			}
+			set => SetProperty(ref _BoundingBox, value);			
 		}
 
 		RiderData? _RiderData;
@@ -67,7 +71,7 @@ namespace Rider.Route.ViewModels
 			Console = console;
 			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated,ThreadOption.PublisherThread);
 			AnimationTimer = new DispatcherTimer();
-			AnimationTimer.Interval = TimeSpan.FromMilliseconds(50);
+			AnimationTimer.Interval = TimeSpan.FromMilliseconds(100);
 			AnimationTimer.Tick += OnAnimationTimer;
 			AnimationTimer.Start();
 			SelectedChallengePath.CollectionChanged += OnSelectedChallengePathCollectionChanged;
@@ -133,7 +137,7 @@ namespace Rider.Route.ViewModels
 		}
 		BoundingBox CreateRouteBoundingBox(Data.Route route)
 		{
-			double border = 2 * route.Distance /10000000;
+			double border =route.Distance /10000000;
 				return new BoundingBox(
 				route.LatitudeMinSouth - border,
 				route.LongitudeMinWest - border,
