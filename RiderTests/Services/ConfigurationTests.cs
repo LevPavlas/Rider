@@ -7,6 +7,8 @@ using Rider.Services;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -34,17 +36,15 @@ namespace Rider.Services.Tests
 			
 			fileSystem.Setup(f => f.GetApplicationDirectory()).Returns(AppDir);
 			fileSystem.Setup(f => f.FileExist(It.IsAny<string>())).Returns(false);
-		
+
 			Configuration target = new Configuration(fileSystem.Object);
 			target.Load();
 			Assert.AreEqual(4, target.Maps.Count());
 			Assert.AreEqual("https://brouter.de/brouter-web", target.SelectedMap);
 			Assert.AreEqual("Dir\\Data\\BrowserCache", target.BrowserCacheDataFolder);
-			Assert.AreEqual("Dir\\Data\\Gpx", target.GpxDirectory);
 
 			fileSystem.Verify(f => f.GetApplicationDirectory());
 			fileSystem.Verify(f => f.CreateDirectory($"{AppDir}\\Data"));
-			fileSystem.Verify(f => f.CreateDirectory($"{AppDir}\\Data\\Gpx"));
 			fileSystem.Verify(f => f.FileExist($"{AppDir}\\Data\\Configuration.json"));
 			fileSystem.Verify(f => f.SaveData($"{AppDir}\\Data\\Configuration.json", It.IsAny<It.IsAnyType>()));
 			fileSystem.VerifyNoOtherCalls();
@@ -65,11 +65,65 @@ namespace Rider.Services.Tests
 			fileSystem.Setup(f => f.LoadData<It.IsAnyType>($"{AppDir}\\Data\\Configuration.json")).Returns(()=>data);
 	
 			Configuration target = new Configuration(fileSystem.Object);
-			target.Load();			
+			target.Load();
+
+			Assert.AreEqual("LastGpxFullPathValue", target.LastGpxFullPath);
+			Assert.AreEqual("LastExportFullPathValue", target.LastExportFullPath);
+			Assert.AreEqual("SelectedMapValue", target.SelectedMap);
+
 			fileSystem.Verify(f => f.GetApplicationDirectory());
 			fileSystem.Verify(f => f.CreateDirectory($"{AppDir}\\Data"));
 			fileSystem.Verify(f => f.FileExist($"{AppDir}\\Data\\Configuration.json"));
 			fileSystem.Verify(f => f.LoadData<It.IsAnyType>($"{AppDir}\\Data\\Configuration.json"));
+		}
+
+		[TestMethod()]
+		public void SetGpxPathTest()
+		{
+			const string DirectoryName = "DirectoryName";
+			const string GpxPath = "GpxPath";
+			string changedPropertyName = string.Empty;
+
+			Mock<IFileSystem> fileSystem = new Mock<IFileSystem>();
+			fileSystem.Setup(f => f.GetDirectoryName(GpxPath)).Returns(DirectoryName);
+
+			Configuration target = new Configuration(fileSystem.Object);
+			target.PropertyChanged += (s, e) => { changedPropertyName = e.PropertyName ?? string.Empty; };
+
+			target.LastGpxFullPath= GpxPath;
+
+			Assert.AreEqual(nameof(Configuration.LastGpxFullPath),changedPropertyName);
+			Assert.AreEqual(DirectoryName, target.LastGpxDirectory);
+
+			fileSystem.Verify(f => f.SaveData(string.Empty, It.IsAny<It.IsAnyType>()));
+			fileSystem.Verify(f => f.GetDirectoryName(GpxPath));
+			fileSystem.VerifyNoOtherCalls();
+
+
+		}
+		[TestMethod()]
+		public void SetExportPathTest()
+		{
+			const string DirectoryName = "DirectoryName";
+			const string ExportPath = "ExportPath";
+			string changedPropertyName = string.Empty;
+
+			Mock<IFileSystem> fileSystem = new Mock<IFileSystem>();
+			fileSystem.Setup(f => f.GetDirectoryName(ExportPath)).Returns(DirectoryName);
+
+
+			Configuration target = new Configuration(fileSystem.Object);
+			target.PropertyChanged += (s, e) => { changedPropertyName = e.PropertyName ?? string.Empty; };
+
+			target.LastExportFullPath = ExportPath;
+
+			Assert.AreEqual(nameof(Configuration.LastExportFullPath), changedPropertyName);
+			Assert.AreEqual(DirectoryName, target.LastExportDirectory);
+			fileSystem.Verify(f => f.SaveData(string.Empty, It.IsAny<It.IsAnyType>()));
+			fileSystem.Verify(f => f.GetDirectoryName(ExportPath));
+			fileSystem.VerifyNoOtherCalls();
+
+
 		}
 
 		object? CreateConfigurationData()
@@ -81,8 +135,19 @@ namespace Rider.Services.Tests
 			object[] paramValues = new object[] { };
 			Type[] paramTypes = new Type[] { };
 			ConstructorInfo? constr = dataType?.GetConstructor(Type.EmptyTypes);
-			return constr?.Invoke(null);
+			object? instance = constr?.Invoke(null);
+			SetProperty(dataType, instance, "LastGpxFullPath", "LastGpxFullPathValue");
+			SetProperty(dataType, instance, "LastExportFullPath", "LastExportFullPathValue");
+			SetProperty(dataType, instance, "SelectedMap", "SelectedMapValue");
+			return instance;
 		}
-
+		void SetProperty(Type? dataType, object? instance,string propertyName, object value)
+		{
+			if (dataType== null ||instance == null) return;
+			PropertyInfo[] pp = dataType.GetProperties();
+			PropertyInfo? propertyInfo = dataType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+			if(propertyInfo == null) return;
+			propertyInfo.SetValue(instance, value);
+		}
 	}
 }

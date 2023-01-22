@@ -45,7 +45,7 @@ namespace Rider.Route.ViewModels.Tests
 		{
 			var manager = new Mock<IRegionManager>();
 			RouteViewModel target = CreateTarget();
-			Assert.AreEqual("Route", target.HeaderText);
+			Assert.AreEqual("GPX", target.HeaderText);
 		}
 
 		[TestMethod()]

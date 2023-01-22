@@ -9,13 +9,14 @@ namespace Rider.Contracts.Services
 {
 	public interface IConfiguration
 	{
-		int ScreenHeight { get; } 
-		int ScreenWidth { get; }
-
+		string LastGpxFullPath { get; set; }
+		string LastGpxDirectory { get; }
+		string LastGpxFilenameWithoutExtension { get; }
+		string LastExportFullPath { get; set; }
+		string LastExportDirectory { get; }
 		ObservableCollection<string> Maps { get; }
-		public string SelectedMap { get; }
-		public string BrowserCacheDataFolder { get; }
-		public string GpxDirectory { get; }
+		string SelectedMap { get; }
+		string BrowserCacheDataFolder { get; }
 		void Load();
 	}
 }

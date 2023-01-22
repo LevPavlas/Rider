@@ -76,7 +76,7 @@ namespace Rider.Route.Services
 				Console.WriteLine($"Processing file:{path}");
 				Data.Route route = await Reader.Read(path);
 				Console.WriteLine($"Number of points: {route.Points.Count}");
-				Console.WriteLine($"Route distance: {route.Distance/1000} km");
+				Console.WriteLine($"Route distance: {route.Distance/1000:N2} km");
 				ClimbChallengeCalculator climbCalculator = new ClimbChallengeCalculator(route.Points);
 				IList<ClimbChallenge> chalenges = climbCalculator.Calculate();
 				Console.WriteLine($"Climb Chalenges found: {chalenges.Count}");

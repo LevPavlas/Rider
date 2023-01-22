@@ -33,7 +33,7 @@ namespace Rider.Route.Services
 		{
 			return await Task<RiderData>.Run(() =>
 			{
-				using(Stream stream = FileSystem.OpenFile(path))
+				using(Stream stream = FileSystem.OpenRead(path))
 				using (GpxReader reader = new GpxReader(stream))
 				{
 					while(reader.Read())

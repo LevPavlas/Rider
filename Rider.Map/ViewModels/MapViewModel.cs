@@ -28,7 +28,7 @@ namespace Rider.Map.ViewModels
 
 		private IRegionManager RegionManager { get; }
 		private IEventAggregator EventAggregator { get; }
-		private IConsole Console { get; }
+		public IConsole Console { get; }
 		private IFileSystem FileSystem { get; }
 
 
@@ -64,11 +64,9 @@ namespace Rider.Map.ViewModels
 		{
 			RegionManager.RequestNavigate(Constants.Regions.ToolBar, Constants.Views.MapToolBar);	
 		}
-
-		public string GetFullPathForDownload(string fileName)
+		public void OnGpxDownloaded(string path)
 		{
-			return FileSystem.AddTimeStamp($"{Configuration.GpxDirectory}\\{fileName}");
+			Configuration.LastGpxFullPath = path;
 		}
-
 	}
 }

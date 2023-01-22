@@ -7,4 +7,14 @@
     <sys:Double x:Key="ToolBarImageHeight">24</sys:Double>
     <sys:Double x:Key="ToolBarImageWidth">24</sys:Double>
 
+    <sys:Double x:Key="PanelBorderThickness">3</sys:Double>
+
+
+    <CornerRadius x:Key="PanelCornerRadius">10</CornerRadius>
+    <Thickness x:Key="PanelBorderThicknessTop" Top="{StaticResource PanelBorderThickness}"></Thickness>
+    <Thickness x:Key="PanelBorderThicknessLeft" Left="{StaticResource PanelBorderThickness}"></Thickness>
+    <Thickness x:Key="PanelBorderThicknessRight" Right="{StaticResource PanelBorderThickness}"></Thickness>
+    <Thickness x:Key="PanelBorderThicknessBottom" Bottom="{StaticResource PanelBorderThickness}"></Thickness>
+
+    <BlurEffect x:Key="PanelBorderEffect" Radius="3" KernelType="Gaussian" />
 </ResourceDictionary>

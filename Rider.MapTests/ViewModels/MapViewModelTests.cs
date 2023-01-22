@@ -68,11 +68,8 @@ namespace Rider.Map.ViewModels.Tests
 			const string FilenameWithTimeStamp = "FilenameWithTimeStamp";
 			MapViewModel target = CreateTarget();
 			
-			Configuration.Setup(c => c.GpxDirectory).Returns(GpxDirectory);
 
 			FileSystem.Setup(f => f.AddTimeStamp($"{GpxDirectory}\\{SuggestedFileName}")).Returns(FilenameWithTimeStamp);
-			string result =target.GetFullPathForDownload(SuggestedFileName);
-			Assert.AreEqual(FilenameWithTimeStamp, result);
 
 		}
 

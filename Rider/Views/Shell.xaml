@@ -6,16 +6,15 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:const="clr-namespace:Rider.Constants;assembly=Rider.Constants"
-        xmlns:local="clr-namespace:Rider"
-        mc:Ignorable="d" 
-         Title="Rider" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
-    <!--<WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
+        xmlns:local="clr-namespace:Rider"        
+        mc:Ignorable="d" AllowsTransparency="True"  WindowStyle="None"  Background="#00FFFFFF"
+        Title="Rider" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
+    <WindowChrome.WindowChrome>
+        <WindowChrome  CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
                       ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
-                      UseAeroCaptionButtons="False">
+                      UseAeroCaptionButtons="True" CornerRadius="10" >
         </WindowChrome>
-
-    </WindowChrome.WindowChrome>-->
+    </WindowChrome.WindowChrome>
 
     <Window.Resources>
         <Style TargetType="{x:Type TabItem}" x:Key="TabItemRegionStyle">
@@ -24,37 +23,63 @@
                 Path=Content.DataContext.HeaderText}" />
         </Style>
     </Window.Resources>
-
-    <!--WindowStyle="None" Background="Transparent" AllowsTransparency="True"-->
-
-    <!--<Window.Resources>
-        <CornerRadius x:Key="WindowsCornerRadius" 
-                      TopLeft="{x:Static const:Layout.WindowCornerRadius}" 
-                      TopRight="{x:Static const:Layout.WindowCornerRadius}"
-                      BottomLeft="{x:Static const:Layout.WindowCornerRadius}"
-                      BottomRight="{x:Static const:Layout.WindowCornerRadius}">
-        </CornerRadius>
-    </Window.Resources>-->
-
-    <!--<Border CornerRadius="{StaticResource WindowsCornerRadius}"   Padding="20,20,20,20"  >
-        <Border.Background>
-            <SolidColorBrush Color="AliceBlue" Opacity="0.75"/>
-        </Border.Background>-->
-        <Grid >
+    <Grid>
+        <Border CornerRadius="{StaticResource PanelCornerRadius}" 
+            Background="{StaticResource PanelBrush}" 
+            BorderThickness="1" 
+            BorderBrush="{StaticResource PanelBorderBrush}">
+             <Grid>
+                <Border BorderThickness="{StaticResource PanelBorderThicknessTop}" 
+                    BorderBrush="{StaticResource PanelBorderBrushTop}"  
+                    CornerRadius="{StaticResource PanelCornerRadius}"
+                    Effect="{StaticResource PanelBorderEffect}">
+                </Border>
+                <Border BorderThickness="{StaticResource PanelBorderThicknessLeft}" 
+                    BorderBrush="{StaticResource PanelBorderBrushLeft}"  
+                    CornerRadius="{StaticResource PanelCornerRadius}"
+                    Effect="{StaticResource PanelBorderEffect}">
+                </Border>
+                <Border BorderThickness="{StaticResource PanelBorderThicknessRight}" 
+                    BorderBrush="{StaticResource PanelBorderBrushRight}"  
+                    CornerRadius="{StaticResource PanelCornerRadius}"
+                    Effect="{StaticResource PanelBorderEffect}">
+                </Border>
+                <Border BorderThickness="{StaticResource PanelBorderThicknessBottom}" 
+                    BorderBrush="{StaticResource PanelBorderBrushBottom}"  
+                    CornerRadius="{StaticResource PanelCornerRadius}"
+                    Effect="{StaticResource PanelBorderEffect}">
+                </Border>
+            </Grid>
+        </Border>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="6"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="46"/>
+                <RowDefinition Height="6"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="120"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="6"/>
             </Grid.RowDefinitions>
-            <ContentControl Grid.Row="0" VerticalContentAlignment="Stretch" prism:RegionManager.RegionName="{x:Static const:Regions.ToolBar}"  />
-            <!--<ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" />-->
-        <TabControl Grid.Row="1" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
-            <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" />
-            <ContentControl Grid.Row="3" prism:RegionManager.RegionName="{x:Static const:Regions.Console}" />
-            <ContentControl Grid.Row="4" prism:RegionManager.RegionName="{x:Static const:Regions.StatusBar}" />
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <ContentControl Grid.Row="4" VerticalContentAlignment="Stretch" prism:RegionManager.RegionName="{x:Static const:Regions.ToolBar}"  />
+                <!--<ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" />-->
+                <TabControl Grid.Row="1" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
+                <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" Background="#00000000" BorderBrush="#00000000" />
+                <ContentControl Grid.Row="3" prism:RegionManager.RegionName="{x:Static const:Regions.Console}" />
+                <!--<ContentControl Grid.Row="4" prism:RegionManager.RegionName="{x:Static const:Regions.StatusBar}" />-->
+            </Grid>
+
         </Grid>
-    <!--</Border>-->
+
+    </Grid>
 
 </Window>

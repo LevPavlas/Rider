@@ -29,18 +29,34 @@ namespace Rider.Services
 
 		public string BrowserCacheDataFolder{ get; private set; }= string.Empty;
 		public string MapControlCacheDataFolder { get; private set; } = string.Empty;
-		public string GpxDirectory { get; private set; } = string.Empty;
+//		public string GpxDirectory { get; private set; } = string.Empty;
 		public ObservableCollection<string> Maps { get; set; }= new ObservableCollection<string>();
-		
+
 		private string _SelectedMap=string.Empty;
-		public int ScreenHeight { get;} = (int)SystemParameters.VirtualScreenHeight;
-		public int ScreenWidth { get; } = (int)SystemParameters.VirtualScreenWidth;
 		public string SelectedMap
 		{ 
 			get => _SelectedMap;
 			set => SetProperty(ref _SelectedMap, value, OnChange);
 		}
-		
+
+		private string _LastGpxFullPath = string.Empty;
+		public string LastGpxFullPath
+		{
+			get => _LastGpxFullPath;
+			set => SetProperty(ref _LastGpxFullPath, value, OnChange);
+		}
+		public string LastGpxDirectory => FileSystem.GetDirectoryName(LastGpxFullPath);
+		public string LastGpxFilenameWithoutExtension =>FileSystem.GetFileNameWithoutExtension(LastGpxFullPath);
+
+		private string _LastExportFullPath = string.Empty;
+		public string LastExportFullPath
+		{
+			get => _LastExportFullPath;
+			set => SetProperty(ref _LastExportFullPath, value, OnChange);
+		}
+		public string LastExportDirectory => FileSystem.GetDirectoryName(LastExportFullPath);
+
+
 		public Configuration(IFileSystem fileSystem)
 		{
 			FileSystem = fileSystem;
@@ -51,11 +67,9 @@ namespace Rider.Services
 			ConfigurationPath = $"{ApplicationDirectory}\\{DataFolder}\\Configuration.json";
 			DataDirectory = $"{ApplicationDirectory}\\{DataFolder}";
 			BrowserCacheDataFolder = $"{ApplicationDirectory}\\{DataFolder}\\BrowserCache";
-			GpxDirectory = $"{ApplicationDirectory}\\{DataFolder}\\Gpx";
 			MapControlCacheDataFolder = $"{ApplicationDirectory}\\{DataFolder}\\MapControl";
-
 			FileSystem.CreateDirectory(DataDirectory) ;
-			FileSystem.CreateDirectory(GpxDirectory);
+
 			if (FileSystem.FileExist(ConfigurationPath))
 			{
 				Data = FileSystem.LoadData<ConfigurationData>(ConfigurationPath) ;
@@ -64,8 +78,12 @@ namespace Rider.Services
 			{
 				FileSystem.SaveData(ConfigurationPath, Data) ;
 			}
-			Maps = new ObservableCollection<string>(Data.Maps);
-			SelectedMap= Data.SelectedMap;
+			
+			Maps = new ObservableCollection<string>(Data.Maps);			
+			
+			_SelectedMap= Data.SelectedMap;
+			_LastGpxFullPath= Data.LastGpxFullPath;
+			_LastExportFullPath= Data.LastExportFullPath;
 
 			Maps.CollectionChanged += OnMapsChanged;
 
@@ -84,12 +102,17 @@ namespace Rider.Services
 		private void OnChange()
 		{
 			Data.SelectedMap= SelectedMap;
+			Data.LastGpxFullPath= LastGpxFullPath;
+			Data.LastExportFullPath= LastExportFullPath;
+
 			FileSystem.SaveData(ConfigurationPath, Data);
 		}
 		private class ConfigurationData
 		{
 			public string[] Maps { get; set; }
 			public string SelectedMap { get; set; }
+			public string LastGpxFullPath { get; set; }
+			public string LastExportFullPath { get; set; }
 			public ConfigurationData()
 			{
 				Maps = new string[]
@@ -100,6 +123,8 @@ namespace Rider.Services
 					Constants.Maps.CycleTravel
 				};
 				SelectedMap = Constants.Maps.BrouterDe;
+				LastGpxFullPath= string.Empty;
+				LastExportFullPath= string.Empty;
 			}
 		}
 

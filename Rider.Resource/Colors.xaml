@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--<Color x:Key="PanelLightColor">#E0F0FFFF</Color>
+    <Color x:Key="PanelDarkColor">#E0E0EFEF</Color>
+
+    <Color x:Key="PanelBorderColorTop1">#E0FFFFFF</Color>
+    <Color x:Key="PanelBorderColorTop2">#E0F0FFFF</Color>
+    <Color x:Key="PanelBorderColorLeft1">#E0F0FFFF</Color>
+    <Color x:Key="PanelBorderColorLeft2">#E0D0DFDF</Color>
+    <Color x:Key="PanelBorderColorRight1">#E0C0CFCF</Color>
+    <Color x:Key="PanelBorderColorRight2">#E0B0BFBF</Color>
+    <Color x:Key="PanelBorderColorBottom1">#E0A0AFAF</Color>
+    <Color x:Key="PanelBorderColorBottom2">#E0808F8F</Color>-->
+
+    <Color x:Key="PanelLightColor">#60F0FFFF</Color>
+    <Color x:Key="PanelDarkColor">#60E0EFEF</Color>
+
+    <Color x:Key="PanelBorderColorTop1">#60FFFFFF</Color>
+    <Color x:Key="PanelBorderColorTop2">#60F0FFFF</Color>
+    <Color x:Key="PanelBorderColorLeft1">#60F0FFFF</Color>
+    <Color x:Key="PanelBorderColorLeft2">#60D0DFDF</Color>
+    <Color x:Key="PanelBorderColorRight1">#60C0CFCF</Color>
+    <Color x:Key="PanelBorderColorRight2">#60B0BFBF</Color>
+    <Color x:Key="PanelBorderColorBottom1">#60A0AFAF</Color>
+    <Color x:Key="PanelBorderColorBottom2">#60808F8F</Color>
+
+
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="#C0808F8F" ></SolidColorBrush>
+    <LinearGradientBrush x:Key="PanelBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelDarkColor}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelLightColor}" Offset="1.0" />
+     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PanelBorderBrushTop" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelBorderColorTop1}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelBorderColorTop2}" Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PanelBorderBrushLeft" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelBorderColorLeft1}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelBorderColorLeft2}" Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PanelBorderBrushRight" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelBorderColorRight1}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelBorderColorRight2}" Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PanelBorderBrushBottom" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelBorderColorBottom1}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelBorderColorBottom2}" Offset="1.0" />
+    </LinearGradientBrush>
+
+</ResourceDictionary>

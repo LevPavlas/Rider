@@ -25,7 +25,7 @@ namespace Rider.Route.ViewModels
 {
 	internal class RouteViewModel : BindableBase, IActiveAware
 	{
-		public string HeaderText { get; } = "Route";
+		public string HeaderText { get; } = "GPX";
 		public MintPlayer.ObservableCollection.ObservableCollection<Location> RoutePath { get; } = new MintPlayer.ObservableCollection.ObservableCollection<Location>();
 		public MintPlayer.ObservableCollection.ObservableCollection<Location> SelectedChallengePath { get; } = new MintPlayer.ObservableCollection.ObservableCollection<Location>();
 
@@ -70,8 +70,8 @@ namespace Rider.Route.ViewModels
 			EventAggregator = eventAggregator;
 			Console = console;
 			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated,ThreadOption.PublisherThread);
-			AnimationTimer = new DispatcherTimer();
-			AnimationTimer.Interval = TimeSpan.FromMilliseconds(100);
+			AnimationTimer = new DispatcherTimer(DispatcherPriority.Render);
+			AnimationTimer.Interval = TimeSpan.FromMilliseconds(50);
 			AnimationTimer.Tick += OnAnimationTimer;
 			AnimationTimer.Start();
 			SelectedChallengePath.CollectionChanged += OnSelectedChallengePathCollectionChanged;

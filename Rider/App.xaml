@@ -8,7 +8,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="/PresentationFramework.Aero;component/themes/Aero.NormalColor.xaml" />-->
                 <ResourceDictionary Source="/PresentationFramework.Luna;component/themes/Luna.HomeStead.xaml"/>
+                <ResourceDictionary Source="/Rider.Resource;component/Constants.xaml"/>
+                <ResourceDictionary Source="/Rider.Resource;component/Colors.xaml"/>
                 <ResourceDictionary Source="/Rider.Resource;component/Icons.xaml"/>
+                <ResourceDictionary Source="/Rider.Resource;component/Templates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

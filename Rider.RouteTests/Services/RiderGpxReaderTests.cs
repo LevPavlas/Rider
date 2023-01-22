@@ -38,7 +38,7 @@ namespace Rider.Route.Services.Tests
 			const string FileName = "FileName";
 			using (Stream inputStream = GetEmbededResourceStream("Resources.Route01.gpx"))
 			{
-				FileSystem.Setup(f=>f.OpenFile(FileName)).Returns(inputStream);
+				FileSystem.Setup(f=>f.OpenRead(FileName)).Returns(inputStream);
 
 				RiderGpxReader target = CreateTarget();
 				Data.Route data = await target.Read(FileName);

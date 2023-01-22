@@ -19,6 +19,26 @@ namespace Rider.Services
 		{
 			Time = time;
 		}
+		public string GetFileNameWithoutExtension(string path) 
+		{
+			try
+			{
+				return Path.GetFileNameWithoutExtension(path);
+			}
+			catch 
+			{
+				return string.Empty;
+			}
+		}
+		public string GetDirectoryName(string path)
+		{
+			try
+			{
+				return Path.GetDirectoryName(path) ?? string.Empty;
+			}
+			catch { return string.Empty; }
+
+		}
 		public string GetApplicationDirectory()
 		{
 			string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -47,9 +67,13 @@ namespace Rider.Services
 				JsonSerializer.Serialize<T>(stream, data, options);
 			}
 		}
-		public Stream OpenFile(string path)
+		public Stream OpenRead(string path)
 		{
 			return File.OpenRead(path);
+		}
+		public Stream OpenWrite(string path)
+		{
+			return File.OpenWrite(path);
 		}
 		public string AddTimeStamp(string fullPath)
 		{

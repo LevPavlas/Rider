@@ -8,6 +8,10 @@ namespace Rider.Contracts.Services
 {
     public interface IWpfDialogService
     {
-        string? OpenFile(string filter);
-    }
+        string? OpenGpxFile();
+		string? SaveGpxFile(string? suggestedFileName);
+
+		string? SaveTrackFile();
+
+	}
 }

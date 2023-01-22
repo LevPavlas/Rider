@@ -5,6 +5,7 @@ using CefSharp.Wpf;
 using Prism.Events;
 using Rider.Contracts;
 using Rider.Contracts.Events;
+using Rider.Contracts.Services;
 using Rider.Map.Events;
 using Rider.Map.Services;
 using Rider.Map.ViewModels;
@@ -34,21 +35,31 @@ namespace Rider.Map.Views
 	internal partial class Map : UserControl, IDownloadHandler
 	{
 		private MapViewModel Model { get; }
+		public IWpfDialogService Dialogs { get; }
+
 		private string SelectedMap => Model?.Configuration.SelectedMap ?? string.Empty;
 		private IEventAggregator EventAggregator { get; }
 	
-		public Map(MapViewModel model, ICefSharpService cef, IEventAggregator eventAggregator)
+		public Map(MapViewModel model, ICefSharpService cef, IWpfDialogService dialogs, IEventAggregator eventAggregator)
 		{
 			DataContext= model;
 			Model = model;
+			Dialogs = dialogs;
 			EventAggregator = eventAggregator;
 			cef.Initiaize();
 			InitializeComponent();
 			//EnableGeolocation();
 			//EnableGeolocationWithPosition();
 			Browser.DownloadHandler = this;
+			Browser.LoadError += OnLoadError;
 			EventAggregator.GetEvent<MapChangedEvent>().Subscribe(OnMapChanged, ThreadOption.BackgroundThread);
 		}
+
+		private void OnLoadError(object? sender, LoadErrorEventArgs e)
+		{
+			Model.Console.WriteError(e.ErrorCode.ToString());
+		}
+
 		public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
 		{
 			return true;
@@ -58,8 +69,11 @@ namespace Rider.Map.Views
 		{
 			if (!callback.IsDisposed)
 			{
-				string fullPath = Model.GetFullPathForDownload(downloadItem.SuggestedFileName);
-				callback.Continue(fullPath, false);
+				string? filePath = Dialogs.SaveGpxFile(downloadItem.SuggestedFileName);
+				if (filePath != null)
+				{
+					callback.Continue(filePath, false);
+				}
 			}
 		}
 
@@ -69,7 +83,7 @@ namespace Rider.Map.Views
 			{
 				if (downloadItem.IsComplete)
 				{
-					Console.WriteLine($"Downloaded GPX: {downloadItem.FullPath}");
+					Model.Console.WriteLine($"Downloaded GPX: {downloadItem.FullPath}");
 					if (SelectedMap == Constants.Maps.BrouterDe)
 					{
 						SendEscToBrowser();// this close Export dialog
@@ -81,6 +95,7 @@ namespace Rider.Map.Views
 
 		void OnMapChanged(string map)
 		{
+			Model.Console.WriteLine($"Selected map: {map}");
 			Browser.LoadUrlAsync(map);
 		}
 		void SendEscToBrowser()
