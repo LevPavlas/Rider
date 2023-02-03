@@ -3,6 +3,7 @@ using GpxTools;
 using GpxTools.Gpx;
 using Rider.Route.UserControls;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
@@ -23,6 +24,7 @@ namespace Rider.Route.Data
 		public double LongitudeMaxEast { get; } = double.MinValue;
 		public double ElevationMax { get; } = double.MinValue;
 		public double ElevationMin { get; }= double.MaxValue;
+		public double ElevationGain { get; } = 0;
 		public double Distance { get; } = 0;
 		public IReadOnlyList<RoutePoint> Points { get; private set; } = new List<RoutePoint>();
 
@@ -30,10 +32,14 @@ namespace Rider.Route.Data
 		private object _lock = new object();
 		public Route(IList<GpxPoint> data)
 		{
+			const double elevationTreshold = 2.5;
+
 			if (data==null || data.Count < 2) throw new ArgumentException($"Route need least 2 waypoints.");
 
 			List < RoutePoint> points = new List<RoutePoint>();
 			double lastDistance = -1;
+			double lastElevation = double.MaxValue;
+
 			for(int i= 0; i< data.Count; i++)
 			{
 				GpxPoint p = data[i];
@@ -42,6 +48,17 @@ namespace Rider.Route.Data
 				if(lastDistance >= point.Distance) continue; 
 				
 				lastDistance = point.Distance;
+				
+				if (lastElevation < point.Elevation + elevationTreshold)
+				{
+					ElevationGain += point.Elevation - lastElevation;
+					lastElevation = point.Elevation;
+				}
+				else if(lastElevation > point.Elevation + elevationTreshold) 
+				{
+					lastElevation = point.Elevation;
+				}
+
 
 				LatitudeMaxNorth = Math.Max(LatitudeMaxNorth, point.Latitude);
 				LatitudeMinSouth = Math.Min(LatitudeMinSouth, point.Latitude);

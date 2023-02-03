@@ -52,6 +52,10 @@ namespace Rider.Services
 		{
 			return File.Exists(path);
 		}
+		public bool DirectoryExists(string path) 
+		{
+			return Directory.Exists(path);
+		}
 		public T LoadData<T>(string path)
 		{
 			using(FileStream stream = File.OpenRead(path))

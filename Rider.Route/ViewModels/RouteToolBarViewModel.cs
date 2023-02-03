@@ -160,23 +160,63 @@ namespace Rider.Route.ViewModels
 		}
 		public void WriteSmy(BinaryWriter writer, Data.Route route)
 		{
-			byte[] reserved01 = new byte[] { 1, 0 };
-			writer.Write(reserved01);
+			ushort test =0xFE31;
+			//int altitudegain = 798;
+
+			byte[] reserved01 = new byte[] { 1, 0 }; //dword 2
+			writer.Write(reserved01);								// byte 0-1
 			short count = (short)route.Points.Count;
-			writer.Write(count);
-			writer.Write(Convert.ToInt32(route.LatitudeMaxNorth));
-			writer.Write(Convert.ToInt32(route.LatitudeMinSouth));
-			writer.Write(Convert.ToInt32(route.LongitudeMaxEast));
-			writer.Write(Convert.ToInt32(route.LongitudeMinWest));
-			writer.Write(Convert.ToInt32(route.Distance));
+			writer.Write(count);									// byte 2-3
+			writer.Write(Convert.ToInt32(route.LatitudeMaxNorth * 1000000.0));	// byte 4-7
+			writer.Write(Convert.ToInt32(route.LatitudeMinSouth * 1000000.0));	// byte 8-11
+			writer.Write(Convert.ToInt32(route.LongitudeMaxEast * 1000000.0));	// byte 12-15
+			writer.Write(Convert.ToInt32(route.LongitudeMinWest * 1000000.0));	// byte 16-19
+			writer.Write(Convert.ToInt32(route.Distance));          // byte 20-23 
+
+			writer.Write(Convert.ToInt16(route.ElevationMax));      // byte 24-25 maximum altitude																	
+			writer.Write(Convert.ToInt16(route.ElevationMin));      // byte 26-27 minimum altitude ??? i have no clue what it is.
+			writer.Write(new byte[32]);                             // byte 28-59
+			writer.Write(Convert.ToInt16(route.ElevationGain));     // byte 60-61 elevation gain
+			writer.Write(new byte[6]);                              // byte 62-67
+
+			/*
+			 *  840159FE  max 388(0184) min 201
+			 *  C80034FE  max 200 (00C8) min 198
+			 *	F60170FE  max 502 (01F6) min 189 
+			 *	
+			 *	4 C30033FE  max 195(00C3) min 195(00C3)  + 2  7
+			 *	5 BC0031FE  max 188(00BC),min 188(00BC) 
+			 *	6 E2016CFE  max 482(01E2),min 482(01E2)  + 3B - 59 294(0x126) 
+			 *	C0 +70 
+			 */
+			// min ? 201 - 59FE
+			// 198 64FE
 		}
 		public void WriteTinfo(BinaryWriter writer, IEnumerable<ClimbChallenge> challenges)
 		{
+
 			// POI 
 			// 2 bytes for coordinate index
 			// 1 byte for direction
-			// 0x18 turn-over, 0x1c ferry
-			// 0x65 - peak
+			//		0x18 - turn-over
+			//		0x1c - ferry
+			//		0x65 - peak
+			//		0x03 - left
+			//		0x02 - right
+			//		0x07 - close left
+			//		0x06 - close right
+			//		0x05 - slight left
+			//		0x04 - slight right
+			//		0x01 - go ahead
+			//		0x01 - go ahead
+			//		0x08 - exit right
+			//		0x07 - uturn left
+			//		0x01 - go ahead
+			//		0x01 - go ahead
+			//		0x09 - exit left
+			//		0x08 - exit right
+			//		0x01 - go ahead
+			//		0xff - none
 			// 1 byte reserved 0x00
 			// 2 byte distance in meters
 			// 2 byte reserved 0x00 0x00
@@ -210,24 +250,19 @@ namespace Rider.Route.ViewModels
 
 			foreach (ClimbChallenge c in challenges)
 			{
-				writer.Write((ushort)c.Start);
+				writer.Write((ushort)c.Start); //word 0
 				writer.Write(start);
 				writer.Write(reserved0);
-				writer.Write(reservedFF);
-				writer.Write(descriptor);
-				writer.Write((ushort)c.End);
+
+				writer.Write(reservedFF); //word 1 -2
+				writer.Write(descriptor);// word 3- 10
+				writer.Write((ushort)c.End);//word 11
 				writer.Write(end);
 				writer.Write(reserved0);
-				writer.Write(reservedFF);
-				writer.Write(descriptor);
+				writer.Write(reservedFF); //word 12 - 13
+				writer.Write(descriptor); //word 14 - 21
 			}
 		}
-		//public ushort Start { get; }
-		//public ushort End { get; }
-		//public double EndElevation { get; }
-		//public double StartElevation { get; }
-		//public double Lenght { get; }
-		//public double Height { get; }
 
 
 	}

@@ -72,7 +72,7 @@
                 </Grid.RowDefinitions>
                 <ContentControl Grid.Row="4" VerticalContentAlignment="Stretch" prism:RegionManager.RegionName="{x:Static const:Regions.ToolBar}"  />
                 <!--<ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" />-->
-                <TabControl Grid.Row="1" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
+                <TabControl WindowChrome.IsHitTestVisibleInChrome="True" Grid.Row="1" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
                 <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" Background="#00000000" BorderBrush="#00000000" />
                 <ContentControl Grid.Row="3" prism:RegionManager.RegionName="{x:Static const:Regions.Console}" />
                 <!--<ContentControl Grid.Row="4" prism:RegionManager.RegionName="{x:Static const:Regions.StatusBar}" />-->

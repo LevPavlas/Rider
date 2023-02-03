@@ -14,6 +14,7 @@ namespace Rider.Contracts.Services
 		string GetApplicationDirectory();
 		void CreateDirectory(string path);
 		bool FileExist(string path);
+		bool DirectoryExists(string path);
 		T LoadData<T>(string path);
 		void SaveData<T>(string path, T data);
 		string AddTimeStamp(string fullPath);

@@ -54,7 +54,7 @@ namespace Rider.Services
 			get => _LastExportFullPath;
 			set => SetProperty(ref _LastExportFullPath, value, OnChange);
 		}
-		public string LastExportDirectory => FileSystem.GetDirectoryName(LastExportFullPath);
+		public string LastExportDirectory => GetLastExportDictionary();
 
 
 		public Configuration(IFileSystem fileSystem)
@@ -91,7 +91,15 @@ namespace Rider.Services
 			TileImageLoader.Cache = new ImageFileCache(MapControlCacheDataFolder);
 
 		}
-
+		public string GetLastExportDictionary()
+		{
+			string path = FileSystem.GetDirectoryName(LastExportFullPath);
+			if (FileSystem.DirectoryExists(path))
+			{
+				return path;
+			}
+			return DataDirectory;
+		}
 		private void OnMapsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			Data.Maps = Maps.ToArray();
