@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <RichTextBox VerticalScrollBarVisibility="Auto" IsReadOnlyCaretVisible="True"  Name="Output" IsReadOnly="True"></RichTextBox>
+        <RichTextBox VerticalScrollBarVisibility="Auto" BorderBrush="Black" BorderThickness="1" IsReadOnlyCaretVisible="True"  Name="Output" IsReadOnly="True"></RichTextBox>
     </Grid>
 </UserControl>

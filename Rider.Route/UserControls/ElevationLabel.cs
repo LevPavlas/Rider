@@ -60,11 +60,11 @@ namespace Rider.Route.UserControls
 			Size size = ElevationTextBlock.DesiredSize;
 
 			Canvas.SetLeft(ElevationTextBlock, p.X - size.Width / 2);
-			Canvas.SetTop(ElevationTextBlock, p.Y - 2 * size.Height);
+			Canvas.SetTop(ElevationTextBlock, p.Y - 1.6 * size.Height);
 			Border.Width= 1.3* size.Width;
 			Border.Height= 1.2* size.Height;
 			Canvas.SetLeft(Border, p.X - Border.Width / 2);
-			Canvas.SetTop(Border, p.Y - 1.7 * Border.Height);
+			Canvas.SetTop(Border, p.Y - 1.4 * Border.Height);
 			
 			ElevationTextBlock.Visibility = Visibility.Visible;
 			Border.Visibility = Visibility.Visible;

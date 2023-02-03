@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="/Rider.Resource;component/Colors.xaml"/>
                 <ResourceDictionary Source="/Rider.Resource;component/Icons.xaml"/>
                 <ResourceDictionary Source="/Rider.Resource;component/Templates.xaml"/>
+                <ResourceDictionary Source="/Rider.Resource;component/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

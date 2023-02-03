@@ -5,6 +5,5 @@
         <ResourceDictionary Source="Colors.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <ControlTemplate x:Key="WindowTemplate" TargetType="Window">
-        
     </ControlTemplate>
 </ResourceDictionary>

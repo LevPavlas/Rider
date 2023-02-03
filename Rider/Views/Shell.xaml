@@ -10,19 +10,11 @@
         mc:Ignorable="d" AllowsTransparency="True"  WindowStyle="None"  Background="#00FFFFFF"
         Title="Rider" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
     <WindowChrome.WindowChrome>
-        <WindowChrome  CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
+        <WindowChrome  CaptionHeight="50"
                       ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
                       UseAeroCaptionButtons="True" CornerRadius="10" >
         </WindowChrome>
     </WindowChrome.WindowChrome>
-
-    <Window.Resources>
-        <Style TargetType="{x:Type TabItem}" x:Key="TabItemRegionStyle">
-            <Setter Property="Header" 
-                    Value="{Binding RelativeSource={RelativeSource Self}, 
-                Path=Content.DataContext.HeaderText}" />
-        </Style>
-    </Window.Resources>
     <Grid>
         <Border CornerRadius="{StaticResource PanelCornerRadius}" 
             Background="{StaticResource PanelBrush}" 
@@ -64,7 +56,7 @@
             </Grid.RowDefinitions>
             <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="1"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="120"/>
@@ -72,9 +64,9 @@
                 </Grid.RowDefinitions>
                 <ContentControl Grid.Row="4" VerticalContentAlignment="Stretch" prism:RegionManager.RegionName="{x:Static const:Regions.ToolBar}"  />
                 <!--<ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" />-->
-                <TabControl WindowChrome.IsHitTestVisibleInChrome="True" Grid.Row="1" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
+                <TabControl WindowChrome.IsHitTestVisibleInChrome="True" Style="{StaticResource TabControlStyle}" Grid.Row="1" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
                 <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" Background="#00000000" BorderBrush="#00000000" />
-                <ContentControl Grid.Row="3" prism:RegionManager.RegionName="{x:Static const:Regions.Console}" />
+                <ContentControl Grid.Row="3" prism:RegionManager.RegionName="{x:Static const:Regions.Console}"/>
                 <!--<ContentControl Grid.Row="4" prism:RegionManager.RegionName="{x:Static const:Regions.StatusBar}" />-->
             </Grid>
 

@@ -48,4 +48,23 @@
         <GradientStop Color="{StaticResource PanelBorderColorBottom2}" Offset="1.0" />
     </LinearGradientBrush>
 
+    <SolidColorBrush x:Key="TabControlBorder">#FF000000</SolidColorBrush>
+    
+    <Color x:Key="TabLightColor">#FFA0BFBF</Color>
+    <Color x:Key="TabDarkColor">#FF506F6F</Color>
+
+    <Color x:Key="SelectedTabLightColor">#FFD0FFFF</Color>
+    <Color x:Key="SelectedTabDarkColor">#FF90aFaF</Color>
+
+    
+    <LinearGradientBrush x:Key="TabItemBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource TabDarkColor}" Offset="0.0" />
+        <GradientStop Color="{StaticResource TabLightColor}" Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="SelectedTabItemBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource SelectedTabDarkColor}" Offset="0.0" />
+        <GradientStop Color="{StaticResource SelectedTabLightColor}" Offset="1.0" />
+    </LinearGradientBrush>
+        
+    
 </ResourceDictionary>
