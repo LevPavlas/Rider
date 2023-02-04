@@ -17,15 +17,15 @@
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="600" MinWidth="100"/>
-                <ColumnDefinition Width="5" />
+                <!--<ColumnDefinition Width="600" MinWidth="100"/>-->
+                <!--<ColumnDefinition Width="5" />-->
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ctrl:RouteMapControl x:Name="map"  Grid.Row="0"
                                   BoundingBox="{Binding Path=BoundingBox }" 
                                   RoutePath="{Binding Path=RoutePath}"
                                   TargetCenter="{Binding Path=TargetCenter}"/>
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />
+            <!--<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />-->
         </Grid>
         <GridSplitter Grid.Row="1"  HorizontalAlignment="Stretch" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment"/>
         <ctrl:ElevationControl Grid.Row="2" RiderData="{Binding Path=RiderData}"/>

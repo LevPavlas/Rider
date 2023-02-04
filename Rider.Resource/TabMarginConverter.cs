@@ -9,11 +9,11 @@ using System.Windows;
 
 namespace Rider.Resource
 {
-	public class ContentToMarginConverter : IValueConverter
+	public class TabMarginConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return new Thickness(0, 0, -((ContentPresenter)value).ActualHeight, 0);
+			return new Thickness(0, 0, -((ContentPresenter)value).ActualHeight, -1);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
