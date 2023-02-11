@@ -39,16 +39,16 @@ namespace Rider.Resource
 			double height = content.ActualHeight;
 			double width = content.ActualWidth;
 			double x0 = 0.5;
-			double y0 = height + (isSelected ? 5 : 4);
+			double y0 = height + (isSelected ? 11 : 10);
 
 			figure.IsClosed = false;
 			figure.StartPoint = new Point(x0, y0);
 			PathSegmentCollection segments = new PathSegmentCollection();
 
 			segments.Add(new LineSegment(new Point(x0, y0 - 0.7 * height), true));
-			segments.Add(new BezierSegment(new Point(x0, y0 - 0.9 * height), new Point(0.1 * height, 0), new Point(0.3 * height, 0), true));
+			segments.Add(new BezierSegment(new Point(x0, y0 - 0.9 * height), new Point(0.1 * height, 0), new Point(0.5 * height, 0), true));
 			segments.Add(new LineSegment(new Point(width, 0), true));
-			segments.Add(new BezierSegment(new Point(width + 0.6 * height, 0), new Point(width + height, y0), new Point(width + height * 1.3, y0), true));
+			segments.Add(new BezierSegment(new Point(width + 0.8 * height, 0), new Point(width + height, y0), new Point(width + height * 1.3, y0), true));
 		
 			figure.Segments = segments;
 			geometry.Figures.Add(figure);

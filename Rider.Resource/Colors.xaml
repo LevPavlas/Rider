@@ -53,8 +53,8 @@
     <Color x:Key="TabLightColor">#FFA0BFBF</Color>
     <Color x:Key="TabDarkColor">#FF506F6F</Color>
 
-    <Color x:Key="SelectedTabLightColor">#FFE8FFFF</Color>
-    <Color x:Key="SelectedTabDarkColor">#FFC0DFDF</Color>
+    <Color x:Key="SelectedTabLightColor">#FFE0FFFF</Color>
+    <Color x:Key="SelectedTabDarkColor">#FFB0DFDF</Color>
 
     <LinearGradientBrush x:Key="TabItemBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="{StaticResource TabLightColor}" Offset="0.0" />

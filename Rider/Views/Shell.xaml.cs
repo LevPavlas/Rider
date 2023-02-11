@@ -31,7 +31,7 @@ namespace Rider.Views
 			ACCENT_ENABLE_BLURBEHIND = 3,
 			ACCENT_ENABLE_ACRYLICBLURBEHIND = 4, // RS4 1803.17063
 			ACCENT_ENABLE_HOSTBACKDROP = 5, // RS5 1809
-			ACCENT_INVALID_STATE = 6        
+			ACCENT_INVALID_STATE = 6
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -118,6 +118,26 @@ namespace Rider.Views
 		private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			DragMove();
+		}
+
+		private void OnExit(object sender, RoutedEventArgs e)
+		{
+			System.Windows.Application.Current.Shutdown();
+		}
+		private void OnMaximize(object sender, RoutedEventArgs e)
+		{
+			if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+			{
+				Application.Current.MainWindow.WindowState = WindowState.Normal;
+			}
+			else
+			{
+				Application.Current.MainWindow.WindowState = WindowState.Maximized;
+			}
+		}
+		private void OnMinimize(object sender, RoutedEventArgs e)
+		{
+			Application.Current.MainWindow.WindowState = WindowState.Minimized;
 		}
 	}
 }
