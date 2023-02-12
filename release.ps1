@@ -1,10 +1,10 @@
 # From https://janjones.me/posts/clickonce-installer-build-publish-github/.
 
-[CmdletBinding(PositionalBinding=$false)]
-param (
-    [switch]$OnlyBuild=$false
-)
-
+#[CmdletBinding(PositionalBinding=$false)]
+#param (
+ #   [switch]$OnlyBuild=$false
+#)
+$OnlyBuild=$false
 $appName = "Rider" # 👈 Replace with your application project name.
 $projDir = "Rider/Rider/" # 👈 Replace with your project directory (where .csproj resides).
 
