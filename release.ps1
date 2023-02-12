@@ -1,3 +1,5 @@
+# From https://janjones.me/posts/clickonce-installer-build-publish-github/.
+
 [CmdletBinding(PositionalBinding=$false)]
 param (
     [switch]$OnlyBuild=$false
