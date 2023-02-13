@@ -19,8 +19,10 @@ $msBuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vsw
     -prerelease | select-object -first 1
 Write-Output "MSBuild: $((Get-Command $msBuildPath).Path)"
 
+Write-Output "GIT config"
 git config --global http.version HTTP/1.1
 git config --global http.postBuffer 157286400
+git lfs track "*.deploy"
 
 # Load current Git tag.
 # $tag = $(git describe --tags)
