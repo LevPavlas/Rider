@@ -23,15 +23,7 @@ Write-Output "GIT config"
 git config --global http.version HTTP/1.1
 git config --global http.postBuffer 157286400
 
-Write-Output "*** lfs help ***"
-git lfs help 
-Write-Output "*** lfs track ***"
-git lfs track "*.deploy"
-Write-Output "*** lfs status ***"
-git lfs status
-Write-Output "*** lfs ls-files ***"
-git lfs ls-files
-git branch
+
 
 # Load current Git tag.
 # $tag = $(git describe --tags)
@@ -104,9 +96,22 @@ try {
     Copy-Item -Path "../$outDir/Application Files","../$outDir/$appName.application" `
         -Destination . -Recurse
 
+    Write-Output "*** lfs track ***"
+    git lfs track "*.deploy"
+   
     # Stage and commit.
     Write-Output "Staging..."
     git add -A
+    
+    Write-Output "*** lfs status ***"
+    git lfs status
+    Write-Output "*** lfs ls-files ***"
+    git lfs ls-files
+    Write-Output "*** git branch ***"
+    git branch
+    Write-Output "*** git status ***"
+    git status
+    
     Write-Output "Committing..."
     git commit -m "Update to v$version"
 
