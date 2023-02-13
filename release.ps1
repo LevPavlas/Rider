@@ -21,7 +21,7 @@ Write-Output "MSBuild: $((Get-Command $msBuildPath).Path)"
 
 # Load current Git tag.
 # $tag = $(git describe --tags)
-&tag = "v1.0.0"
+$tag = "v1.0.0"
 Write-Output "Tag: $tag"
 
 # Parse tag into a three-number version.
