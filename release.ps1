@@ -31,6 +31,7 @@ Write-Output "*** lfs status ***"
 git lfs status
 Write-Output "*** lfs ls-files ***"
 git lfs ls-files
+git branch
 
 # Load current Git tag.
 # $tag = $(git describe --tags)
