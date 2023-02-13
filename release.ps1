@@ -22,12 +22,22 @@ Write-Output "MSBuild: $((Get-Command $msBuildPath).Path)"
 Write-Output "GIT config"
 git config --global http.version HTTP/1.1
 git config --global http.postBuffer 157286400
+
+Write-Output "*** lfs help ***"
+git lfs help 
+Write-Output "*** lfs track ***"
 git lfs track "*.deploy"
+Write-Output "*** lfs status ***"
+git lfs status
+Write-Output "*** lfs ls-files ***"
+git lfs ls-files
 
 # Load current Git tag.
 # $tag = $(git describe --tags)
 $tag = "v1.0.0"
 Write-Output "Tag: $tag"
+
+exit
 
 # Parse tag into a three-number version.
 $version = $tag.Split('-')[0].TrimStart('v')
