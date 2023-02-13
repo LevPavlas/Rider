@@ -6,7 +6,7 @@
 #)
 $OnlyBuild=$false
 $appName = "Rider" # 👈 Replace with your application project name.
-$projDir = "Rider/Rider/" # 👈 Replace with your project directory (where .csproj resides).
+$projDir = "" # 👈 Replace with your project directory (where .csproj resides).
 
 Set-StrictMode -version 2.0
 $ErrorActionPreference = "Stop"
