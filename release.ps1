@@ -30,7 +30,6 @@ git config --global http.postBuffer 157286400
 $tag = "v1.0.0"
 Write-Output "Tag: $tag"
 
-exit
 
 # Parse tag into a three-number version.
 $version = $tag.Split('-')[0].TrimStart('v')
