@@ -160,7 +160,6 @@ namespace Rider.Route.ViewModels
 		}
 		public void WriteSmy(BinaryWriter writer, Data.Route route)
 		{
-			ushort test =0xFE31;
 			//int altitudegain = 798;
 
 			byte[] reserved01 = new byte[] { 1, 0 }; //dword 2
