@@ -110,6 +110,7 @@ namespace Rider.Services.Tests
 
 			Mock<IFileSystem> fileSystem = new Mock<IFileSystem>();
 			fileSystem.Setup(f => f.GetDirectoryName(ExportPath)).Returns(DirectoryName);
+			fileSystem.Setup(f=>f.DirectoryExists(DirectoryName)).Returns(true);
 
 
 			Configuration target = new Configuration(fileSystem.Object);
@@ -121,6 +122,7 @@ namespace Rider.Services.Tests
 			Assert.AreEqual(DirectoryName, target.LastExportDirectory);
 			fileSystem.Verify(f => f.SaveData(string.Empty, It.IsAny<It.IsAnyType>()));
 			fileSystem.Verify(f => f.GetDirectoryName(ExportPath));
+			fileSystem.Verify(f => f.DirectoryExists(DirectoryName));
 			fileSystem.VerifyNoOtherCalls();
 
 
