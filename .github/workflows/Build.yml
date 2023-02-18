@@ -53,7 +53,7 @@ jobs:
 
     env:
       Solution_Name: Rider.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
-      # Test_Project_Path: *Tests\*Tests.csproj                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Test_Project_Path: **\*Tests.csproj             # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
 
     steps:
     - name: Checkout
