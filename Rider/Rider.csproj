@@ -9,7 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.6" />
-    <PackageReference Include="DryIoc.dll" Version="5.3.1" />
+    <PackageReference Include="CefSharp.Common.NETCore" Version="110.0.250" />
+    <PackageReference Include="CefSharp.Wpf.NETCore" Version="110.0.250" />
+    <PackageReference Include="DryIoc.dll" Version="5.3.3" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
@@ -23,15 +25,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="chromiumembeddedframework.runtime.win-arm64" Version="107.1.12" />
+    <PackageReference Update="chromiumembeddedframework.runtime.win-arm64" Version="110.0.25" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="chromiumembeddedframework.runtime.win-x64" Version="107.1.12" />
+    <PackageReference Update="chromiumembeddedframework.runtime.win-x64" Version="110.0.25" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="chromiumembeddedframework.runtime.win-x86" Version="107.1.12" />
+    <PackageReference Update="chromiumembeddedframework.runtime.win-x86" Version="110.0.25" />
   </ItemGroup>
 
 </Project>

@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" Version="5.3.1" />
+    <PackageReference Include="DryIoc.dll" Version="5.3.3" />
     <PackageReference Include="GpxTools.macharius40" Version="1.1.2" />
     <PackageReference Include="MintPlayer.ObservableCollection" Version="7.0.1" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
-    <PackageReference Include="XAML.MapControl" Version="7.3.0" />
+    <PackageReference Include="XAML.MapControl" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>
