@@ -6,6 +6,7 @@ env:
  PROJECT_PATH: 'Rider.Setup\Rider.Setup.vdproj'
  SOLUTION_PATH: 'Rider.sln'
  DEVENV_PATH: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com'
+ RELEASE_PATTERN: 'Rider.Setup\Release\*.*'
 
 jobs:
  deploy:
@@ -32,16 +33,24 @@ jobs:
     # Setup VS Dev Environment
   - name: Set VS.net environment
     run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-  - name: Variables  
-    run: |
-          echo "PROJECT_PATH: $PROJECT_PATH"
-          echo "DEVENV_PATH: $DEVENV_PATH"
-          echo "CommandLine: ${{github.workspace}}${{ env.PROJECT_PATH }}"
-
-
+ 
     # Build setup project
   - name: Build installer 
- #   run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{github.workspace}}${{ env.PROJECT_PATH }}
     run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{ env.SOLUTION_PATH }} /Project ${{ env.PROJECT_PATH }} /build "Release"
 
- 
+  - uses: actions/create-release@v1
+    id: create_release
+    env:
+     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    with:
+     tag_name: MyRelease
+     release_name: MyRelease
+ #    tag_name: ${{ github.ref }}
+ #    release_name: ${{ github.ref }}
+
+  - uses: csexton/release-asset-action@v2
+    with:
+     github-token: ${{ secrets.GITHUB_TOKEN }}
+     pattern: ${{ env.RELEASE_PATTERN }}
+     release-url: ${{ steps.create_release.outputs.upload_url }}
+
