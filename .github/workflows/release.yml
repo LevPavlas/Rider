@@ -3,7 +3,8 @@ name: Release
 on: [workflow_dispatch]
 
 env:
- PROJECT_PATH: Rider.Setup/Rider.Setup.vdproj
+ PROJECT_PATH: 'Rider.Setup\Rider.Setup.vdproj'
+ DEVENV_PATH: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com'
 
 jobs:
  deploy:
@@ -28,6 +29,6 @@ jobs:
    
     # Build setup project
   - name: Build installer 
-    run: devenv.com ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
+    run: ${{ env.DEVENV_PATH }} ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
 
  
