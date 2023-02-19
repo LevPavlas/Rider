@@ -2,20 +2,32 @@ name: Release
 
 on: [workflow_dispatch]
 
+env:
+ PROJECT_PATH: Rider.Setup/Rider.Setup.vdproj
+
 jobs:
-  release:
-    runs-on: windows-latest
+ deploy:
+  runs-on: windows-latest
+  steps:
+    
+  # Checkout code
+  - name: Checkout code
+    uses: actions/checkout@v3
+    with:
+     fetch-depth: 0
+   
+  # Install the .NET Core 
+  - name: Install .NET Core
+    uses: actions/setup-dotnet@v3
+    with:
+     dotnet-version: 7.0.x
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # Setup VS Dev Environment
+  - name: Set VS.net environment
+    run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+   
+    # Build setup project
+  - name: Build installer 
+    run: devenv.com ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
 
-      - name: Setup Git
-        run: |
-          git config --global url."https://user:${{ secrets.GITHUB_TOKEN }}@github".insteadOf https://github
-          git config --global user.name github-actions
-          git config --global user.email github-actions@github.com          
-
-      - name: Run release script
-        shell: pwsh
-        run: ./release.ps1
+ 
