@@ -29,6 +29,6 @@ jobs:
    
     # Build setup project
   - name: Build installer 
-    run: ${{ env.DEVENV_PATH }} ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
+    run: cmd.exe /C CALL ${{ env.DEVENV_PATH }} ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
 
  
