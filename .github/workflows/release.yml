@@ -4,6 +4,7 @@ on: [workflow_dispatch]
 
 env:
  PROJECT_PATH: 'Rider.Setup\Rider.Setup.vdproj'
+ SOLUTION_PATH: 'Rider.sln'
  DEVENV_PATH: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com'
 
 jobs:
@@ -41,6 +42,6 @@ jobs:
     # Build setup project
   - name: Build installer 
  #   run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{github.workspace}}${{ env.PROJECT_PATH }}
-    run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{ env.PROJECT_PATH }} /build "Release|Any CPU"
+    run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{ env.SOLUTION_PATH }} /Project ${{ env.PROJECT_PATH }} /build "Release"
 
  
