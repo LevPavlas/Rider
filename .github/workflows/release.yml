@@ -23,9 +23,9 @@ jobs:
     with:
      dotnet-version: 7.0.x
     
-  - run: dotnet restore ${{ env.PROJECT_PATH }} #Restores the dependencies and tools of a project.
-  - run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
-  - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true --no-build
+ # - run: dotnet restore ${{ env.PROJECT_PATH }} #Restores the dependencies and tools of a project.
+ # - run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
+ # - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true --no-build
 
 
     # Setup VS Dev Environment
@@ -34,6 +34,7 @@ jobs:
    
     # Build setup project
   - name: Build installer 
-    run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
+    run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{github.workspace}}${{ env.PROJECT_PATH }}
+#    run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
 
  
