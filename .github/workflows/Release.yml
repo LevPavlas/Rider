@@ -4,7 +4,7 @@ on:
  push:
     tags:
      - "RiderSetup_*"       # git tag RiderSetup_1.0.0-beta
-                            # git push RiderSetup_1.0.0-beta
+                            # git push origin RiderSetup_1.0.0-beta
 
 env:
  PROJECT_PATH: 'Rider.Setup\Rider.Setup.vdproj'
