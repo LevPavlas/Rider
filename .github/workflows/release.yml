@@ -29,6 +29,6 @@ jobs:
    
     # Build setup project
   - name: Build installer 
-    run: cmd.exe /C CALL ${{ env.DEVENV_PATH }} ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
+    run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{github.workspace}}${{ env.PROJECT_PATH }} /build "Release|Any CPU"
 
  
