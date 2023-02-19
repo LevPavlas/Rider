@@ -3,8 +3,8 @@ name: Release
 on:
  push:
     tags:
-     - "Rider Setup v*"     # git tag Rider Setup v1.0.0-beta
-                            # git push Rider Setup v1.0.0-beta
+     - "RiderSetup_*"       # git tag RiderSetup_1.0.0-beta
+                            # git push RiderSetup_1.0.0-beta
 
 env:
  PROJECT_PATH: 'Rider.Setup\Rider.Setup.vdproj'
