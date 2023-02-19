@@ -1,6 +1,10 @@
 name: Release
 
-on: [workflow_dispatch]
+on:
+ push:
+    tags:
+     - "Rider/v*"     # git tag Rider/v1.0.0-beta
+                      # git push Rider/v1.0.0-beta
 
 env:
  PROJECT_PATH: 'Rider.Setup\Rider.Setup.vdproj'
@@ -30,25 +34,24 @@ jobs:
  # - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true --no-build
 
 
-    # Setup VS Dev Environment
-  - name: Set VS.net environment
+  - name: Setup VS Dev Environment
     run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
  
     # Build setup project
-  - name: Build installer 
+  - name: Build Rider Setup 
     run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.com" ${{ env.SOLUTION_PATH }} /Project ${{ env.PROJECT_PATH }} /build "Release"
 
-  - uses: actions/create-release@v1
+  - name: Create Release
+    uses: actions/create-release@v1
     id: create_release
     env:
      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
-     tag_name: MyRelease
-     release_name: MyRelease
- #    tag_name: ${{ github.ref }}
- #    release_name: ${{ github.ref }}
+     tag_name: ${{ github.ref }}
+     release_name: ${{ github.ref }}
 
-  - uses: csexton/release-asset-action@v2
+  - name: Deploy Release
+    uses: csexton/release-asset-action@v2
     with:
      github-token: ${{ secrets.GITHUB_TOKEN }}
      pattern: ${{ env.RELEASE_PATTERN }}
