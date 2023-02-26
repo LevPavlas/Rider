@@ -28,6 +28,6 @@
             <!--<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />-->
         </Grid>
         <GridSplitter Grid.Row="1"  HorizontalAlignment="Stretch" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment"/>
-        <ctrl:ElevationControl Grid.Row="2" RiderData="{Binding Path=RiderData}"/>
+        <ctrl:ElevationControl FontSize="{StaticResource FontSizeElevation}" Grid.Row="2" RiderData="{Binding Path=RiderData}"/>
     </Grid>
 </UserControl>

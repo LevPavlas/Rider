@@ -10,9 +10,9 @@
              mc:Ignorable="d" d:DesignHeight="25" d:DesignWidth="800">
      <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="32"/>
+            <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="32"/>
+            <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 

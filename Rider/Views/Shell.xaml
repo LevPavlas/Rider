@@ -56,13 +56,13 @@
             </Grid.RowDefinitions>
             <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="6"/>
-                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="40"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="120"/>
                   </Grid.RowDefinitions>
-                <TabControl WindowChrome.IsHitTestVisibleInChrome="True" Style="{StaticResource TabControlStyle}" Grid.Row="1" Grid.RowSpan="2" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
+                <TabControl Margin="0,8,0,0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{StaticResource TabControlStyle}" Grid.Row="1" Grid.RowSpan="2" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
                 <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" Background="#00000000" BorderBrush="#00000000" />
                 <ContentControl Grid.Row="4" prism:RegionManager.RegionName="{x:Static const:Regions.Console}"/>
                  <Grid Grid.Row="1">
@@ -75,12 +75,13 @@
                     <Grid Grid.Column="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="32"/>
-                         </Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="5"/>
+                        </Grid.ColumnDefinitions>
                         <Button Grid.Column="1" Click="OnMinimize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True"/>
                         <Button Grid.Column="3" Click="OnMaximize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True"/>
                         <Button Grid.Column="5" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True"/>

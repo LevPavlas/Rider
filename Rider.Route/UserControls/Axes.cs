@@ -123,7 +123,7 @@ namespace Rider.Route.UserControls
 					StrokeThickness = StrokeThickness,
 				};
 				Canvas.Children.Add(mark);
-				TextX(posX, markY2 + 3, x, Colors.Black);
+				TextX(posX+2, markY2 + 3, x, Colors.Black);
 			}
 		}
 

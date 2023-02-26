@@ -13,8 +13,11 @@
     <Color x:Key="PanelBorderColorBottom1">#E0A0AFAF</Color>
     <Color x:Key="PanelBorderColorBottom2">#E0808F8F</Color>-->
 
-    <Color x:Key="PanelLightColor">#60F0FFFF</Color>
-    <Color x:Key="PanelDarkColor">#60E0EFEF</Color>
+    <!--<Color x:Key="PanelLightColor">#60F0FFFF</Color>
+    <Color x:Key="PanelDarkColor">#60E0EFEF</Color>-->
+
+    <Color x:Key="PanelColor">#60E0EFEF</Color>
+    <Color x:Key="PanelColorMouseOver">#A0E0EFEF</Color>
 
     <Color x:Key="PanelBorderColorTop1">#60FFFFFF</Color>
     <Color x:Key="PanelBorderColorTop2">#60F0FFFF</Color>
@@ -25,33 +28,63 @@
     <Color x:Key="PanelBorderColorBottom1">#60A0AFAF</Color>
     <Color x:Key="PanelBorderColorBottom2">#60808F8F</Color>
 
+    <Color x:Key="PanelBorderColorTop1MouseOver">#A0FFFFFF</Color>
+    <Color x:Key="PanelBorderColorTop2MouseOver">#A0F0FFFF</Color>
+    <Color x:Key="PanelBorderColorLeft1MouseOver">#A0F0FFFF</Color>
+    <Color x:Key="PanelBorderColorLeft2MouseOver">#A0D0DFDF</Color>
+    <Color x:Key="PanelBorderColorRight1MouseOver">#A0C0CFCF</Color>
+    <Color x:Key="PanelBorderColorRight2MouseOver">#A0B0BFBF</Color>
+    <Color x:Key="PanelBorderColorBottom1MouseOver">#A0A0AFAF</Color>
+    <Color x:Key="PanelBorderColorBottom2MouseOver">#A0808F8F</Color>
+
 
     <SolidColorBrush x:Key="PanelBorderBrush" Color="#C0808F8F" ></SolidColorBrush>
-    <LinearGradientBrush x:Key="PanelBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource PanelDarkColor}" Offset="0.0" />
-        <GradientStop Color="{StaticResource PanelLightColor}" Offset="1.0" />
-     </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource PanelColor}" ></SolidColorBrush>
+    <SolidColorBrush x:Key="PanelBrushMouseOver" Color="{StaticResource PanelColorMouseOver}" ></SolidColorBrush>
+
     <LinearGradientBrush x:Key="PanelBorderBrushTop" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource PanelBorderColorTop1}" Offset="0.0" />
         <GradientStop Color="{StaticResource PanelBorderColorTop2}" Offset="1.0" />
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PanelBorderBrushTopMouseOver" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelBorderColorTop1MouseOver}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelBorderColorTop2MouseOver}" Offset="1.0" />
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="PanelBorderBrushLeft" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource PanelBorderColorLeft1}" Offset="0.0" />
         <GradientStop Color="{StaticResource PanelBorderColorLeft2}" Offset="1.0" />
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PanelBorderBrushLeftMouseOver" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelBorderColorLeft1MouseOver}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelBorderColorLeft2MouseOver}" Offset="1.0" />
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="PanelBorderBrushRight" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource PanelBorderColorRight1}" Offset="0.0" />
         <GradientStop Color="{StaticResource PanelBorderColorRight2}" Offset="1.0" />
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PanelBorderBrushRightMouseOver" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelBorderColorRight1MouseOver}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelBorderColorRight2MouseOver}" Offset="1.0" />
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="PanelBorderBrushBottom" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource PanelBorderColorBottom1}" Offset="0.0" />
         <GradientStop Color="{StaticResource PanelBorderColorBottom2}" Offset="1.0" />
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PanelBorderBrushBottomMouseOver" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PanelBorderColorBottom1MouseOver}" Offset="0.0" />
+        <GradientStop Color="{StaticResource PanelBorderColorBottom2MouseOver}" Offset="1.0" />
+    </LinearGradientBrush>
 
     <SolidColorBrush x:Key="TabControlBorder">#FF000000</SolidColorBrush>
 
-    <Color x:Key="TabLightColor">#FFA0BFBF</Color>
-    <Color x:Key="TabDarkColor">#FF506F6F</Color>
+    <!--<Color x:Key="TabLightColor">#FFA0BFBF</Color>
+    <Color x:Key="TabDarkColor">#FF506F6F</Color>-->
+    <Color x:Key="TabLightColor">#FFC0DFDF</Color>
+    <Color x:Key="TabDarkColor" >#FF708F8F</Color>
 
     <Color x:Key="SelectedTabLightColor">#FFE0FFFF</Color>
     <Color x:Key="SelectedTabDarkColor">#FFB0DFDF</Color>
@@ -64,10 +97,12 @@
         <GradientStop Color="{StaticResource SelectedTabLightColor}" Offset="0.0" />
         <GradientStop Color="{StaticResource SelectedTabDarkColor}" Offset="1.0" />
      </LinearGradientBrush>
-    <LinearGradientBrush x:Key="TabItemContentBrush" StartPoint="0,0" EndPoint="0,1">
+    <SolidColorBrush x:Key="TabItemContentBrush" Color="{StaticResource SelectedTabDarkColor}" />
+
+    <!--<LinearGradientBrush x:Key="TabItemContentBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="{StaticResource SelectedTabDarkColor}" Offset="0.0" />
         <GradientStop Color="{StaticResource SelectedTabLightColor}" Offset="1.0" />
-    </LinearGradientBrush>
+    </LinearGradientBrush>-->
 
 
 </ResourceDictionary>
