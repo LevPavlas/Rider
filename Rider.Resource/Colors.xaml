@@ -37,11 +37,19 @@
     <Color x:Key="PanelBorderColorBottom1MouseOver">#A0A0AFAF</Color>
     <Color x:Key="PanelBorderColorBottom2MouseOver">#A0808F8F</Color>
 
+    <Color x:Key="TabBorderColor">#60F0FFFF</Color>
+    <Color x:Key="TabBorderColorActive">#FF000000</Color>
+    <Color x:Key="TabColorActive">#FFE0EFEF</Color>
+
 
     <SolidColorBrush x:Key="PanelBorderBrush" Color="#C0808F8F" ></SolidColorBrush>
 
     <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource PanelColor}" ></SolidColorBrush>
     <SolidColorBrush x:Key="PanelBrushMouseOver" Color="{StaticResource PanelColorMouseOver}" ></SolidColorBrush>
+
+    <SolidColorBrush x:Key="TabBrushActive" Color="{StaticResource TabColorActive}" ></SolidColorBrush>
+    <SolidColorBrush x:Key="TabBorderBrush" Color="{StaticResource TabBorderColor}" ></SolidColorBrush>
+    <SolidColorBrush x:Key="TabBorderBrushActive" Color="{StaticResource TabBorderColorActive}" ></SolidColorBrush>
 
     <LinearGradientBrush x:Key="PanelBorderBrushTop" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource PanelBorderColorTop1}" Offset="0.0" />

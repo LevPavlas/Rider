@@ -37,9 +37,9 @@ namespace Rider.Route.UserControls
 
 	internal class ChallengeController
 	{
-		private static Brush Stroke = new SolidColorBrush(Color.FromArgb(0x90, 0xFF, 0x00, 0x00));
+		private static Brush Stroke = new SolidColorBrush(Color.FromArgb(0xA0, 0xFF, 0x00, 0x00));
 		private static Brush SelectedStroke = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
-		private static Brush Fill = new SolidColorBrush(Color.FromArgb(0x30, 0xFF, 0x00, 0x00));
+		private static Brush Fill = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0x00, 0x00));
 		private static Brush SelectedFill = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
 
 		private ElevationDrawingContext Context { get; }

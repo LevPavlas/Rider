@@ -39,7 +39,7 @@ namespace Rider.Resource
 			double height = content.ActualHeight;
 			double width = content.ActualWidth;
 			double x0 = 0.5;
-			double y0 = height + (isSelected ? 11 : 10);
+			double y0 = height + (isSelected ? 11 : 9);
 
 			figure.IsClosed = false;
 			figure.StartPoint = new Point(x0, y0);
