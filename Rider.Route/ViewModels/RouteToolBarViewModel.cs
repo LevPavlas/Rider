@@ -65,7 +65,6 @@ namespace Rider.Route.ViewModels
 		{
 			//		OpenInProgress = true;
 			//		OpenCommand.RaiseCanExecuteChanged();
-
 			string? file = Dialogs.OpenGpxFile();
 			if(file!= null && FileSystem.FileExist(file))
 			{
