@@ -149,14 +149,42 @@ namespace Rider.Route.ViewModels
 
 		public void WriteTrack(BinaryWriter writer, IReadOnlyList<RoutePoint> points)
 		{
-			foreach (RoutePoint p in points)
+			RoutePoint p0 = points[0];
+			writer.Write(Convert.ToInt32(p0.Latitude * 1000000.0));
+			writer.Write(Convert.ToInt32(p0.Longitude * 1000000.0));
+			writer.Write(Convert.ToInt16(p0.Elevation));
+			writer.Write((short)0);  // Grade for climb ??? color ???
+			writer.Write(Reserved);
+			short grade = (short)0;
+
+
+			for(int i = 1; i < points.Count; i++ )
 			{
-				writer.Write(Convert.ToInt32(p.Latitude * 1000000.0));
-				writer.Write(Convert.ToInt32(p.Longitude * 1000000.0));
-				writer.Write(Convert.ToInt32(p.Elevation));
+				RoutePoint p1 = points[i];
+				writer.Write(Convert.ToInt32(p1.Latitude * 1000000.0));
+				writer.Write(Convert.ToInt32(p1.Longitude * 1000000.0));
+				writer.Write(Convert.ToInt16(p1.Elevation));
+				grade = CalculateGrade(p0, p1, grade);
+				writer.Write(grade);  // Grade for climb ??? color ???
 				writer.Write(Reserved);
+				
+				p0 = p1;
 			}
 		}
+		short CalculateGrade(RoutePoint p0, RoutePoint p1, short previousGrade)
+		{
+			double distance = p1.Distance - p0.Distance;
+			if ( Math.Abs(distance) < 0.1) return previousGrade;
+
+			double elevation = p1.Elevation - p0.Elevation;
+			double grade = 100* elevation / distance;
+
+			if (grade < -100) grade = -100;
+			if(grade> 100) grade = 100;
+			
+			return (byte)Convert.ToInt32(grade);
+		}
+
 		public void WriteSmy(BinaryWriter writer, Data.Route route)
 		{
 			//int altitudegain = 798;
@@ -172,23 +200,11 @@ namespace Rider.Route.ViewModels
 			writer.Write(Convert.ToInt32(route.Distance));          // byte 20-23 
 
 			writer.Write(Convert.ToInt16(route.ElevationMax));      // byte 24-25 maximum altitude																	
-			writer.Write(Convert.ToInt16(route.ElevationMin));      // byte 26-27 minimum altitude ??? i have no clue what it is.
+			writer.Write(Convert.ToInt16(0));      // byte 26-27 minimum altitude ??? i have no clue what it is.
 			writer.Write(new byte[32]);                             // byte 28-59
 			writer.Write(Convert.ToInt16(route.ElevationGain));     // byte 60-61 elevation gain
 			writer.Write(new byte[6]);                              // byte 62-67
 
-			/*
-			 *  840159FE  max 388(0184) min 201
-			 *  C80034FE  max 200 (00C8) min 198
-			 *	F60170FE  max 502 (01F6) min 189 
-			 *	
-			 *	4 C30033FE  max 195(00C3) min 195(00C3)  + 2  7
-			 *	5 BC0031FE  max 188(00BC),min 188(00BC) 
-			 *	6 E2016CFE  max 482(01E2),min 482(01E2)  + 3B - 59 294(0x126) 
-			 *	C0 +70 
-			 */
-			// min ? 201 - 59FE
-			// 198 64FE
 		}
 		public void WriteTinfo(BinaryWriter writer, IEnumerable<ClimbChallenge> challenges)
 		{
