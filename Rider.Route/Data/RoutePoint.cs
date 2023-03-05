@@ -3,7 +3,15 @@ using System;
 
 namespace Rider.Route.Data
 {
-    internal class RoutePoint
+	public interface IPoint
+	{
+		public double Latitude { get; }
+		public double Longitude { get; }
+		public double Elevation { get; }
+		public double Distance { get; }
+	}
+
+	internal class RoutePoint: IPoint
 	{
 		public double Latitude { get; }
 		public double Longitude { get; }

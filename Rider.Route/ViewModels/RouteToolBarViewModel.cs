@@ -147,9 +147,9 @@ namespace Rider.Route.ViewModels
 			}
 		}
 
-		public void WriteTrack(BinaryWriter writer, IReadOnlyList<RoutePoint> points)
+		public void WriteTrack(BinaryWriter writer, IReadOnlyList<IPoint> points)
 		{
-			RoutePoint p0 = points[0];
+			IPoint p0 = points[0];
 			writer.Write(Convert.ToInt32(p0.Latitude * 1000000.0));
 			writer.Write(Convert.ToInt32(p0.Longitude * 1000000.0));
 			writer.Write(Convert.ToInt16(p0.Elevation));
@@ -160,7 +160,7 @@ namespace Rider.Route.ViewModels
 
 			for(int i = 1; i < points.Count; i++ )
 			{
-				RoutePoint p1 = points[i];
+				IPoint p1 = points[i];
 				writer.Write(Convert.ToInt32(p1.Latitude * 1000000.0));
 				writer.Write(Convert.ToInt32(p1.Longitude * 1000000.0));
 				writer.Write(Convert.ToInt16(p1.Elevation));
@@ -171,7 +171,7 @@ namespace Rider.Route.ViewModels
 				p0 = p1;
 			}
 		}
-		short CalculateGrade(RoutePoint p0, RoutePoint p1, short previousGrade)
+		short CalculateGrade(IPoint p0, IPoint p1, short previousGrade)
 		{
 			double distance = p1.Distance - p0.Distance;
 			if ( Math.Abs(distance) < 0.1) return previousGrade;

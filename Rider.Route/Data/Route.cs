@@ -26,7 +26,7 @@ namespace Rider.Route.Data
 		public double ElevationMin { get; }= double.MaxValue;
 		public double ElevationGain { get; } = 0;
 		public double Distance { get; } = 0;
-		public IReadOnlyList<RoutePoint> Points { get; private set; } = new List<RoutePoint>();
+		public IReadOnlyList<IPoint> Points { get; private set; } = new List<IPoint>();
 
 		private SortedList<decimal,int> Map { get; }= new SortedList<decimal,int>();
 		private object _lock = new object();
@@ -36,7 +36,7 @@ namespace Rider.Route.Data
 
 			if (data==null || data.Count < 2) throw new ArgumentException($"Route need least 2 waypoints.");
 
-			List < RoutePoint> points = new List<RoutePoint>();
+			List <IPoint> points = new List<IPoint>();
 			double lastDistance = -1;
 			double lastElevation = double.MaxValue;
 
@@ -44,7 +44,7 @@ namespace Rider.Route.Data
 			{
 				GpxPoint p = data[i];
 
-				RoutePoint point = new RoutePoint(p);
+				IPoint point = new RoutePoint(p);
 				if(lastDistance >= point.Distance) continue; 
 				
 				lastDistance = point.Distance;

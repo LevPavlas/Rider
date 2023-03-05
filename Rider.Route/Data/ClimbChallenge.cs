@@ -13,7 +13,7 @@ namespace Rider.Route.Data
 	internal class ClimbChallenge : BindableBase
 	{
 		
-		public IReadOnlyList<RoutePoint> Points { get; }
+		public IReadOnlyList<IPoint> Points { get; }
 		private int MaxEnd { get; }
 
 		int _Start;
@@ -56,11 +56,11 @@ namespace Rider.Route.Data
 				}
 			}
 		}
-		public RoutePoint StartPoint => Points[Start];
-		public RoutePoint EndPoint => Points[End];
+		public IPoint StartPoint => Points[Start];
+		public IPoint EndPoint => Points[End];
 		public double Size => EndPoint.Distance - StartPoint.Distance;
 
-		public ClimbChallenge(IReadOnlyList<RoutePoint> points, int start, int end)
+		public ClimbChallenge(IReadOnlyList<IPoint> points, int start, int end)
 		{
 			if (points==null || points.Count < 2) throw new ArgumentNullException(nameof(points));
 			if (start >= points.Count || start >= end) throw new ArgumentNullException(nameof(start));

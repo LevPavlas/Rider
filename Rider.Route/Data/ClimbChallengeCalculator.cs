@@ -15,9 +15,9 @@ namespace Rider.Route.Data
 		private const double LowHeightRatio = 0.09;
 		private const double NearbyDistance = 3000; //m
 
-		private IReadOnlyList<RoutePoint> Points { get; }
+		private IReadOnlyList<IPoint> Points { get; }
 		private IList<ClimbChallenge> Challenges { get; set; }= new List<ClimbChallenge>();
-		public ClimbChallengeCalculator(IReadOnlyList<RoutePoint> points) 
+		public ClimbChallengeCalculator(IReadOnlyList<IPoint> points) 
 		{
 			Points = points;
 		}
@@ -106,8 +106,8 @@ namespace Rider.Route.Data
 
 			for (int i = 1; i < Points.Count; i++)
 			{
-				RoutePoint p0 = Points[i - 1];
-				RoutePoint p1 = Points[i];
+				IPoint p0 = Points[i - 1];
+				IPoint p1 = Points[i];
 
 				double dist = p1.Distance - p0.Distance;
 				double elevation = p1.Elevation - p0.Elevation;

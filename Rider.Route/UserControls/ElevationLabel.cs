@@ -50,7 +50,7 @@ namespace Rider.Route.UserControls
 			Canvas.Children.Add(ElevationTextBlock);
 		}
 
-		public void Draw(RoutePoint point)
+		public void Draw(IPoint point)
 		{
 
 			Point p = Context.ToCanvasPoint(point.Distance, point.Elevation);

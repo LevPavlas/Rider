@@ -155,7 +155,7 @@ namespace Rider.Route.UserControls
 			PointCollection points = new PointCollection();
 
 			points.Add(Context.ToCanvasPoint(0, Context.ModelNiceYmin));
-			foreach (RoutePoint p in RiderData.Route.Points)
+			foreach (IPoint p in RiderData.Route.Points)
 			{
 				points.Add(Context.ToCanvasPoint(p.Distance, p.Elevation));
 			}

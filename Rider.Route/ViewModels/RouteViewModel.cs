@@ -112,7 +112,7 @@ namespace Rider.Route.ViewModels
 					RegionManager.RequestNavigate(Constants.Regions.MainRegion, Constants.Views.Route);
 				});
 		}
-		void UpdateRoutePath(IReadOnlyList<RoutePoint> points)
+		void UpdateRoutePath(IReadOnlyList<IPoint> points)
 		{
 			var locations = points.Select(p => new Location(p.Latitude, p.Longitude));
 			RoutePath.Clear();
