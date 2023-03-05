@@ -41,7 +41,7 @@ namespace Rider.Route.Services.Tests
 				FileSystem.Setup(f=>f.OpenRead(FileName)).Returns(inputStream);
 
 				RiderGpxReader target = CreateTarget();
-				Data.Route data = await target.Read(FileName);
+				IRoute data = await target.Read(FileName);
 
 				Assert.AreEqual(2582, data.Points.Count);
 				Assert.AreEqual(28.193186, data.LatitudeMaxNorth);

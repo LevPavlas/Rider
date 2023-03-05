@@ -121,7 +121,7 @@ namespace Rider.Route.ViewModels
 
 		void UpdateBoundingBox()
 		{
-			Data.Route? route = RiderData?.Route;
+			IRoute? route = RiderData?.Route;
 			if (route != null)
 			{
 				if (SelectedChallengePath.Count > 1)
@@ -135,7 +135,7 @@ namespace Rider.Route.ViewModels
 			}		
 
 		}
-		BoundingBox CreateRouteBoundingBox(Data.Route route)
+		BoundingBox CreateRouteBoundingBox(IRoute route)
 		{
 			double border =route.Distance /10000000;
 				return new BoundingBox(
@@ -145,7 +145,7 @@ namespace Rider.Route.ViewModels
 				route.LongitudeMaxEast + border);
 
 		}
-		BoundingBox CreateSelectedChallengeBoundingBox(Data.Route route)
+		BoundingBox CreateSelectedChallengeBoundingBox(IRoute route)
 		{
 			double border = route.Distance / 20000000;
 

@@ -15,8 +15,22 @@ using System.Threading.Tasks;
 
 namespace Rider.Route.Data
 {
+	public interface IRoute
+	{
+		double LatitudeMinSouth { get; }
+		double LatitudeMaxNorth { get; }
+		double LongitudeMinWest { get; }
+		double LongitudeMaxEast { get; }
+		double ElevationMax { get; }
+		double ElevationMin { get; }
+		double ElevationGain { get; }
+		double Distance { get; }
+		IReadOnlyList<IPoint> Points { get; }
 
-    internal class Route
+		int GetPointIndex(double distance);
+	}
+
+	internal class Route:IRoute
 	{
 		public double LatitudeMinSouth { get; } = double.MaxValue;
 		public double LatitudeMaxNorth { get; } = double.MinValue;

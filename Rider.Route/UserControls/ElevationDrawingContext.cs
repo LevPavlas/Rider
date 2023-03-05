@@ -48,7 +48,7 @@ namespace Rider.Route.UserControls
 
 		public ElevationDrawingContext(Canvas canvas, RiderData data)
 		{
-			Data.Route route= data.Route;
+			IRoute route= data.Route;
 			CanvasXmin = Border;
 			CanvasXmax = canvas.ActualWidth - Border;
 			CanvasWidth = CanvasXmax - CanvasXmin;

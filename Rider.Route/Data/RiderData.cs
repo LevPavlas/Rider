@@ -10,9 +10,9 @@ namespace Rider.Route.Data
     internal class RiderData
 	{
 			
-		public Route Route { get; }
+		public IRoute Route { get; }
 		public IList<ClimbChallenge> Challenges { get; }
-		public RiderData(Route route, IList<ClimbChallenge> challenges)
+		public RiderData(IRoute route, IList<ClimbChallenge> challenges)
 		{
 			Route = route;
 			Challenges = challenges;

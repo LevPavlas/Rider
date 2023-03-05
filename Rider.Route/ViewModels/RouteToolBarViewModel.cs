@@ -185,7 +185,7 @@ namespace Rider.Route.ViewModels
 			return (byte)Convert.ToInt32(grade);
 		}
 
-		public void WriteSmy(BinaryWriter writer, Data.Route route)
+		public void WriteSmy(BinaryWriter writer, IRoute route)
 		{
 			//int altitudegain = 798;
 
