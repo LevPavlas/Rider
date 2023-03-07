@@ -149,42 +149,17 @@ namespace Rider.Route.ViewModels
 
 		public void WriteTrack(BinaryWriter writer, IReadOnlyList<IPoint> points)
 		{
-			IPoint p0 = points[0];
-			writer.Write(Convert.ToInt32(p0.Latitude * 1000000.0));
-			writer.Write(Convert.ToInt32(p0.Longitude * 1000000.0));
-			writer.Write(Convert.ToInt16(p0.Elevation));
-			writer.Write((short)0);  // Grade for climb ??? color ???
-			writer.Write(Reserved);
-			short grade = (short)0;
-
-
-			for(int i = 1; i < points.Count; i++ )
+			for (int i = 0; i < points.Count; i++)
 			{
-				IPoint p1 = points[i];
-				writer.Write(Convert.ToInt32(p1.Latitude * 1000000.0));
-				writer.Write(Convert.ToInt32(p1.Longitude * 1000000.0));
-				writer.Write(Convert.ToInt16(p1.Elevation));
-				grade = CalculateGrade(p0, p1, grade);
-				writer.Write(grade);  // Grade for climb ??? color ???
+				IPoint p = points[i];
+				writer.Write(Convert.ToInt32(p.Latitude * 1000000.0));
+				writer.Write(Convert.ToInt32(p.Longitude * 1000000.0));
+				writer.Write(Convert.ToInt16(p.Elevation));
+				writer.Write((short)(byte)Convert.ToInt32(p.Grade));  
 				writer.Write(Reserved);
-				
-				p0 = p1;
 			}
 		}
-		short CalculateGrade(IPoint p0, IPoint p1, short previousGrade)
-		{
-			double distance = p1.Distance - p0.Distance;
-			if ( Math.Abs(distance) < 0.1) return previousGrade;
-
-			double elevation = p1.Elevation - p0.Elevation;
-			double grade = 100* elevation / distance;
-
-			if (grade < -100) grade = -100;
-			if(grade> 100) grade = 100;
-			
-			return (byte)Convert.ToInt32(grade);
-		}
-
+	
 		public void WriteSmy(BinaryWriter writer, IRoute route)
 		{
 			//int altitudegain = 798;
