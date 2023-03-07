@@ -29,6 +29,7 @@ namespace Rider.Route
 			containerRegistry.RegisterManySingleton(typeof(GpxReader), typeof(IGpxReader));
 			containerRegistry.RegisterManySingleton(typeof(ClimbChallengeCalculator), typeof(IClimbChallengeCalculator));
 			containerRegistry.RegisterManySingleton(typeof(RiderCalculator), typeof(IRiderCalculator));
+			containerRegistry.RegisterManySingleton(typeof(RiderWriter),typeof(IRiderWriter));
 			containerRegistry.RegisterForNavigation<Views.RouteToolBar>(Constants.Views.RouteToolBar);
 			containerRegistry.RegisterForNavigation<Views.Route>(Constants.Views.Route);
 		}

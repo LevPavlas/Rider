@@ -4,6 +4,7 @@ using Prism.Ioc;
 using Prism.Regions;
 using Rider.Constants;
 using Rider.Route;
+using Rider.Route.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,11 @@ namespace Rider.Route.Tests
 
 			registry.Verify(r => r.Register(typeof(object), typeof(Views.RouteToolBar), Constants.Views.RouteToolBar));
 			registry.Verify(r => r.Register(typeof(object), typeof(Views.Route), Constants.Views.Route));
+			registry.Verify(r => r.RegisterManySingleton(typeof(GpxReader), typeof(IGpxReader)));
+			registry.Verify(r => r.RegisterManySingleton(typeof(ClimbChallengeCalculator), typeof(IClimbChallengeCalculator)));
+			registry.Verify(r => r.RegisterManySingleton(typeof(RiderCalculator), typeof(IRiderCalculator)));
+			registry.Verify(r => r.RegisterManySingleton(typeof(RiderWriter), typeof(IRiderWriter)));
+
 		}
 	}
 }
