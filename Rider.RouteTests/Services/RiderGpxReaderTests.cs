@@ -28,9 +28,9 @@ namespace Rider.Route.Services.Tests
 			FileSystem = new Mock<IFileSystem>();
 			Console = new Mock<IConsole>();
 		}
-		RiderGpxReader CreateTarget()
+		GpxReader CreateTarget()
 		{
-			return new RiderGpxReader(FileSystem.Object, Console.Object);
+			return new GpxReader(FileSystem.Object, Console.Object);
 		}
 		[TestMethod()]
 		public async Task ReadTest()
@@ -40,7 +40,7 @@ namespace Rider.Route.Services.Tests
 			{
 				FileSystem.Setup(f=>f.OpenRead(FileName)).Returns(inputStream);
 
-				RiderGpxReader target = CreateTarget();
+				GpxReader target = CreateTarget();
 				IRoute? data = await target.Read(FileName);
 				Assert.IsNotNull(data);
 				Assert.AreEqual(2582, data.Points.Count);

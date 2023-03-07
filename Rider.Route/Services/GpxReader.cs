@@ -1,5 +1,5 @@
-﻿using GpxTools.Gpx;
-using GpxTools;
+﻿//using GpxTools.Gpx;
+//using GpxTools;
 using Rider.Contracts;
 using Rider.Route.Data;
 using System;
@@ -12,7 +12,7 @@ using Rider.Contracts.Services;
 using System.Reflection.PortableExecutable;
 using System.Security.Cryptography.Pkcs;
 using MapControl;
-
+using Gpx = GpxTools.Gpx;
 namespace Rider.Route.Services
 {
 	internal interface IGpxReader
@@ -20,12 +20,12 @@ namespace Rider.Route.Services
 		Task<IRoute?> Read(string path);
 	}
 
-	internal class RiderGpxReader : IGpxReader
+	internal class GpxReader : IGpxReader
 	{
 		private IFileSystem FileSystem { get; }
 		public IConsole Console { get; }
 
-		public RiderGpxReader(IFileSystem fileSystem, IConsole console)
+		public GpxReader(IFileSystem fileSystem, IConsole console)
 		{
 			FileSystem = fileSystem;
 			Console = console;
@@ -36,7 +36,7 @@ namespace Rider.Route.Services
 			return Task<IReadOnlyList<IPoint>>.Run(() =>
 			{
 
-				GpxPointCollection<GpxPoint> gpxPoints = ReadGpxPoints(path);
+				Gpx.GpxPointCollection<Gpx.GpxPoint> gpxPoints = ReadGpxPoints(path);
 				IReadOnlyList<IPoint> points = ConvertGpxPointsToPoints(gpxPoints);
 				if(points.Count < 2)
 				{
@@ -50,12 +50,12 @@ namespace Rider.Route.Services
 				return Task.FromResult<IRoute?>(route);
 			});
 		}
-		private GpxPointCollection<GpxPoint> ReadGpxPoints(string path)
+		private Gpx.GpxPointCollection<Gpx.GpxPoint> ReadGpxPoints(string path)
 		{
-			GpxPointCollection<GpxPoint> result = new GpxPointCollection<GpxPoint>();
+			Gpx.GpxPointCollection<Gpx.GpxPoint> result = new Gpx.GpxPointCollection<Gpx.GpxPoint>();
 
 			using (Stream stream = FileSystem.OpenRead(path))
-			using (GpxReader reader = new GpxReader(stream))
+			using (GpxTools.GpxReader reader = new GpxTools.GpxReader(stream))
 			{
 				while (reader.Read())
 				{
@@ -74,7 +74,7 @@ namespace Rider.Route.Services
 
 			return result;
 		}
-		private IReadOnlyList<IPoint> ConvertGpxPointsToPoints(GpxPointCollection<GpxPoint> points)
+		private IReadOnlyList<IPoint> ConvertGpxPointsToPoints(Gpx.GpxPointCollection<Gpx.GpxPoint> points)
 		{
 			const double MinimalPointDistance = 0.1;
 			List<IPoint> result = new List<IPoint>();
