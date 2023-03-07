@@ -123,7 +123,7 @@ namespace Rider.Route.Services
 		private IRoute CreateRoute(IReadOnlyList<IPoint> points)
 		{
 
-			const double elevationTreshold = 2.5;
+			const double elevationTreshold = 1.8;
 
 			double latitudeMinSouth = double.MaxValue;
 			double latitudeMaxNorth = double.MinValue;

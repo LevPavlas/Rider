@@ -26,15 +26,17 @@ namespace Rider.Route.Services
 	{
 
 		private IGpxReader Reader { get; }
+		private IClimbChallengeCalculator ClimbChallengeCalculator { get; }
 		private IConsole Console { get; }
 		private IEventAggregator EventAggregator { get; }
 		private IConfiguration Configuration { get; }
 
 		private object _lock = new object();
 		private bool IsProcessing { get; set; }
-		public RiderCalculator(IGpxReader reader, IConsole console, IEventAggregator eventAgregator, IConfiguration configuration)
+		public RiderCalculator(IGpxReader reader, IClimbChallengeCalculator climbChallengeCalculator, IConsole console, IEventAggregator eventAgregator, IConfiguration configuration)
 		{
 			Reader = reader;
+			ClimbChallengeCalculator = climbChallengeCalculator;
 			Console = console;
 			EventAggregator = eventAgregator;
 			Configuration = configuration;
@@ -74,15 +76,18 @@ namespace Rider.Route.Services
 			try
 			{
 				Console.WriteLine($"Processing file:{path}");
-				IRoute route = await Reader.Read(path);
-				Console.WriteLine($"Number of points: {route.Points.Count}");
-				Console.WriteLine($"Route distance: {route.Distance/1000:N2} km");
-				ClimbChallengeCalculator climbCalculator = new ClimbChallengeCalculator(route.Points);
-				IList<ClimbChallenge> chalenges = climbCalculator.Calculate();
-				Console.WriteLine($"Climb Chalenges found: {chalenges.Count}");
-				BoundingBox box = new BoundingBox(route.LatitudeMinSouth,route.LongitudeMinWest,route.LatitudeMaxNorth,route.LongitudeMaxEast);
-				RiderData data = new RiderData(route, chalenges);
-				EventAggregator.GetEvent<RiderDataCalculatedEvent>().Publish(data);
+				IRoute? route = await Reader.Read(path);
+				if (route != null)
+				{
+					Console.WriteLine($"Number of points: {route.Points.Count}");
+					Console.WriteLine($"Route distance: {route.Distance / 1000:N2} km");
+					Console.WriteLine($"Route ascending: {route.ElevationGain} m");
+					IList<ClimbChallenge> chalenges = ClimbChallengeCalculator.Calculate(route.Points);
+					Console.WriteLine($"Climb Chalenges found: {chalenges.Count}");
+					BoundingBox box = new BoundingBox(route.LatitudeMinSouth, route.LongitudeMinWest, route.LatitudeMaxNorth, route.LongitudeMaxEast);
+					RiderData data = new RiderData(route, chalenges);
+					EventAggregator.GetEvent<RiderDataCalculatedEvent>().Publish(data);
+				}
 			}
 			catch (Exception e)
 			{

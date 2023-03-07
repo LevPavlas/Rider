@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rider.Route.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,37 +8,45 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace Rider.Route.Data
+namespace Rider.Route.Services
 {
-	internal class ClimbChallengeCalculator
+	internal interface IClimbChallengeCalculator
+	{
+		public IList<ClimbChallenge> Calculate(IReadOnlyList<IPoint> points);
+	}
+	internal class ClimbChallengeCalculator: IClimbChallengeCalculator
 	{
 		private const double ClimbRatioLimit = 0.03;
 		private const double LowHeightRatio = 0.09;
 		private const double NearbyDistance = 3000; //m
 
-		private IReadOnlyList<IPoint> Points { get; }
-		private IList<ClimbChallenge> Challenges { get; set; }= new List<ClimbChallenge>();
-		public ClimbChallengeCalculator(IReadOnlyList<IPoint> points) 
+		private IReadOnlyList<IPoint> Points { get; set; } = new List<IPoint>();
+		private IList<ClimbChallenge> Challenges { get; set;} = new List<ClimbChallenge>();
+		private object _lock = new object();
+
+		public IList<ClimbChallenge> Calculate(IReadOnlyList<IPoint> points)
 		{
-			Points = points;
-		}
-		public IList<ClimbChallenge> Calculate()
-		{
-			CreateChallenges();
-			while (ConnectChallenges())
+			lock(_lock)
 			{
+				Points = points;
+				Challenges = new List<ClimbChallenge>();
 
+				CreateChallenges();
+				while (ConnectChallenges())
+				{
+
+				}
+				DeleteSmallChalenges();
+
+				MoveStartToMinElevation();
+				RemoveFlatFoothill();
+				MoveStartToMinElevation();
+
+				return Challenges;
 			}
-			DeleteSmallChalenges();
-			
-			MoveStartToMinElevation();
-			RemoveFlatFoothill();
-			MoveStartToMinElevation();
-
-			return Challenges;
 		}
 
-		void MoveStartToMinElevation()
+		private void MoveStartToMinElevation()
 		{
 			for (int i = 0; i < Challenges.Count; i++)
 			{
@@ -45,7 +54,7 @@ namespace Rider.Route.Data
 			}
 
 		}
-		void RemoveFlatFoothill()
+		private void RemoveFlatFoothill()
 		{
 			List<ClimbChallenge> challenges = new List<ClimbChallenge>();
 			for (int i = 0; i < Challenges.Count; i++)
@@ -54,7 +63,7 @@ namespace Rider.Route.Data
 			}
 			Challenges = challenges;
 		}
-		public void RemoveFlatFoothill(ClimbChallenge chalenge, List<ClimbChallenge> result)
+		private void RemoveFlatFoothill(ClimbChallenge chalenge, List<ClimbChallenge> result)
 		{
 		//	double lowHeight = chalenge.EndPoint.Elevation * LowHeightRatio + chalenge.StartPoint.Elevation;
 		//	double lowHeight = 20 + chalenge.StartPoint.Elevation;
@@ -73,7 +82,7 @@ namespace Rider.Route.Data
 			result.Add(chalenge);
 		}
 
-		void DeleteSmallChalenges()
+		private void DeleteSmallChalenges()
 		{
 			List<ClimbChallenge> challenges = new List<ClimbChallenge>();
 			for (int i = 0; i < Challenges.Count; i++)
@@ -82,7 +91,7 @@ namespace Rider.Route.Data
 			}
 			Challenges = challenges;
 		}
-		public bool IsSmall(ClimbChallenge challenge)
+		private bool IsSmall(ClimbChallenge challenge)
 		{
 			double Lenght = challenge.EndPoint.Distance - challenge.StartPoint.Distance;
 			double Height = challenge.EndPoint.Elevation - challenge.StartPoint.Elevation;
@@ -98,7 +107,7 @@ namespace Rider.Route.Data
 			return true;
 		}
 
-		void CreateChallenges()
+		private void CreateChallenges()
 		{
 			List<ClimbChallenge> challenges = new List<ClimbChallenge>();
 
@@ -134,7 +143,7 @@ namespace Rider.Route.Data
 			Challenges = challenges;
 		}
 
-		bool ConnectChallenges()
+		private bool ConnectChallenges()
 		{
 			if (Challenges.Count < 2) return false;
 
@@ -149,7 +158,7 @@ namespace Rider.Route.Data
 
 			return oldCount != Challenges.Count;
 		}
-		void ConnectChallenge(ClimbChallenge actual, int index, List<ClimbChallenge> results)
+		private void ConnectChallenge(ClimbChallenge actual, int index, List<ClimbChallenge> results)
 		{
 			if (index >= Challenges.Count)
 			{
@@ -177,12 +186,12 @@ namespace Rider.Route.Data
 
 		}
 
-		public bool IsNearby(ClimbChallenge actual, ClimbChallenge next)
+		private bool IsNearby(ClimbChallenge actual, ClimbChallenge next)
 		{
 
 			return (next.StartPoint.Distance - actual.EndPoint.Distance) < NearbyDistance;
 		}
-		public bool IsAscending(ClimbChallenge actual, ClimbChallenge next)
+		private bool IsAscending(ClimbChallenge actual, ClimbChallenge next)
 		{
 			return (next.EndPoint.Elevation - actual.EndPoint.Elevation) > 0 && (next.StartPoint.Elevation - actual.StartPoint.Elevation) > 0;
 		}

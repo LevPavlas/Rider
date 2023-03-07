@@ -5,6 +5,7 @@ using Prism.Regions;
 using System;
 using Rider.Route.Services;
 using Rider.Contracts.Services;
+using Rider.Route.Data;
 
 namespace Rider.Route
 {
@@ -26,6 +27,7 @@ namespace Rider.Route
 		{
 
 			containerRegistry.RegisterManySingleton(typeof(RiderGpxReader), typeof(IGpxReader));
+			containerRegistry.RegisterManySingleton(typeof(ClimbChallengeCalculator), typeof(IClimbChallengeCalculator));
 			containerRegistry.RegisterManySingleton(typeof(RiderCalculator), typeof(IRiderCalculator));
 			containerRegistry.RegisterForNavigation<Views.RouteToolBar>(Constants.Views.RouteToolBar);
 			containerRegistry.RegisterForNavigation<Views.Route>(Constants.Views.Route);

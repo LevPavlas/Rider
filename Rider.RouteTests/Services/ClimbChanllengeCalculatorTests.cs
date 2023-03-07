@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace Rider.Route.Services.Tests
 {
 	[TestClass()]
-	public class RiderGpxReaderTests
+	public class ClimbChanllengeCalculatorTests
 	{
 		Mock<IFileSystem> FileSystem { get; set; } = new Mock<IFileSystem>();
 		Mock<IConsole> Console { get; set; } = new Mock<IConsole>();
@@ -33,24 +33,24 @@ namespace Rider.Route.Services.Tests
 			return new RiderGpxReader(FileSystem.Object, Console.Object);
 		}
 		[TestMethod()]
-		public async Task ReadTest()
+		public async Task CalculateTest()
 		{
 			const string FileName = "FileName";
 			using (Stream inputStream = GetEmbededResourceStream("Resources.Route01.gpx"))
 			{
 				FileSystem.Setup(f=>f.OpenRead(FileName)).Returns(inputStream);
 
-				RiderGpxReader target = CreateTarget();
-				IRoute? data = await target.Read(FileName);
+				RiderGpxReader reader = new RiderGpxReader(FileSystem.Object, Console.Object); ;
+				IRoute? data = await reader.Read(FileName);
 				Assert.IsNotNull(data);
-				Assert.AreEqual(2582, data.Points.Count);
-				Assert.AreEqual(28.193186, data.LatitudeMaxNorth);
-				Assert.AreEqual(28.143041, data.LatitudeMinSouth);
-				Assert.AreEqual(-16.427294, data.LongitudeMaxEast);
-				Assert.AreEqual(-16.799358, data.LongitudeMinWest);
-				Assert.AreEqual(66228.27542327595, data.Distance);
-				Assert.AreEqual(3471, data.ElevationGain);
-				Assert.AreEqual(-14.978611958655407, data.Points[2000].Grade);
+
+				ClimbChallengeCalculator calculator = new ClimbChallengeCalculator();
+				IList<ClimbChallenge>  result = calculator.Calculate(data.Points);
+
+				Assert.AreEqual(2, result.Count);
+				Assert.AreEqual(177, result[0].Start);
+				Assert.AreEqual(1169, result[0].End);
+				Assert.AreEqual(26597.138542678214, result[0].Size);
 			}
 		}
 		Stream GetEmbededResourceStream(string resource)

@@ -5,10 +5,11 @@ namespace Rider.Route.Data
 {
 	public interface IPoint
 	{
-		public double Latitude { get; }
-		public double Longitude { get; }
-		public double Elevation { get; }
-		public double Distance { get; }
+		double Latitude { get; }
+		double Longitude { get; }
+		double Elevation { get; }
+		double Distance { get; }
+		double Grade { get;}
 	}
 
 }
