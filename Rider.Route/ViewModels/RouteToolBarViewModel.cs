@@ -17,6 +17,8 @@ using Rider.Contracts.Events;
 using System.IO;
 using System.Windows.Shapes;
 using System.ComponentModel.DataAnnotations;
+using System.Windows;
+//using Windows.Devices;
 
 namespace Rider.Route.ViewModels
 {
@@ -61,10 +63,16 @@ namespace Rider.Route.ViewModels
 			OpenCommand = new DelegateCommand(Open,CanOpenExecute);
 			ExportCommand = new DelegateCommand(Export, CanExportExecute);
 		}
-
-
 		void Open()
 		{
+				//IReadOnlyCollection<BluetoothDeviceInfo> devices = client.DiscoverDevices();
+			//foreach (BluetoothDeviceInfo d in devices)
+			//{
+			//	//BTDeviceList.Add(d.DeviceName);
+			//	Console.WriteLine(d.DeviceName);
+
+			//}
+			//var fuck = client.PairedDevices;
 			//		OpenInProgress = true;
 			//		OpenCommand.RaiseCanExecuteChanged();
 			string? file = Dialogs.OpenGpxFile();

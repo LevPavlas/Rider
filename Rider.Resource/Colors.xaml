@@ -17,7 +17,7 @@
     <Color x:Key="PanelDarkColor">#60E0EFEF</Color>-->
 
     <Color x:Key="PanelColor">#10E0EFEF</Color>
-    <Color x:Key="PanelColorMouseOver">#FFE0EFEF</Color>
+    <Color x:Key="PanelColorMouseOver">#A0E0EFEF</Color>
 
     <Color x:Key="PanelBorderColorTop1">#60FFFFFF</Color>
     <Color x:Key="PanelBorderColorTop2">#60F0FFFF</Color>
@@ -28,14 +28,14 @@
     <Color x:Key="PanelBorderColorBottom1">#60A0AFAF</Color>
     <Color x:Key="PanelBorderColorBottom2">#60808F8F</Color>
 
-    <Color x:Key="PanelBorderColorTop1MouseOver">#FFFFFFFF</Color>
-    <Color x:Key="PanelBorderColorTop2MouseOver">#FFF0FFFF</Color>
-    <Color x:Key="PanelBorderColorLeft1MouseOver">#FFF0FFFF</Color>
-    <Color x:Key="PanelBorderColorLeft2MouseOver">#FFD0DFDF</Color>
-    <Color x:Key="PanelBorderColorRight1MouseOver">#FFC0CFCF</Color>
-    <Color x:Key="PanelBorderColorRight2MouseOver">#FFB0BFBF</Color>
-    <Color x:Key="PanelBorderColorBottom1MouseOver">#FFA0AFAF</Color>
-    <Color x:Key="PanelBorderColorBottom2MouseOver">#FF808F8F</Color>
+    <Color x:Key="PanelBorderColorTop1MouseOver">#A0FFFFFF</Color>
+    <Color x:Key="PanelBorderColorTop2MouseOver">#A0F0FFFF</Color>
+    <Color x:Key="PanelBorderColorLeft1MouseOver">#A0F0FFFF</Color>
+    <Color x:Key="PanelBorderColorLeft2MouseOver">#A0D0DFDF</Color>
+    <Color x:Key="PanelBorderColorRight1MouseOver">#A0C0CFCF</Color>
+    <Color x:Key="PanelBorderColorRight2MouseOver">#A0B0BFBF</Color>
+    <Color x:Key="PanelBorderColorBottom1MouseOver">#A0A0AFAF</Color>
+    <Color x:Key="PanelBorderColorBottom2MouseOver">#A0808F8F</Color>
 
     <Color x:Key="TabBorderColor">#60F0FFFF</Color>
     <Color x:Key="TabBorderColorActive">#FF000000</Color>

@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Rider.Contracts.Services;
 
 namespace Rider
 {
@@ -68,6 +69,7 @@ namespace Rider
 			containerRegistry.RegisterManySingleton(typeof(Services.Time), typeof(Contracts.Services.ITime));
 			containerRegistry.RegisterManySingleton(typeof(Services.FileSystem), typeof(Contracts.Services.IFileSystem));
 			containerRegistry.RegisterManySingleton(typeof(Services.Configuration), typeof(Contracts.Services.IConfiguration));
+			containerRegistry.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console), typeof(IConsole));
 		}
 	}
 }

@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\Close.ico" />
     <None Remove="Icons\Open.ico" />
     <None Remove="Icons\Save.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\Close.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Icons\Open.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

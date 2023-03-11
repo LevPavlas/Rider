@@ -33,7 +33,7 @@ namespace Rider
 		public void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterManySingleton(typeof(Services.WpfDialogService), typeof(IWpfDialogService));
-			containerRegistry.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console),typeof(IConsole));
+//			containerRegistry.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console),typeof(IConsole));
 			containerRegistry.Register(typeof(object), typeof(Views.Console), Constants.Views.Console);
 		}
 	}

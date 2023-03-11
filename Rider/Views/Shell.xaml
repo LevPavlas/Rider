@@ -6,7 +6,8 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:const="clr-namespace:Rider.Constants;assembly=Rider.Constants"
-        xmlns:local="clr-namespace:Rider"        
+        xmlns:local="clr-namespace:Rider" 
+        StateChanged="Window_StateChanged"
         mc:Ignorable="d" AllowsTransparency="True"  WindowStyle="None"  Background="#00FFFFFF"
         Title="Rider" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
     <WindowChrome.WindowChrome>
@@ -73,18 +74,22 @@
                     </Grid.ColumnDefinitions>
                     <ContentControl Grid.Column="1" VerticalContentAlignment="Stretch" Background="#00FFFFFF"  prism:RegionManager.RegionName="{x:Static const:Regions.ToolBar}" WindowChrome.IsHitTestVisibleInChrome="True" />
                     <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="25"/>
                             <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="25"/>
                             <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="25"/>
                             <ColumnDefinition Width="5"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="1" Click="OnMinimize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True"/>
-                        <Button Grid.Column="3" Click="OnMaximize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True"/>
-                        <Button Grid.Column="5" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True"/>
+                        <Button Grid.Column="1" Click="OnMinimize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#x1F5D5;"/>
+                        <Button x:Name="btnMaximize" Grid.Column="3" Click="OnMaximize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128470;&#xFE0E;"/>
+                        <Button Grid.Column="5" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128473;&#xFE0E;"/>
                     </Grid>
                 </Grid>
             </Grid>

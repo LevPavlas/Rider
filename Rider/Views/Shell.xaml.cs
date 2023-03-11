@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rider.Contracts.Services;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
@@ -23,97 +24,20 @@ namespace Rider.Views
 	/// </summary>
 	public partial class Shell : Window
 	{
-		internal enum AccentState
-		{
-			ACCENT_DISABLED = 1,
-			ACCENT_ENABLE_GRADIENT = 0,
-			ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
-			ACCENT_ENABLE_BLURBEHIND = 3,
-			ACCENT_ENABLE_ACRYLICBLURBEHIND = 4, // RS4 1803.17063
-			ACCENT_ENABLE_HOSTBACKDROP = 5, // RS5 1809
-			ACCENT_INVALID_STATE = 6
-		}
+		private IConsole Console { get; }
 
-		[StructLayout(LayoutKind.Sequential)]
-		internal struct AccentPolicy
-		{
-			public AccentState AccentState;
-			public int AccentFlags;
-			public int GradientColor;
-			public int AnimationId;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		internal struct WindowCompositionAttributeData
-		{
-			public WindowCompositionAttribute Attribute;
-			public IntPtr Data;
-			public int SizeOfData;
-		}
-
-		internal enum WindowCompositionAttribute
-		{
-			// ...
-			WCA_ACCENT_POLICY = 19
-			// ...
-		}
-		public enum DWMWINDOWATTRIBUTE
-		{
-			DWMWA_WINDOW_CORNER_PREFERENCE = 33
-		}
-
-		public enum DWM_WINDOW_CORNER_PREFERENCE
-		{
-			DWMWCP_DEFAULT = 1,
-			DWMWCP_DONOTROUND = 1,
-			DWMWCP_ROUND = 2,
-			DWMWCP_ROUNDSMALL = 1
-		}
-		public Shell()
+		public Shell(IConsole console)
 		{
 			InitializeComponent();
 			Loaded += Window_Loaded;
+			Console = console;
 		}
-
-		[DllImport("user32.dll")]
-		internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-		[DllImport("dwmapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-		private static extern long DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attribute, ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute, uint cbAttribute);
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			EnableBlur();
 		}
 
-		internal void EnableBlur()
-		{
-			var windowHelper = new WindowInteropHelper(this);
-
-			var accent = new AccentPolicy();
-			accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
-			accent.GradientColor = 0x0FFF0000;
-
-			var accentStructSize = Marshal.SizeOf(accent);
-
-			var accentPtr = Marshal.AllocHGlobal(accentStructSize);
-			Marshal.StructureToPtr(accent, accentPtr, false);
-
-			var data = new WindowCompositionAttributeData();
-			data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
-			data.SizeOfData = accentStructSize;
-			data.Data = accentPtr;
-
-			SetWindowCompositionAttribute(windowHelper.Handle, ref data);
-
-			Marshal.FreeHGlobal(accentPtr);
-
-
-			IntPtr hWnd = new WindowInteropHelper(GetWindow(this)).EnsureHandle();
-			DWMWINDOWATTRIBUTE attribute = DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE;
-			DWM_WINDOW_CORNER_PREFERENCE preference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
-
-			DwmSetWindowAttribute(hWnd, attribute, ref preference, sizeof(uint));
-		}
 
 		private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
@@ -139,5 +63,17 @@ namespace Rider.Views
 		{
 			Application.Current.MainWindow.WindowState = WindowState.Minimized;
 		}
-	}
+
+		private void Window_StateChanged(object sender, EventArgs e)
+		{
+			if(WindowState == WindowState.Normal)
+			{
+				btnMaximize.Content = "\uD83D\uDDD6";
+			}
+			else if(WindowState == WindowState.Maximized)
+			{
+				btnMaximize.Content = "\uD83D\uDDD7";
+			}
+		}
+    }
 }
