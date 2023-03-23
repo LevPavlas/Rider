@@ -23,14 +23,14 @@ namespace Rider.Tests
 		{
 			Mock<IRegionManager> manager = new Mock<IRegionManager>();
 			Mock<IConfiguration> config= new Mock<IConfiguration>();
+			Mock<IBluetoothLowEnergy> ble = new Mock<IBluetoothLowEnergy>();
 
-			RiderModule target = new RiderModule(manager.Object, config.Object);
+			RiderModule target = new RiderModule(manager.Object, config.Object, ble.Object);
 
 			Mock<IContainerRegistry> container = new Mock<IContainerRegistry>();
 			target.RegisterTypes(container.Object);
 
 			container.Verify(c => c.RegisterManySingleton(typeof(Services.WpfDialogService), typeof(IWpfDialogService)));
-			container.Verify(c => c.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console), typeof(IConsole)));
 			container.Verify(c => c.Register(typeof(object), typeof(Views.Console), Constants.Views.Console));
 		}
 
@@ -39,7 +39,8 @@ namespace Rider.Tests
 		{
 			Mock<IRegionManager> manager = new Mock<IRegionManager>();
 			Mock<IConfiguration> config = new Mock<IConfiguration>();
-			RiderModule target = new RiderModule(manager.Object,config.Object);
+			Mock<IBluetoothLowEnergy> ble = new Mock<IBluetoothLowEnergy>();
+			RiderModule target = new RiderModule(manager.Object,config.Object,ble.Object);
 			Mock<IContainerProvider> container = new Mock<IContainerProvider>();
 			target.OnInitialized(container.Object);
 			manager.Verify(m => m.RegisterViewWithRegion(Regions.Console, typeof(Views.Console)));

@@ -19,21 +19,23 @@ namespace Rider
 	{
 		private IRegionManager RegionManager { get; }
 		private IConfiguration Configuration { get; }
+		private IBluetoothLowEnergy Bluetooth { get; }
 
-		public RiderModule( IRegionManager regionManger, IConfiguration configuration)
+		public RiderModule( IRegionManager regionManger, IConfiguration configuration, IBluetoothLowEnergy bluetooth)
 		{
 			RegionManager = regionManger;
 			Configuration = configuration;
+			Bluetooth = bluetooth;
 		}
 		public void OnInitialized(IContainerProvider containerProvider)
 		{
 			Configuration.Load();
 			RegionManager.RegisterViewWithRegion(Regions.Console, typeof(Views.Console));
+		//	Bluetooth.Test();
 		}
 		public void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterManySingleton(typeof(Services.WpfDialogService), typeof(IWpfDialogService));
-//			containerRegistry.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console),typeof(IConsole));
 			containerRegistry.Register(typeof(object), typeof(Views.Console), Constants.Views.Console);
 		}
 	}

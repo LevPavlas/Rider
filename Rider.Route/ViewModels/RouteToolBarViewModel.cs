@@ -18,14 +18,16 @@ using System.IO;
 using System.Windows.Shapes;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
+using System.Runtime.InteropServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 //using Windows.Devices;
 
 namespace Rider.Route.ViewModels
 {
-    internal class RouteToolBarViewModel : BindableBase
+	internal class RouteToolBarViewModel : BindableBase
 	{
 		public IConfiguration Configuration { get; }
-		private IConsole Console{get;}
+		private IConsole Console { get; }
 		private IWpfDialogService Dialogs { get; }
 		private IRiderCalculator Calculator { get; }
 		private IEventAggregator EventAggregator { get; }
@@ -43,12 +45,12 @@ namespace Rider.Route.ViewModels
 
 		public RouteToolBarViewModel(
 			IConfiguration configuration,
-			IConsole console, 
+			IConsole console,
 			IWpfDialogService dialogs,
 			IRiderCalculator calculator,
 			IEventAggregator eventAggregator,
 			IFileSystem fileSystem,
-			IRiderWriter writer) 
+			IRiderWriter writer)
 		{
 			Configuration = configuration;
 			Console = console;
@@ -60,25 +62,17 @@ namespace Rider.Route.ViewModels
 			Writer = writer;
 			EventAggregator.GetEvent<RouteDownloadedEvent>().Subscribe(OnRouteDownloaded, ThreadOption.BackgroundThread);
 			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated, ThreadOption.PublisherThread);
-			OpenCommand = new DelegateCommand(Open,CanOpenExecute);
+			OpenCommand = new DelegateCommand(Open, CanOpenExecute);
 			ExportCommand = new DelegateCommand(Export, CanExportExecute);
 		}
 		void Open()
 		{
-				//IReadOnlyCollection<BluetoothDeviceInfo> devices = client.DiscoverDevices();
-			//foreach (BluetoothDeviceInfo d in devices)
-			//{
-			//	//BTDeviceList.Add(d.DeviceName);
-			//	Console.WriteLine(d.DeviceName);
-
-			//}
-			//var fuck = client.PairedDevices;
 			//		OpenInProgress = true;
 			//		OpenCommand.RaiseCanExecuteChanged();
 			string? file = Dialogs.OpenGpxFile();
-			if(file!= null && FileSystem.FileExist(file))
+			if (file != null && FileSystem.FileExist(file))
 			{
-					Calculator.StartProcessing(file);
+				Calculator.StartProcessing(file);
 			}
 
 			//		OpenInProgress = false;
@@ -118,7 +112,6 @@ namespace Rider.Route.ViewModels
 			RiderData = data;
 			ExportCommand.RaiseCanExecuteChanged();
 		}
-
 
 	}
 }

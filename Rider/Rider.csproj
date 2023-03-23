@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Win32\**" />
+    <EmbeddedResource Remove="Win32\**" />
+    <None Remove="Win32\**" />
+    <Page Remove="Win32\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Rider.ico" />
   </ItemGroup>
 
@@ -39,10 +46,6 @@
 
   <ItemGroup>
     <PackageReference Update="chromiumembeddedframework.runtime.win-x86" Version="110.0.30" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Win32\" />
   </ItemGroup>
 
 </Project>
