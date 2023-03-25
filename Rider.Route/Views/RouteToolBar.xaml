@@ -13,13 +13,12 @@
             <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
 
         <Button Grid.Column="0" ToolTip=" Open route " Focusable="false" Command="{Binding OpenCommand}"  Content="{StaticResource OpenImage}" />
         <Button Grid.Column="2" ToolTip=" Save route " Focusable="false" Command="{Binding ExportCommand}" Content="{StaticResource SaveImage}"/>
-        <!--<ToolBar ToolBarTray.IsLocked="True" OverflowMode="Never" Margin="0,0,-13,0"  >
-            <Button ToolTip="Open route" Margin="10,0,0,0" Command="{Binding OpenCommand}"  Content="{StaticResource OpenImage}" />
-            <Button ToolTip="Open route" Margin="5,0,0,0" Command="{Binding ExportCommand}" Content="{StaticResource SaveImage}"/>
-        </ToolBar>-->
-     </Grid>
+        <Button Grid.Column="4" ToolTip=" Quck save " Focusable="false" Command="{Binding QuickSaveCommand}" Content="{StaticResource RiderImage}"/>
+       </Grid>
 </UserControl>

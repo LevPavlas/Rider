@@ -69,6 +69,7 @@ namespace Rider
 			containerRegistry.RegisterManySingleton(typeof(Services.Time), typeof(Contracts.Services.ITime));
 			containerRegistry.RegisterManySingleton(typeof(Services.FileSystem), typeof(Contracts.Services.IFileSystem));
 			containerRegistry.RegisterManySingleton(typeof(Services.Configuration), typeof(Contracts.Services.IConfiguration));
+			containerRegistry.RegisterManySingleton(typeof(Services.UsbMonitor), typeof(Contracts.Services.IUsbMonitor));
 			containerRegistry.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console), typeof(IConsole));
 			containerRegistry.RegisterManySingleton(typeof(Services.BluetoothLowEnergy), typeof(Contracts.Services.IBluetoothLowEnergy));
 		}

@@ -1,4 +1,5 @@
 ﻿using Rider.Contracts.Services;
+using Rider.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
@@ -25,17 +26,27 @@ namespace Rider.Views
 	public partial class Shell : Window
 	{
 		private IConsole Console { get; }
+		private UsbMonitor UsbMonitor { get; }
 
-		public Shell(IConsole console)
+		public Shell(IConsole console, IUsbMonitor usbMonitor)
 		{
 			InitializeComponent();
 			Loaded += Window_Loaded;
 			Console = console;
+			UsbMonitor = (UsbMonitor)usbMonitor;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			EnableBlur();
+		}
+
+		protected override void OnSourceInitialized(EventArgs e)
+		{
+			base.OnSourceInitialized(e);
+			HwndSource? source = PresentationSource.FromVisual(this) as HwndSource;
+			source?.AddHook(UsbMonitor.WndProc);
+			UsbMonitor.CheckDevices();
 		}
 
 

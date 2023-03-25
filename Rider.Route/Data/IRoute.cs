@@ -17,6 +17,7 @@ namespace Rider.Route.Data
 {
 	public interface IRoute
 	{
+		string Name { get; }
 		double LatitudeMinSouth { get; }
 		double LatitudeMaxNorth { get; }
 		double LongitudeMinWest { get; }

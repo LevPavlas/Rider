@@ -44,7 +44,7 @@ namespace Rider.Route.Services
 					return null;
 				}
 
-				IRoute route =  CreateRoute(points);
+				IRoute route =  CreateRoute(FileSystem.GetFileNameWithoutExtension(path), points);
 
 
 				return Task.FromResult<IRoute?>(route);
@@ -120,7 +120,7 @@ namespace Rider.Route.Services
 			if(p0.Grade > 100) p0.Grade = 100;
 		}
 
-		private IRoute CreateRoute(IReadOnlyList<IPoint> points)
+		private IRoute CreateRoute(string name,IReadOnlyList<IPoint> points)
 		{
 
 			const double elevationTreshold = 1.8;
@@ -165,7 +165,7 @@ namespace Rider.Route.Services
 				map.Add((decimal)point.Distance, points.Count - 1);
 			}
 
-			RouteP route = new RouteP(points, map)
+			RouteP route = new RouteP(name, points, map)
 			{
 				LatitudeMaxNorth = latitudeMaxNorth,
 				LatitudeMinSouth = latitudeMinSouth,
@@ -199,9 +199,11 @@ namespace Rider.Route.Services
 
 			public IReadOnlyList<IPoint> Points { get;}
 			public SortedList<decimal, int> Map { get;}
+			public string Name { get; }
 
-			public RouteP(IReadOnlyList<IPoint> points, SortedList<decimal, int> map)
+			public RouteP(string name, IReadOnlyList<IPoint> points, SortedList<decimal, int> map)
 			{
+				Name = name;
 				Points = points;
 				Map = map;
 			}

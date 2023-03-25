@@ -31,10 +31,13 @@ namespace Rider.Route.ViewModels
 		private IWpfDialogService Dialogs { get; }
 		private IRiderCalculator Calculator { get; }
 		private IEventAggregator EventAggregator { get; }
-		public IFileSystem FileSystem { get; }
-		public IRiderWriter Writer { get; }
+		private IFileSystem FileSystem { get; }
+		private IRiderWriter Writer { get; }
+		private IUsbMonitor UsbMonitor { get; }
 		public DelegateCommand OpenCommand { get; private set; }
 		public DelegateCommand ExportCommand { get; private set; }
+		public DelegateCommand QuickSaveCommand { get; private set; }
+
 
 		RiderData? _RiderData;
 		public RiderData? RiderData
@@ -50,7 +53,8 @@ namespace Rider.Route.ViewModels
 			IRiderCalculator calculator,
 			IEventAggregator eventAggregator,
 			IFileSystem fileSystem,
-			IRiderWriter writer)
+			IRiderWriter writer,
+			IUsbMonitor usbMonitor)
 		{
 			Configuration = configuration;
 			Console = console;
@@ -60,10 +64,13 @@ namespace Rider.Route.ViewModels
 			EventAggregator = eventAggregator;
 			FileSystem = fileSystem;
 			Writer = writer;
+			UsbMonitor = usbMonitor;
 			EventAggregator.GetEvent<RouteDownloadedEvent>().Subscribe(OnRouteDownloaded, ThreadOption.BackgroundThread);
 			EventAggregator.GetEvent<RiderDataCalculatedEvent>().Subscribe(OnDatatCalculated, ThreadOption.PublisherThread);
+			EventAggregator.GetEvent<DeviceConnectionEvent>().Subscribe(OnDeviceConnectionChanged, ThreadOption.PublisherThread);
 			OpenCommand = new DelegateCommand(Open, CanOpenExecute);
 			ExportCommand = new DelegateCommand(Export, CanExportExecute);
+			QuickSaveCommand = new DelegateCommand(QuickSave, CanQuickSave);
 		}
 		void Open()
 		{
@@ -107,10 +114,39 @@ namespace Rider.Route.ViewModels
 		{
 			return RiderData?.Route?.Points?.Count > 2;
 		}
+		void QuickSave()
+		{
+			try
+			{
+				foreach(string dir in UsbMonitor.TrackDirectories)
+				{
+					if(RiderData!=null)
+					{
+						string path = $"{dir}\\{RiderData.Route.Name}.track";
+						Writer.Export(RiderData, path);
+					}
+
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteError(ex.ToString());
+			}
+
+		}
+		bool CanQuickSave()
+		{
+			return RiderData?.Route?.Points?.Count > 2 && UsbMonitor.IsConnectedDevice;
+		}
 		private void OnDatatCalculated(RiderData data)
 		{
 			RiderData = data;
 			ExportCommand.RaiseCanExecuteChanged();
+			QuickSaveCommand.RaiseCanExecuteChanged();
+		}
+		private void OnDeviceConnectionChanged(string[] paths)
+		{
+			QuickSaveCommand.RaiseCanExecuteChanged();
 		}
 
 	}

@@ -15,5 +15,6 @@
 
     <Image x:Key="OpenImage" x:Shared="false" Height="{StaticResource ToolBarImageHeight}" Width="{StaticResource ToolBarImageWidth}" Source="/Rider.Resource;component/Icons/Open.ico" Style="{StaticResource ImageDisabled}"/>
     <Image x:Key="SaveImage" x:Shared="false" Height="{StaticResource ToolBarImageHeight}" Width="{StaticResource ToolBarImageWidth}" Source="/Rider.Resource;component/Icons/Save.ico" Style="{StaticResource ImageDisabled}"/>
+    <Image x:Key="RiderImage" x:Shared="false" Height="{StaticResource ToolBarImageHeight}" Width="{StaticResource ToolBarImageWidth}" Source="/Rider.Resource;component/Icons/Rider.ico" Style="{StaticResource ImageDisabled}"/>
     <Image x:Key="CloseImage" x:Shared="false" Height="{StaticResource WindowIconHeight}" Width="{StaticResource WindowIconWidth}" Source="/Rider.Resource;component/Icons/Close.ico" Style="{StaticResource ImageDisabled}"/>
 </ResourceDictionary>
