@@ -95,7 +95,6 @@ namespace Rider.Map.Views
 
 		void OnMapChanged(string map)
 		{
-			Model.Console.WriteLine($"Selected map: {map}");
 			Browser.LoadUrlAsync(map);
 		}
 		void SendEscToBrowser()

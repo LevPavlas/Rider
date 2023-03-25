@@ -13,6 +13,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using static System.Environment;
 
 namespace Rider.Services
 {
@@ -25,6 +26,7 @@ namespace Rider.Services
 		private string DataDirectory { get; set; } = string.Empty;
 
 		private IFileSystem FileSystem { get; }
+		private IConsole Console { get; }
 		private ConfigurationData Data { get; set; } = new ConfigurationData();
 
 		public string BrowserCacheDataFolder{ get; private set; }= string.Empty;
@@ -57,13 +59,14 @@ namespace Rider.Services
 		public string LastExportDirectory => GetLastExportDictionary();
 
 
-		public Configuration(IFileSystem fileSystem)
+		public Configuration(IFileSystem fileSystem, IConsole console)
 		{
 			FileSystem = fileSystem;
+			Console = console;
 		}
 		public void Load()
 		{
-			ApplicationDirectory = FileSystem.GetApplicationDirectory();
+			ApplicationDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Rider";
 			ConfigurationPath = $"{ApplicationDirectory}\\{DataFolder}\\Configuration.json";
 			DataDirectory = $"{ApplicationDirectory}\\{DataFolder}";
 			BrowserCacheDataFolder = $"{ApplicationDirectory}\\{DataFolder}\\BrowserCache";
@@ -73,10 +76,12 @@ namespace Rider.Services
 			if (FileSystem.FileExist(ConfigurationPath))
 			{
 				Data = FileSystem.LoadData<ConfigurationData>(ConfigurationPath) ;
+				Console.WriteLine($"Loaded configuration: {ConfigurationPath}");
 			}
 			else
 			{
 				FileSystem.SaveData(ConfigurationPath, Data) ;
+				Console.WriteLine($"Created configuration: {ConfigurationPath}");
 			}
 			
 			Maps = new ObservableCollection<string>(Data.Maps);			

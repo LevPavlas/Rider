@@ -219,7 +219,6 @@ namespace Rider.Route.UserControls
 				Point canvasPosition = e.GetPosition(Context.Canvas);
 				double mouseDistance = Context.ToModelDistance(canvasPosition.X);
 				StartOfNewChallenge =RiderData.Route.GetPointIndex(mouseDistance);
-				Console.WriteLine("Mouse down.");
 			}
 
 		}
