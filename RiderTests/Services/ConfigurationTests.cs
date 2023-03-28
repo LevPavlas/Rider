@@ -24,26 +24,27 @@ namespace Rider.Services.Tests
 		public void ConfigurationTest()
 		{
 			Mock<IFileSystem> fileSystem = new Mock<IFileSystem>();
-			Configuration target = new Configuration(fileSystem.Object);
+			Mock<IConsole> console = new Mock<IConsole>();
+			Configuration target = new Configuration(fileSystem.Object, console.Object);
 		}
 
 		[TestMethod()]
 		public void LoadFileNotExisgTest()
 		{
-			const string AppDir = "Dir";
-			
+			string AppDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Rider";
+
 			Mock<IFileSystem> fileSystem = new Mock<IFileSystem>();
 			
 			fileSystem.Setup(f => f.GetApplicationDirectory()).Returns(AppDir);
 			fileSystem.Setup(f => f.FileExist(It.IsAny<string>())).Returns(false);
 
-			Configuration target = new Configuration(fileSystem.Object);
+			Mock<IConsole> console = new Mock<IConsole>();
+			Configuration target = new Configuration(fileSystem.Object, console.Object);
 			target.Load();
 			Assert.AreEqual(4, target.Maps.Count());
 			Assert.AreEqual("https://brouter.de/brouter-web", target.SelectedMap);
-			Assert.AreEqual("Dir\\Data\\BrowserCache", target.BrowserCacheDataFolder);
+			Assert.AreEqual($"{AppDir}\\Data\\BrowserCache", target.BrowserCacheDataFolder);
 
-			fileSystem.Verify(f => f.GetApplicationDirectory());
 			fileSystem.Verify(f => f.CreateDirectory($"{AppDir}\\Data"));
 			fileSystem.Verify(f => f.FileExist($"{AppDir}\\Data\\Configuration.json"));
 			fileSystem.Verify(f => f.SaveData($"{AppDir}\\Data\\Configuration.json", It.IsAny<It.IsAnyType>()));
@@ -53,25 +54,25 @@ namespace Rider.Services.Tests
 		[TestMethod()]
 		public void LoadFileExistTest()
 		{
-			const string AppDir = "Dir";
+			string AppDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Rider";
 
 			object? data = CreateConfigurationData();
 			
 			Mock<IFileSystem> fileSystem = new Mock<IFileSystem>();
-			
-			
+			Mock<IConsole> console = new Mock<IConsole>();
+
+
 			fileSystem.Setup(f => f.GetApplicationDirectory()).Returns(AppDir);
 			fileSystem.Setup(f => f.FileExist(It.IsAny<string>())).Returns(true);
 			fileSystem.Setup(f => f.LoadData<It.IsAnyType>($"{AppDir}\\Data\\Configuration.json")).Returns(()=>data);
 	
-			Configuration target = new Configuration(fileSystem.Object);
+			Configuration target = new Configuration(fileSystem.Object, console.Object);
 			target.Load();
 
 			Assert.AreEqual("LastGpxFullPathValue", target.LastGpxFullPath);
 			Assert.AreEqual("LastExportFullPathValue", target.LastExportFullPath);
 			Assert.AreEqual("SelectedMapValue", target.SelectedMap);
 
-			fileSystem.Verify(f => f.GetApplicationDirectory());
 			fileSystem.Verify(f => f.CreateDirectory($"{AppDir}\\Data"));
 			fileSystem.Verify(f => f.FileExist($"{AppDir}\\Data\\Configuration.json"));
 			fileSystem.Verify(f => f.LoadData<It.IsAnyType>($"{AppDir}\\Data\\Configuration.json"));
@@ -86,8 +87,9 @@ namespace Rider.Services.Tests
 
 			Mock<IFileSystem> fileSystem = new Mock<IFileSystem>();
 			fileSystem.Setup(f => f.GetDirectoryName(GpxPath)).Returns(DirectoryName);
+			Mock<IConsole> console = new Mock<IConsole>();
 
-			Configuration target = new Configuration(fileSystem.Object);
+			Configuration target = new Configuration(fileSystem.Object, console.Object);
 			target.PropertyChanged += (s, e) => { changedPropertyName = e.PropertyName ?? string.Empty; };
 
 			target.LastGpxFullPath= GpxPath;
@@ -111,9 +113,10 @@ namespace Rider.Services.Tests
 			Mock<IFileSystem> fileSystem = new Mock<IFileSystem>();
 			fileSystem.Setup(f => f.GetDirectoryName(ExportPath)).Returns(DirectoryName);
 			fileSystem.Setup(f=>f.DirectoryExists(DirectoryName)).Returns(true);
+			Mock<IConsole> console = new Mock<IConsole>();
 
 
-			Configuration target = new Configuration(fileSystem.Object);
+			Configuration target = new Configuration(fileSystem.Object, console.Object);
 			target.PropertyChanged += (s, e) => { changedPropertyName = e.PropertyName ?? string.Empty; };
 
 			target.LastExportFullPath = ExportPath;
