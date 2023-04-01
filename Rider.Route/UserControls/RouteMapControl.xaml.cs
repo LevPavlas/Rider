@@ -79,7 +79,6 @@ namespace Rider.Route.UserControls
 		{
 			InitializeComponent();
 			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
-//			map.MapLayer = OpenTopoMapTileLayer;
 			map.TargetCenter = new Location(120, 30);
 			map.Loaded += OnMapLoaded;
 		}
@@ -134,62 +133,6 @@ namespace Rider.Route.UserControls
 		{
 			MintPlayer.ObservableCollection.ObservableCollection<Location>? path = e.NewValue as MintPlayer.ObservableCollection.ObservableCollection<Location>;
 			routePath.Locations = path;
-		}
-
-
-		private void MapMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (e.ClickCount == 2)
-			{
-				//BoundingBox box = new BoundingBox(,,);
-
-				//map.TargetCenter = new Location(49.358945, 17.361125);
-				//map.ClipToBounds= true;
-				//	map.ZoomToBounds
-				//	map.
-
-				//			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
-
-				//	map.TargetCenter = map.ViewToLocation(e.GetPosition(map));
-			}
-		}
-
-		private void MapMouseMove(object sender, MouseEventArgs e)
-		{
-			//	var location = map.ViewToLocation(e.GetPosition(map));
-			//	if (location != null)
-			//	{
-			//		var latitude = (int)Math.Round(location.Latitude * 60000d);
-			//		var longitude = (int)Math.Round(Location.NormalizeLongitude(location.Longitude) * 60000d);
-			//		var latHemisphere = 'N';
-			//		var lonHemisphere = 'E';
-
-			//		if (latitude < 0)
-			//		{
-			//			latitude = -latitude;
-			//			latHemisphere = 'S';
-			//		}
-
-			//		if (longitude < 0)
-			//		{
-			//			longitude = -longitude;
-			//			lonHemisphere = 'W';
-			//		}
-
-			//		//mouseLocation.Text = string.Format(CultureInfo.InvariantCulture,
-			//		//	"{0}  {1:00} {2:00.000}\n{3} {4:000} {5:00.000}",
-			//		//	latHemisphere, latitude / 60000, (latitude % 60000) / 1000d,
-			//		//	lonHemisphere, longitude / 60000, (longitude % 60000) / 1000d);
-			//	}
-			//	else
-			//	{
-			////		mouseLocation.Text = string.Empty;
-			//	}
-		}
-
-		private void MapMouseLeave(object sender, MouseEventArgs e)
-		{
-			//	mouseLocation.Text = string.Empty;
 		}
 
 		private void MapManipulationInertiaStarting(object sender, ManipulationInertiaStartingEventArgs e)
