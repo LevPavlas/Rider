@@ -81,7 +81,24 @@ namespace Rider.Route.UserControls
 			map.MapLayer = MapTileLayer.OpenStreetMapTileLayer;
 //			map.MapLayer = OpenTopoMapTileLayer;
 			map.TargetCenter = new Location(120, 30);
+			map.Loaded += OnMapLoaded;
 		}
+
+		private void OnMapLoaded(object sender, RoutedEventArgs e)
+		{
+			if (BoundingBox != null)
+			{
+				map.ZoomToBounds(BoundingBox);
+			}
+			else
+			{
+				map.Center = new Location(60.0, -10.0);
+				map.ZoomLevel = 3;
+				map.Heading = 0;
+			}
+
+		}
+
 		public static MapTileLayer OpenTopoMapTileLayer => new MapTileLayer
 		{
 			TileSource = new TileSource { UriTemplate = "https://tile.opentopomap.org/{z}/{x}/{y}.png" },
@@ -90,25 +107,6 @@ namespace Rider.Route.UserControls
 		};
 
 
-		private bool FirstLoad { get; set; } = true;
-		private void OnLoaded(object sender, RoutedEventArgs e)
-		{
-			if (FirstLoad)
-			{
-
-				FirstLoad = false;
-				if (BoundingBox!= null)
-				{
-					map.ZoomToBounds(BoundingBox);
-				}
-				else
-				{
-					map.Center = new Location(60.0, -10.0);
-					map.ZoomLevel = 2;
-					map.Heading = 0;
-				}
-			}
-		}
 		private void OnTargetCenterChanged(DependencyPropertyChangedEventArgs e)
 		{
 			Location? location = e.NewValue as Location;
@@ -125,7 +123,7 @@ namespace Rider.Route.UserControls
 		}
 		private void OnBoundingBoxChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if(TargetCenter == null)
+			if (TargetCenter == null)
 			{
 				BoundingBox? box = e.NewValue as BoundingBox;
 				if (box != null) map.ZoomToBounds(box);

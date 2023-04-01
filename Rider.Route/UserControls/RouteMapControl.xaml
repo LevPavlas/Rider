@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
              xmlns:local="clr-namespace:Rider.Route.UserControls"
-             Loaded="OnLoaded" SizeChanged="UserControl_SizeChanged"
+             SizeChanged="UserControl_SizeChanged"
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <map:Map x:Name="map"                 
@@ -19,9 +19,6 @@
             <map:MapPolyline x:Name="selectedRoutePath" Stroke="White" StrokeThickness="2" 
                              Locations="{Binding SelectedChallengePath}" 
                              StrokeDashArray="{Binding SelectedChallengeDash}" >
-                <!--<map:MapPolyline.Effect>
-                    <DropShadowEffect ShadowDepth="4" Direction="330" Color="Black" Opacity="0.5" BlurRadius="4"/>
-                </map:MapPolyline.Effect>-->
             </map:MapPolyline>
         </map:Map>
 
