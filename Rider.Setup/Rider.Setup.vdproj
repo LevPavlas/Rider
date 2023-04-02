@@ -173,7 +173,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Rider"
         "ProductCode" = "8:{828051AE-B6AE-4152-9CB7-6CC32FAB5F20}"
-        "PackageCode" = "8:{5CBFC78B-8159-4743-ABB4-8D5BC09F2238}"
+        "PackageCode" = "8:{351B0810-DC9B-44FA-B49C-E44D05E363B2}"
         "UpgradeCode" = "8:{ED49AE4B-5227-4AA3-AC46-CFF7CE896B07}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -299,12 +299,12 @@
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
             "Target" = "8:_CE41DF0761EB47A5B66561AB87913EFF"
             "Folder" = "8:_F4712B52171B45EF988D5213C093552C"
             "WorkingFolder" = "8:_A64EDEB532E444A4AE5FEE323B6F9E68"
-            "Icon" = "8:"
+            "Icon" = "8:_CE41DF0761EB47A5B66561AB87913EFF"
             "Feature" = "8:"
             }
         }
