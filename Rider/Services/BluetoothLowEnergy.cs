@@ -127,7 +127,7 @@ namespace Rider.Services
 
 						string? path = Marshal.PtrToStringAuto(pDevicePathName);
 
-						Console.WriteLine(path);
+//						Console.WriteLine(path);
 						//\\?\usb#vid_8087&pid_0026#5&1632802&0&14#{0850302a-b344-4fda-9be9-90576b8d46f0}
 
 						//IntPtr ptrInstanceBuf = Marshal.AllocHGlobal((Int32)nBytes);
@@ -145,7 +145,7 @@ namespace Rider.Services
 
 
 
-				SP_DEVICE_INTERFACE_DETAIL_DATA detail = new SP_DEVICE_INTERFACE_DETAIL_DATA();
+		//		SP_DEVICE_INTERFACE_DETAIL_DATA detail = new SP_DEVICE_INTERFACE_DETAIL_DATA();
 		//		Marshal.WriteInt32(detail, IntPtr.Size == 8 ? 8 : 6);
 
 				//detail.cbSize = Marshal.SizeOf(detail);

@@ -76,25 +76,32 @@ namespace Rider.Services
 			}
 			catch (Exception ex)
 			{
-				Console.WriteError(ex.ToString());
+				Console.WriteError(ex.Message);
 			}
 		}
 		void CheckDevice(DriveInfo device, List<string> directories)
 		{
-			string drive = device.Name;
-			string directory = drive + TrackFolder;
-			string volume = device.VolumeLabel;
-
-			if(FileSystem.DirectoryExists(directory))
+			try
 			{
-				Console.WriteLine($"Connected Volume: {volume}, Path: {directory}");
-
-				string[] files = FileSystem.GetDirectoryFiles(directory);
-				foreach (string file in files)
+				string drive = device.Name;
+				string directory = drive + TrackFolder;
+				string volume = device.VolumeLabel;
+				if (FileSystem.DirectoryExists(directory))
 				{
-					Console.WriteLine($"\t{file}");
+					Console.WriteLine($"Connected Volume: {volume}, Path: {directory}");
+
+					string[] files = FileSystem.GetDirectoryFiles(directory);
+					foreach (string file in files)
+					{
+						Console.WriteLine($"\t{file}");
+					}
+					directories.Add(directory);
 				}
-				directories.Add(directory);
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteError (ex.Message);
 			}
 		}
 		bool IsChange(List<string> directories)
