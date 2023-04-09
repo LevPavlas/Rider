@@ -19,19 +19,16 @@ namespace Rider
 	{
 		private IRegionManager RegionManager { get; }
 		private IConfiguration Configuration { get; }
-		private IBluetoothLowEnergy Bluetooth { get; }
 
-		public RiderModule( IRegionManager regionManger, IConfiguration configuration, IBluetoothLowEnergy bluetooth)
+		public RiderModule( IRegionManager regionManger, IConfiguration configuration)
 		{
 			RegionManager = regionManger;
 			Configuration = configuration;
-			Bluetooth = bluetooth;
 		}
 		public void OnInitialized(IContainerProvider containerProvider)
 		{
 			Configuration.Load();
 			RegionManager.RegisterViewWithRegion(Regions.Console, typeof(Views.Console));
-		//	Bluetooth.Test();
 		}
 		public void RegisterTypes(IContainerRegistry containerRegistry)
 		{

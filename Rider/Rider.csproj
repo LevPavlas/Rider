@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Rider.ico</ApplicationIcon>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="app.manifest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Rider.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="app.manifest" />
   </ItemGroup>
 
   <ItemGroup>
