@@ -1,0 +1,115 @@
+﻿<Window x:Class="Rider.Dialogs.Help"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:const="clr-namespace:Rider.Constants;assembly=Rider.Constants"
+       xmlns:local="clr-namespace:Rider.Dialogs"
+       mc:Ignorable="d" AllowsTransparency="True"  WindowStyle="None"  Background="#00FFFFFF"
+        Title="Help" Height="450" Width="800" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+    <WindowChrome.WindowChrome>
+        <WindowChrome  CaptionHeight="50"
+                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
+                      UseAeroCaptionButtons="True" CornerRadius="10" >
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+    <Grid>
+        <Border CornerRadius="{StaticResource PanelCornerRadius}" 
+            Background="{StaticResource PanelBrush}" 
+            BorderThickness="1" 
+            BorderBrush="{StaticResource PanelBorderBrush}">
+            <Grid>
+                <Border BorderThickness="{StaticResource PanelBorderThicknessTop}" 
+                    BorderBrush="{StaticResource PanelBorderBrushTop}"  
+                    CornerRadius="{StaticResource PanelCornerRadius}"
+                    Effect="{StaticResource PanelBorderEffect}">
+                </Border>
+                <Border BorderThickness="{StaticResource PanelBorderThicknessLeft}" 
+                    BorderBrush="{StaticResource PanelBorderBrushLeft}"  
+                    CornerRadius="{StaticResource PanelCornerRadius}"
+                    Effect="{StaticResource PanelBorderEffect}">
+                </Border>
+                <Border BorderThickness="{StaticResource PanelBorderThicknessRight}" 
+                    BorderBrush="{StaticResource PanelBorderBrushRight}"  
+                    CornerRadius="{StaticResource PanelCornerRadius}"
+                    Effect="{StaticResource PanelBorderEffect}">
+                </Border>
+                <Border BorderThickness="{StaticResource PanelBorderThicknessBottom}" 
+                    BorderBrush="{StaticResource PanelBorderBrushBottom}"  
+                    CornerRadius="{StaticResource PanelCornerRadius}"
+                    Effect="{StaticResource PanelBorderEffect}">
+                </Border>
+            </Grid>
+        </Border>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="6"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="6"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                 </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128473;&#xFE0E;"/>
+                </Grid>
+                <RichTextBox Grid.Row="2" IsReadOnly="True" >
+                    <FlowDocument  PagePadding="0" >
+                        <Paragraph Margin="0">
+                            <Bold FontSize="14">Overview.</Bold>
+                        </Paragraph>
+                        <Paragraph>
+                            This application can convert a route from GPX format and send it to your device via USB. The application has been tested for Bryton Rider S500 but will probably work for other devices.
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold FontSize="14">Map page</Bold>
+                        </Paragraph>
+                        <Paragraph>
+                            On this page, you can create a route and export it to a GPX file. In the combobox, you can select a web application for creating a GPX file. If you want add your favorite application you can put it to the 'Configuration.json' file.
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold FontSize="14">GPX page</Bold>
+                        </Paragraph>
+                        <Paragraph>
+                            On this page, you can edit (LMB + drag) or delete (RMB) Climb Challenges and send the route to your device via USB cable.
+                        </Paragraph>
+                        <Paragraph >
+                             <InlineUIContainer BaselineAlignment="Center">
+                                <Image Width="30" Source="/Rider.Resource;component/Icons/Open.ico" Margin="0,0,10,0"/>
+                            </InlineUIContainer>
+                            Open GPX file
+                        </Paragraph>
+                        <Paragraph >
+                            <InlineUIContainer BaselineAlignment="Center">
+                                <Image Width="30" Source="/Rider.Resource;component/Icons/Save.ico" Margin="0,0,10,0"/>
+                            </InlineUIContainer>
+                            Save route in device format. (RouteName.smy, RouteName.tinfo, RouteName.track)
+                        </Paragraph>
+                        <Paragraph >
+                            <InlineUIContainer BaselineAlignment="Center">
+                                <Image Width="30" Source="/Rider.Resource;component/Icons/Rider.ico" Margin="0,0,10,0"/>
+                            </InlineUIContainer>
+                            Save the route to your device via USB cable. The existing route will be overwritten.
+                         </Paragraph>
+
+                    </FlowDocument>
+                </RichTextBox>
+            </Grid>
+
+        </Grid>
+ 
+    </Grid>
+</Window>

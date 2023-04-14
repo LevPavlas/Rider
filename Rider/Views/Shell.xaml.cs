@@ -1,4 +1,5 @@
 ﻿using Rider.Contracts.Services;
+using Rider.Dialogs;
 using Rider.Services;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,12 @@ namespace Rider.Views
 			{
 				Application.Current.MainWindow.WindowState = WindowState.Maximized;
 			}
+		}
+		private void OnHelp(object sender, RoutedEventArgs e)
+		{
+			Help help = new Help();
+			help.Owner = this;
+			help.ShowDialog();
 		}
 		private void OnMinimize(object sender, RoutedEventArgs e)
 		{

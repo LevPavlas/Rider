@@ -57,13 +57,13 @@
             </Grid.RowDefinitions>
             <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="4"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="120"/>
                   </Grid.RowDefinitions>
-                <TabControl Margin="0,14,0,0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{StaticResource TabControlStyle}" Grid.Row="1" Grid.RowSpan="2" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
+                <TabControl Margin="0,12,0,0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{StaticResource TabControlStyle}" Grid.Row="1" Grid.RowSpan="2" Name="MainRegion" prism:RegionManager.RegionName="{x:Static const:Regions.MainRegion}" FontSize="{StaticResource FontSizeH1}" ItemContainerStyle="{StaticResource TabItemRegionStyle}"/>
                 <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" Background="#00000000" BorderBrush="#00000000" />
                 <ContentControl Grid.Row="4" prism:RegionManager.RegionName="{x:Static const:Regions.Console}"/>
                  <Grid Grid.Row="1">
@@ -86,10 +86,13 @@
                             <ColumnDefinition Width="5"/>
                             <ColumnDefinition Width="25"/>
                             <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="5"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="1" Click="OnMinimize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#x1F5D5;"/>
-                        <Button x:Name="btnMaximize" Grid.Column="3" Click="OnMaximize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128470;&#xFE0E;"/>
-                        <Button Grid.Column="5" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128473;&#xFE0E;"/>
+                        <Button Grid.Column="1" Click="OnHelp" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="?"/>
+                        <Button Grid.Column="3" Click="OnMinimize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#x1F5D5;"/>
+                        <Button x:Name="btnMaximize" Grid.Column="5" Click="OnMaximize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128470;&#xFE0E;"/>
+                        <Button Grid.Column="7" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128473;&#xFE0E;"/>
                     </Grid>
                 </Grid>
             </Grid>
