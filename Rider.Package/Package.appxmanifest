@@ -7,9 +7,9 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="ce9b5433-3d6a-477e-a653-aa32e4e73efa"
-    Publisher="CN=Lev Pavlas"
-    Version="1.0.23.0" />
+    Name="18924LevPavlas.311045E57DF3B"
+    Publisher="CN=81B1BE5E-D0DA-41E5-872C-30945CDF0A3A"
+    Version="1.0.31.0" />
 
   <Properties>
     <DisplayName>GPX To Bryton Rider S500</DisplayName>
