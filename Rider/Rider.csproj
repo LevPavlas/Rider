@@ -8,6 +8,7 @@
     <ApplicationIcon>Rider.ico</ApplicationIcon>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>Rider.Loader</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

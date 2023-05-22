@@ -73,5 +73,32 @@ namespace Rider
 			containerRegistry.RegisterManySingleton(typeof(Services.UsbMonitor), typeof(Contracts.Services.IUsbMonitor));
 			containerRegistry.RegisterManySingleton(typeof(Views.Console), typeof(Views.Console), typeof(IConsole));
 		}
+		
+	}
+
+	public class Loader
+	{
+		[System.STAThreadAttribute()]
+		[System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static void Main()
+		{
+			try
+			{
+				App app = new App();
+				app.InitializeComponent();
+				app.Run();
+
+			}
+			catch (Exception e)
+			{
+				
+				string messageBoxText = e.ToString();
+				string caption = "Start Error";
+				MessageBoxButton button = MessageBoxButton.YesNoCancel;
+				MessageBoxImage icon = MessageBoxImage.Warning;
+
+				MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+			}
+		}
 	}
 }

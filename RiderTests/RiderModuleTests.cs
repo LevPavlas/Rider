@@ -23,9 +23,8 @@ namespace Rider.Tests
 		{
 			Mock<IRegionManager> manager = new Mock<IRegionManager>();
 			Mock<IConfiguration> config= new Mock<IConfiguration>();
-			Mock<IBluetoothLowEnergy> ble = new Mock<IBluetoothLowEnergy>();
-
-			RiderModule target = new RiderModule(manager.Object, config.Object, ble.Object);
+	
+			RiderModule target = new RiderModule(manager.Object, config.Object);
 
 			Mock<IContainerRegistry> container = new Mock<IContainerRegistry>();
 			target.RegisterTypes(container.Object);
@@ -39,8 +38,7 @@ namespace Rider.Tests
 		{
 			Mock<IRegionManager> manager = new Mock<IRegionManager>();
 			Mock<IConfiguration> config = new Mock<IConfiguration>();
-			Mock<IBluetoothLowEnergy> ble = new Mock<IBluetoothLowEnergy>();
-			RiderModule target = new RiderModule(manager.Object,config.Object,ble.Object);
+			RiderModule target = new RiderModule(manager.Object,config.Object);
 			Mock<IContainerProvider> container = new Mock<IContainerProvider>();
 			target.OnInitialized(container.Object);
 			manager.Verify(m => m.RegisterViewWithRegion(Regions.Console, typeof(Views.Console)));
