@@ -27,7 +27,7 @@ jobs:
   - name: Install .NET Core
     uses: actions/setup-dotnet@v3
     with:
-     dotnet-version: 7.0.x
+     dotnet-version: 9.0.x
     
  # - run: dotnet restore ${{ env.PROJECT_PATH }} #Restores the dependencies and tools of a project.
  # - run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
