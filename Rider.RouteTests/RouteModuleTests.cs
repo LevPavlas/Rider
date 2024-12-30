@@ -1,20 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Prism.Ioc;
-using Prism.Regions;
 using Rider.Constants;
-using Rider.Route;
 using Rider.Route.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace Rider.Route.Tests
 {
-	[TestClass()]
+    [TestClass()]
 	public class RouteModuleTests
 	{
 		[TestMethod()]

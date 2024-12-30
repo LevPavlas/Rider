@@ -17,4 +17,8 @@
     <Image x:Key="SaveImage" x:Shared="false" Height="{StaticResource ToolBarImageHeight}" Width="{StaticResource ToolBarImageWidth}" Source="/Rider.Resource;component/Icons/Save.ico" Style="{StaticResource ImageDisabled}"/>
     <Image x:Key="RiderImage" x:Shared="false" Height="{StaticResource ToolBarImageHeight}" Width="{StaticResource ToolBarImageWidth}" Source="/Rider.Resource;component/Icons/Rider.ico" Style="{StaticResource ImageDisabled}"/>
     <Image x:Key="CloseImage" x:Shared="false" Height="{StaticResource WindowIconHeight}" Width="{StaticResource WindowIconWidth}" Source="/Rider.Resource;component/Icons/Close.ico" Style="{StaticResource ImageDisabled}"/>
+    <Image x:Key="HelpImage" x:Shared="false" Height="{StaticResource WindowIconHeight}" Width="{StaticResource WindowIconWidth}" Source="/Rider.Resource;component/Icons/Help.ico" Style="{StaticResource ImageDisabled}"/>
+    <Image x:Key="MaximizeImage" x:Shared="false" Height="{StaticResource WindowIconHeight}" Width="{StaticResource WindowIconWidth}" Source="/Rider.Resource;component/Icons/Maximize.ico" Style="{StaticResource ImageDisabled}"/>
+    <Image x:Key="NormalImage" x:Shared="false" Height="{StaticResource WindowIconHeight}" Width="{StaticResource WindowIconWidth}" Source="/Rider.Resource;component/Icons/Normal.ico" Style="{StaticResource ImageDisabled}"/>
+    <Image x:Key="MinimizeImage" x:Shared="false" Height="{StaticResource WindowIconHeight}" Width="{StaticResource WindowIconWidth}" Source="/Rider.Resource;component/Icons/Minimize.ico" Style="{StaticResource ImageDisabled}"/>
 </ResourceDictionary>

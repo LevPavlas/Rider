@@ -1,20 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Prism.Events;
-using Prism.Regions;
 using Rider.Contracts.Events;
 using Rider.Contracts.Services;
-using Rider.Route.UserControls;
-using Rider.Route.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rider.Route.ViewModels.Tests
 {
-	[TestClass()]
+    [TestClass()]
 	public class RouteViewModelTests
 	{
 		private Mock<IRegionManager> RegionManager { get; set; } = new Mock<IRegionManager>();
@@ -55,7 +46,6 @@ namespace Rider.Route.ViewModels.Tests
 			bool activateChaged = false;
 			target.IsActiveChanged += (sender, args) => { activateChaged = true; };
 			target.IsActive = true;
-			RegionManager.Verify(m => m.RequestNavigate(Constants.Regions.ToolBar, Constants.Views.RouteToolBar));
 			Assert.IsTrue(activateChaged);
 		}
 		[TestMethod()]

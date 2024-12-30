@@ -13,7 +13,8 @@ namespace Rider.Contracts.Services
 		string GetDirectoryName(string path);
 		string GetApplicationDirectory();
 		void CreateDirectory(string path);
-		bool FileExist(string path);
+		void DeleteDirectory(string path);
+        bool FileExist(string path);
 		bool DirectoryExists(string path);
 		string[] GetDirectoryFiles(string path);
 		T LoadData<T>(string path);

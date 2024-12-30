@@ -1,16 +1,12 @@
-﻿using Rider.Constants;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
-using CefSharp.Wpf;
-using CefSharp;
-using System;
-using Rider.Contracts;
+using Prism.Navigation.Regions;
+using Rider.Constants;
 using Rider.Map.Services;
 
 namespace Rider.Map
 {
-	public class MapModule : IModule
+    public class MapModule : IModule
 	{
 		private IRegionManager RegionManager { get; }
 

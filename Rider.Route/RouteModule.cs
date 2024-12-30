@@ -1,15 +1,12 @@
-﻿using Rider.Constants;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
-using System;
+using Prism.Navigation.Regions;
+using Rider.Constants;
 using Rider.Route.Services;
-using Rider.Contracts.Services;
-using Rider.Route.Data;
 
 namespace Rider.Route
 {
-	public class RouteModule : IModule
+    public class RouteModule : IModule
 	{
 		private IRegionManager RegionManager { get; }
 

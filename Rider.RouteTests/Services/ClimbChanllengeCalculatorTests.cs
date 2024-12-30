@@ -1,22 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Reflection;
+using System.Text.RegularExpressions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Prism.Events;
-using Prism.Regions;
-using Rider.Contracts;
 using Rider.Contracts.Services;
 using Rider.Route.Data;
-using Rider.Route.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Rider.Route.Services.Tests
 {
-	[TestClass()]
+    [TestClass()]
 	public class ClimbChanllengeCalculatorTests
 	{
 		Mock<IFileSystem> FileSystem { get; set; } = new Mock<IFileSystem>();

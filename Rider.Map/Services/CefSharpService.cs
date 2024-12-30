@@ -25,7 +25,7 @@ namespace Rider.Map.Services
 
 		public void Initiaize()
 		{
-			if (!Cef.IsInitialized)
+			if (Cef.IsInitialized!= true)
 			{
 
 				CefSettings setting = new CefSettings();

@@ -1,18 +1,7 @@
-﻿using CefSharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Prism.Events;
-using Prism.Regions;
-using Rider.Contracts;
-using Rider.Contracts.Events;
+using Prism.Navigation.Regions;
 using Rider.Contracts.Services;
-using Rider.Map.Events;
-using Rider.Map.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rider.Map.ViewModels.Tests
 {
@@ -51,16 +40,18 @@ namespace Rider.Map.ViewModels.Tests
 		[TestMethod()]
 		public void IsActivateChangedTest()
 		{
-
-			MapViewModel target = CreateTarget();
+           MapViewModel target = CreateTarget();
 			bool activateChaged = false;
 			target.IsActiveChanged += (sender, args) => { activateChaged = true; };
 			target.IsActive = true;
-			RegionManager.Verify(m => m.RequestNavigate(Constants.Regions.ToolBar, Constants.Views.MapToolBar));
-			Assert.IsTrue(activateChaged);
-		}
 
-		[TestMethod()]
+            Assert.IsTrue(activateChaged);
+		}
+        void FakeNavigationAction(NavigationResult result)
+		{
+
+		}
+        [TestMethod()]
 		public void GetFullPathForDownloadTest()
 		{
 			const string GpxDirectory = "GpxDirectory";

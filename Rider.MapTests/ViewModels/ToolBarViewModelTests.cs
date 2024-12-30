@@ -1,21 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Prism.Events;
-using Prism.Regions;
-using Rider.Contracts;
 using Rider.Contracts.Services;
 using Rider.Map.Events;
-using Rider.Map.ViewModels;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rider.Map.ViewModels.Tests
 {
-	[TestClass()]
+    [TestClass()]
 	public class ToolBarViewModelTests
 	{
 		[TestMethod()]

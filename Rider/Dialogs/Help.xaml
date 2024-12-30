@@ -64,21 +64,21 @@
                         <ColumnDefinition Width="25"/>
                         <ColumnDefinition Width="5"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128473;&#xFE0E;"/>
+                    <Button Grid.Column="1" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Content="{StaticResource CloseImage}"/>
                 </Grid>
-                <RichTextBox Grid.Row="2" IsReadOnly="True" >
+                <RichTextBox Grid.Row="2" IsReadOnly="True" TextChanged="RichTextBox_TextChanged_1" >
                     <FlowDocument  PagePadding="0" >
                         <Paragraph Margin="0">
                             <Bold FontSize="14">Overview.</Bold>
                         </Paragraph>
                         <Paragraph>
-                            This application can convert a route from GPX format and send it to your device via USB. The application has been tested for Bryton Rider S500 but will probably work for other devices.
+                            This application can convert a route from GPX format and send it to your device via USB. The application has been tested for Bryton Rider S500/S800 but will probably work for other devices.
                         </Paragraph>
                         <Paragraph>
                             <Bold FontSize="14">Map page</Bold>
                         </Paragraph>
                         <Paragraph>
-                            On this page, you can create a route and export it to a GPX file. In the combobox, you can select a web application for creating a GPX file. If you want add your favorite application you can put it to the 'Configuration.json' file.
+                            This page is simple web browser. On this page, you can create a route and export it to a GPX file. In the combobox, you can select a web application for creating a GPX file. If you want add your favorite web application you can put it to the 'Configuration.json' file.
                         </Paragraph>
                         <Paragraph>
                             <Bold FontSize="14">GPX page</Bold>
@@ -96,13 +96,13 @@
                             <InlineUIContainer BaselineAlignment="Center">
                                 <Image Width="30" Source="/Rider.Resource;component/Icons/Save.ico" Margin="0,0,10,0"/>
                             </InlineUIContainer>
-                            Save route in device format. (RouteName.smy, RouteName.tinfo, RouteName.track)
+                            Save route in device format (RouteName.smy, RouteName.tinfo, RouteName.track). These files must be copied to the 'Track' folder on the device.
                         </Paragraph>
                         <Paragraph >
                             <InlineUIContainer BaselineAlignment="Center">
                                 <Image Width="30" Source="/Rider.Resource;component/Icons/Rider.ico" Margin="0,0,10,0"/>
                             </InlineUIContainer>
-                            Save the route to your device via USB cable. The existing route will be overwritten.
+                            Save the route directly to your device connected via a USB cable. The existing route will be overwritten.
                          </Paragraph>
 
                     </FlowDocument>

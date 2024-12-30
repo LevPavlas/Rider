@@ -1,22 +1,9 @@
-﻿using CefSharp;
-using DryIoc;
+﻿using System;
 using Prism;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Regions;
-using Rider.Contracts;
-using Rider.Contracts.Events;
+using Prism.Navigation.Regions;
 using Rider.Contracts.Services;
-using Rider.Map.Events;
-using Rider.Map.Views;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Shapes;
 
 namespace Rider.Map.ViewModels
 {

@@ -65,7 +65,7 @@ namespace Rider.Map.Views
 			return true;
 		}
 
-		public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		public bool OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			if (!callback.IsDisposed)
 			{
@@ -73,8 +73,10 @@ namespace Rider.Map.Views
 				if (filePath != null)
 				{
 					callback.Continue(filePath, false);
+					return true;
 				}
 			}
+			return false;
 		}
 
 		public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)

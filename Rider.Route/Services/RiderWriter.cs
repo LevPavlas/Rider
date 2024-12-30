@@ -27,7 +27,9 @@ namespace Rider.Route.Services
 		{
 			if (data?.Route?.Points?.Count > 2)
 			{
-				using (Stream stream = FileSystem.OpenWrite(file))
+                string oldRouteDataDirectory = $@"{FileSystem.GetDirectoryName(file)}\{FileSystem.GetFileNameWithoutExtension(file)}";
+
+                using (Stream stream = FileSystem.OpenWrite(file))
 				{
 					using (BinaryWriter writer = new BinaryWriter(stream))
 					{
@@ -59,10 +61,23 @@ namespace Rider.Route.Services
 					}
 				}
 				Console.WriteLine($"Created file: {tinfoFile}");
+
+				TryDeleteOldRouteData(file);
+
 			}
 		}
+		private void TryDeleteOldRouteData(string file)
+		{
+            string oldRouteDataDirectory = $@"{FileSystem.GetDirectoryName(file)}\{FileSystem.GetFileNameWithoutExtension(file)}";
+			if (FileSystem.DirectoryExists(oldRouteDataDirectory))
+			{
+                FileSystem.DeleteDirectory(oldRouteDataDirectory);
+                Console.WriteLine($"Deleted route directory: {oldRouteDataDirectory}");
+            }
 
-		public void WriteTrack(BinaryWriter writer, IReadOnlyList<IPoint> points)
+
+        }
+        public void WriteTrack(BinaryWriter writer, IReadOnlyList<IPoint> points)
 		{
 			for (int i = 0; i < points.Count; i++)
 			{

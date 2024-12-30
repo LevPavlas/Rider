@@ -37,5 +37,10 @@ namespace Rider.Dialogs
 		{
 
 		}
-	}
+
+        private void RichTextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
+        }
+    }
 }

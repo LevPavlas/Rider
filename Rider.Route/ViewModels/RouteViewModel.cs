@@ -1,29 +1,21 @@
-﻿using MapControl;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
+using MapControl;
 using Prism;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Rider.Contracts.Events;
 using Rider.Contracts.Services;
 using Rider.Route.Data;
-using Rider.Route.Views;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace Rider.Route.ViewModels
 {
-	internal class RouteViewModel : BindableBase, IActiveAware
+    internal class RouteViewModel : BindableBase, IActiveAware
 	{
 		public string HeaderText { get; } = "GPX";
 		public MintPlayer.ObservableCollection.ObservableCollection<Location> RoutePath { get; } = new MintPlayer.ObservableCollection.ObservableCollection<Location>();

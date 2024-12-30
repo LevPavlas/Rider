@@ -48,6 +48,10 @@ namespace Rider.Services
 		{
 			Directory.CreateDirectory(path);
 		}
+		public void DeleteDirectory(string path)
+		{
+			Directory.Delete(path, true);
+		}
 		public bool FileExist(string path)
 		{
 			return File.Exists(path);

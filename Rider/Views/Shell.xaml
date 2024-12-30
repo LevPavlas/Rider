@@ -89,10 +89,10 @@
                             <ColumnDefinition Width="25"/>
                             <ColumnDefinition Width="5"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="1" Click="OnHelp" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="?"/>
-                        <Button Grid.Column="3" Click="OnMinimize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#x1F5D5;"/>
-                        <Button x:Name="btnMaximize" Grid.Column="5" Click="OnMaximize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128470;&#xFE0E;"/>
-                        <Button Grid.Column="7" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" FontSize="14" Content="&#128473;&#xFE0E;"/>
+                        <Button Grid.Column="1" Click="OnHelp" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" Content="{StaticResource HelpImage}"/>
+                        <Button Grid.Column="3" Click="OnMinimize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" Content="{StaticResource MinimizeImage}"/>
+                        <Button x:Name="btnMaximize" Grid.Column="5" Click="OnMaximize" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Content="{StaticResource MaximizeImage}"/>
+                        <Button Grid.Column="7" Click="OnExit" Focusable="false" WindowChrome.IsHitTestVisibleInChrome="True" Foreground="Black" Content="{StaticResource CloseImage}" />
                     </Grid>
                 </Grid>
             </Grid>

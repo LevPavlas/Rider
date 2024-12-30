@@ -65,7 +65,8 @@ namespace Rider.Views
 			if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
 			{
 				Application.Current.MainWindow.WindowState = WindowState.Normal;
-			}
+	
+            }
 			else
 			{
 				Application.Current.MainWindow.WindowState = WindowState.Maximized;
@@ -86,12 +87,13 @@ namespace Rider.Views
 		{
 			if(WindowState == WindowState.Normal)
 			{
-				btnMaximize.Content = "\uD83D\uDDD6";
-			}
-			else if(WindowState == WindowState.Maximized)
+                btnMaximize.Content = FindResource("MaximizeImage");
+            }
+            else if(WindowState == WindowState.Maximized)
 			{
-				btnMaximize.Content = "\uD83D\uDDD7";
-			}
-		}
+                btnMaximize.Content = FindResource("NormalImage");
+
+            }
+        }
     }
 }

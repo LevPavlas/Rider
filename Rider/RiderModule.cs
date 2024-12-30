@@ -1,17 +1,8 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
-using Prism.Services.Dialogs;
+using Prism.Navigation.Regions;
 using Rider.Constants;
-using Rider.Contracts;
 using Rider.Contracts.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xaml;
-using System.Xml.Linq;
 
 namespace Rider
 {
