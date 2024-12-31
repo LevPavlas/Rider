@@ -9,11 +9,11 @@
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="5.4.3" />
     <PackageReference Include="GpxTools.macharius40" Version="1.1.2" />
-    <PackageReference Include="MintPlayer.ObservableCollection" Version="9.0.0" />
+    <PackageReference Include="MintPlayer.ObservableCollection" Version="9.3.2" />
     <PackageReference Include="Prism.Core" Version="9.0.537" />
     <PackageReference Include="Prism.DryIoc" Version="9.0.537" />
     <PackageReference Include="Prism.Wpf" Version="9.0.537" />
-    <PackageReference Include="XAML.MapControl" Version="8.1.0" />
+    <PackageReference Include="XAML.MapControl.WPF" Version="12.0.0" />
   </ItemGroup>
 
   <ItemGroup>
